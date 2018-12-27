@@ -1,0 +1,1 @@
+/usr/bin/c++   -Wall -Wshadow -Weffc++ -Wconversion -O2 -g -DNDEBUG   CMakeFiles/test_likelihood_nh.dir/test_likelihood_nh.cpp.o  -o test_likelihood_nh -rdynamic /usr/local/lib/libbpp-seq.so /usr/local/lib/libbpp-core.so -L../src -lbpp-phyl -Wl,-rpath,/usr/local/lib 

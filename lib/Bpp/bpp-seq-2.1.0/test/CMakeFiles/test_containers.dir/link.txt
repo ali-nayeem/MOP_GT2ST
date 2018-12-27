@@ -1,0 +1,1 @@
+/usr/bin/c++   -Wall -Weffc++ -Wshadow -Wconversion -O2 -g -DNDEBUG   CMakeFiles/test_containers.dir/test_containers.cpp.o  -o test_containers -rdynamic /usr/local/lib/libbpp-core.so -L../src -lbpp-seq -Wl,-rpath,/usr/local/lib 

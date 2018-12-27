@@ -1,0 +1,44 @@
+#IncludeRegexLine: ^[ 	]*#[ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/home/ali_nayeem/Projects/MO-Phylogenetics/lib/Bpp/bpp-core-2.1.0/test/test_text_tools.cpp
+Bpp/Text/TextTools.h
+-
+Bpp/Text/StringTokenizer.h
+-
+iostream
+-
+
+test/../src/Bpp/Exceptions.h
+stdexcept
+-
+vector
+-
+
+test/../src/Bpp/Text/StringTokenizer.h
+deque
+-
+string
+-
+iostream
+-
+../Exceptions.h
+test/../src/Bpp/Exceptions.h
+
+test/../src/Bpp/Text/TextTools.h
+../Exceptions.h
+test/../src/Bpp/Exceptions.h
+string
+-
+vector
+-
+sstream
+-
+iomanip
+-
+

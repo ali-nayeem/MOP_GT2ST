@@ -1,0 +1,1 @@
+/usr/bin/c++   -Wall -Wshadow -Weffc++ -Wconversion -O2 -g -DNDEBUG   CMakeFiles/test_detailed_simulations.dir/test_detailed_simulations.cpp.o  -o test_detailed_simulations -rdynamic /usr/local/lib/libbpp-seq.so /usr/local/lib/libbpp-core.so -L../src -lbpp-phyl -Wl,-rpath,/usr/local/lib 

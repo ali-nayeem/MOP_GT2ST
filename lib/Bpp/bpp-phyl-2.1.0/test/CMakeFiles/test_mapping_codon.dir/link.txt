@@ -1,0 +1,1 @@
+/usr/bin/c++   -Wall -Wshadow -Weffc++ -Wconversion -O2 -g -DNDEBUG   CMakeFiles/test_mapping_codon.dir/test_mapping_codon.cpp.o  -o test_mapping_codon -rdynamic /usr/local/lib/libbpp-seq.so /usr/local/lib/libbpp-core.so -L../src -lbpp-phyl -Wl,-rpath,/usr/local/lib 

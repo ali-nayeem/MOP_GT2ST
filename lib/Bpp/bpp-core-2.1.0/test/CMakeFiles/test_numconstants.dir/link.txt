@@ -1,0 +1,1 @@
+/usr/bin/c++   -Wall -Weffc++ -Wshadow -Wconversion -O2 -g -DNDEBUG   CMakeFiles/test_numconstants.dir/test_numconstants.cpp.o  -o test_numconstants -rdynamic -L../src -lbpp-core 

@@ -1,0 +1,1 @@
+/usr/bin/c++   -Wall -Weffc++ -Wshadow -Wconversion -O2 -g -DNDEBUG   CMakeFiles/test_powell.dir/test_powell.cpp.o  -o test_powell -rdynamic -L../src -lbpp-core 

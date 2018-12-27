@@ -1,0 +1,22 @@
+#IncludeRegexLine: ^[ 	]*#[ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/home/ali_nayeem/Projects/MO-Phylogenetics/lib/Bpp/bpp-core-2.1.0/test/test_numconstants.cpp
+Bpp/Numeric/NumConstants.h
+-
+iostream
+-
+limits
+-
+
+test/../src/Bpp/Numeric/NumConstants.h
+cmath
+-
+limits
+-
+

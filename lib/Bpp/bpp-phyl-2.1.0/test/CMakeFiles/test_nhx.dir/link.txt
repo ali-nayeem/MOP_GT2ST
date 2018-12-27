@@ -1,0 +1,1 @@
+/usr/bin/c++   -Wall -Wshadow -Weffc++ -Wconversion -O2 -g -DNDEBUG   CMakeFiles/test_nhx.dir/test_nhx.cpp.o  -o test_nhx -rdynamic /usr/local/lib/libbpp-seq.so /usr/local/lib/libbpp-core.so -L../src -lbpp-phyl -Wl,-rpath,/usr/local/lib 

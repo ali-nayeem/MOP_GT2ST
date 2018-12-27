@@ -1,0 +1,1 @@
+/usr/bin/c++   -Wall -Weffc++ -Wshadow -Wconversion -O2 -g -DNDEBUG   CMakeFiles/test_sequences.dir/test_sequences.cpp.o  -o test_sequences -rdynamic /usr/local/lib/libbpp-core.so -L../src -lbpp-seq -Wl,-rpath,/usr/local/lib 

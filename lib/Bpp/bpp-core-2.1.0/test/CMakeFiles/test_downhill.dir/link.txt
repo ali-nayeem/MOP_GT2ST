@@ -1,0 +1,1 @@
+/usr/bin/c++   -Wall -Weffc++ -Wshadow -Wconversion -O2 -g -DNDEBUG   CMakeFiles/test_downhill.dir/test_downhill.cpp.o  -o test_downhill -rdynamic -L../src -lbpp-core 
