@@ -54,7 +54,7 @@ OBJECTS := $(patsubst $(SRCDIR)/%,$(BUILDDIR)/%,$(LIB_SOURCES:.$(SRCEXT)=.o))
 #BINARIES := $(patsubst $(MAIN_DIRS)/%,$(BUILDDIR)/%,$(SOURCES:.$(SRCEXT)=.o))
 
 # Flags
-CFLAGS := -O3 -g#-g -Wall
+CFLAGS := -O3 -g -std=c++11#-O3 -g -Wall
 
 # Include flags when compiling
 INC := $(patsubst %,-I %/.,$(HEADER_DIRS)) -lbpp-core -lbpp-seq -lbpp-phyl -lpll-sse3 -lm
@@ -76,7 +76,7 @@ MAIN_LIBS := -lm #-pthread
 
 # All rule
 #all: library MainMOPhylogenetics
-all: library MainMOPhylogenetics
+all: library test
 
 # Main files rule
 mains : $(patsubst $(SRCDIR)%.$(SRCEXT), $(BINDIR)%, $(MAIN_FILES))
@@ -113,13 +113,20 @@ clean:
 tester: 
 
 
-MainMOPhylogenetics: MainMOPhylogenetics_main
+MainMOPhylogenetics: MainMOPhylogenetics_main 
 	
 MainMOPhylogenetics_main: $(SRCDIR)/main/mophylogenetics.$(SRCEXT) $(LIB)
 	@echo "Compiling  $(SRCDIR)/main/mophylogenetics.$(SRCEXT)"
 	@mkdir -p $(BINDIR)
 	$(CC) $(CFLAGS) $(SRCDIR)/main/mophylogenetics.$(SRCEXT) $(MAIN_DEPS) -o $(BINDIR)/MOPhylogenetics $(INC) $(MAIN_LIBS)
 #cp $(BINDIR)/MOPhylogenetics test/MOPhylogenetics
+
+test: test_main
+test_main: $(SRCDIR)/main/testmain.$(SRCEXT) $(LIB)
+	@echo "Compiling  $(SRCDIR)/main/testmain.$(SRCEXT)"
+	@mkdir -p $(BINDIR)
+	$(CC) $(CFLAGS) $(SRCDIR)/main/testmain.$(SRCEXT) $(MAIN_DEPS) -o $(BINDIR)/testmain $(INC) $(MAIN_LIBS)
+
 
 .PHONY: clean
 

@@ -33,8 +33,8 @@
 #include <Solution.h>
 #include <math.h>
 #include <PhyloTree.h>
-#include <Phylogeny.h>
-
+//#include <Phylogeny.h>
+#include <InferSpeciesTree.h>
 
 #include <PseudoRandom.h>
 
@@ -67,7 +67,7 @@ private:
   int numDescendientes_ ;
   Solution * doCrossover(double probability, Solution * parent1, Solution * parent2);
   void CrossTrees(PhyloTree * PtMon, PhyloTree * PtDad);
-
+  boolean implementCrossover(Solution *parent1, Solution *parent2, Solution *offSpring);
   Node * selectNodeToCross(TreeTemplate<Node> * tree_, vector<int> nodosIDs );
 
 

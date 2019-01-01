@@ -59,6 +59,13 @@ int PseudoRandom::randInt(int minBound, int maxBound) {
   return PseudoRandom::randomGenerator_->rnd(minBound,maxBound);
 }
 
+//int PseudoRandom::randInt(int maxBound) {
+//  if (PseudoRandom::randomGenerator_ == NULL) {
+//    PseudoRandom::randomGenerator_ = new RandomGenerator();
+//  }
+//  return PseudoRandom::randomGenerator_->rnd(0,maxBound);
+//}
+
 double PseudoRandom::randDouble(double minBound, double maxBound) {
   if (PseudoRandom::randomGenerator_ == NULL) {
     PseudoRandom::randomGenerator_ = new RandomGenerator();

@@ -147,11 +147,12 @@ Variable *PhyloTree::deepCopy() {
  */
 string PhyloTree::toString(){
   stringstream ss;
-  ss << TreeTemplateTools::treeToParenthesis(*tree_) << "PARAMETROS" << endl  
-        << "Transition / transversion ratio (Kappa): " << kappa << endl 
-        << "Gamma Shape (alpha): " << alpha << " beta: "  << beta << endl
-        << "Frecuencias  piA: " << piA << " piC: " << piC << " piG: " << piG << " piT: " << piT << endl 
-        << "GTR relative rates AC: " << AC << " AG: " << AG << " AT: " << AT << " CG: " << CG << " CT: " << CT << " GT: " << GT << endl; 
+  ss << TreeTemplateTools::treeToParenthesis(*tree_); 
+//          << "PARAMETROS" << endl  
+//        << "Transition / transversion ratio (Kappa): " << kappa << endl 
+//        << "Gamma Shape (alpha): " << alpha << " beta: "  << beta << endl
+//        << "Frecuencias  piA: " << piA << " piC: " << piC << " piG: " << piG << " piT: " << piT << endl 
+//        << "GTR relative rates AC: " << AC << " AG: " << AG << " AT: " << AT << " CG: " << CG << " CT: " << CT << " GT: " << GT << endl; 
         return ss.str();
 } // toString
 

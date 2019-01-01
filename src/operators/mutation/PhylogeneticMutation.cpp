@@ -256,8 +256,9 @@ void PhylogeneticMutation::SPR(Solution * solution){
        if(Padre->hasDistanceToFather()) {
                distancetofather+=Padre->getDistanceToFather();
        }
-           
-       Hermano->setDistanceToFather(distancetofather);
+      if (Hermano->hasDistanceToFather()) {     
+        Hermano->setDistanceToFather(distancetofather);
+      }
 
      }else{ //Si tiene mas de un hermano, no se hace Collapse
 
@@ -280,12 +281,17 @@ void PhylogeneticMutation::SPR(Solution * solution){
      }
 
      Padre2->setSon(Padre2->getSonPosition(Nodo2),Padre);
-     Padre->setDistanceToFather(distancetofather/2);
+     if(Padre->hasDistanceToFather())
+     {
+         Padre->setDistanceToFather(distancetofather/2);
+     }
      
      //Agrego al Nodo2 como hijo del Padre
      Padre->addSon(Nodo2);
-     
-     Nodo2->setDistanceToFather(distancetofather/2);
+     if(Nodo2->hasDistanceToFather())
+     {
+         Nodo2->setDistanceToFather(distancetofather/2);
+     }
 
      /*if(Padre->hasDistanceToFather() and Nodo1->hasDistanceToFather() and Nodo2->hasDistanceToFather())
         if(Padre->getDistanceToFather()>0 and Nodo1->getDistanceToFather()>0 and Nodo2->getDistanceToFather()>0)

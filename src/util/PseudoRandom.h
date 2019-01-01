@@ -40,6 +40,7 @@ public:
 public:
   static double randDouble();//    static int randInt();
   static int randInt(int minBound, int maxBound);
+  //static int randInt(int maxBound);
   static double randDouble(double minBound, double maxBound);
 };
 

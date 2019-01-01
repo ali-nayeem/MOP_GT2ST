@@ -420,7 +420,9 @@ pllValidateNewick (pllNewickTree * t)
      correct = (t->nodes == 2 * t->tips -1);
      if (correct)
       {
-        errno = PLL_NEWICK_ROOTED_TREE;
+         return (PLL_TRUE);
+        //errno = PLL_NEWICK_ROOTED_TREE;
+        //printf("yes\n");
       }
      else
       {

@@ -49,7 +49,7 @@ TreeCrossover::TreeCrossover(map<string, void *> parameters)
   if (parameters["numDescendientes"] != NULL)
     numDescendientes_ = *(int *)parameters["numDescendientes"];
   else
-    numDescendientes_ =2;
+    numDescendientes_ =1;
 
   
 
@@ -81,8 +81,9 @@ Solution * TreeCrossover::doCrossover(double probability, Solution *parent1, Sol
 
   Solution * offSpring;
   PhyloTree *copyPT1, *copyPT2, *offspringTree;
-  Phylogeny * Problem = (Phylogeny*)parent1->getProblem();
-  
+  //modified by Nayeem
+  //Phylogeny * Problem = (Phylogeny*)parent1->getProblem(); 
+  InferSpeciesTree * Problem = (InferSpeciesTree*)parent1->getProblem();
   if(PseudoRandom::randDouble()<0.5)  {
       offSpring = new Solution(parent1);
       copyPT1 = (PhyloTree *)parent2->getDecisionVariables()[0];
@@ -99,6 +100,7 @@ Solution * TreeCrossover::doCrossover(double probability, Solution *parent1, Sol
 
             TreeTemplate<Node> * tree;
             bool b=true;
+            int count=0;
             do{
                  offspringTree = new PhyloTree(copyPT2);  //Copy of PT2
                
@@ -110,11 +112,16 @@ Solution * TreeCrossover::doCrossover(double probability, Solution *parent1, Sol
                  
                  if(!Problem->PLLisTreeValidate(tree)){
                      delete offspringTree;
-                     //cout << "Invalited Crossed Tree " << endl ;
+                     cout << "Invalited Crossed Tree " << endl ;
+                     count++;
                  }else { 
                      b=false;
                  }
-                 
+                 if(count > 3)
+                 {
+                     offspringTree = new PhyloTree(copyPT2);
+                     break;
+                 }
              }while(b);
           
             delete copyPT2;
@@ -133,7 +140,7 @@ Solution * TreeCrossover::doCrossover(double probability, Solution *parent1, Sol
 * @return One offspring
 **/
 
-/***************PTDad es afectado por el cruce entre PtMon y PtDad*****************/
+/***************PTDad is affected by the cross between PtMon and PtDad*****************/
 void TreeCrossover::CrossTrees(PhyloTree * PtMon, PhyloTree * PtDad) {
 
 	TreeTemplate<Node> * tree1 = PtMon->getTree();
@@ -143,7 +150,7 @@ void TreeCrossover::CrossTrees(PhyloTree * PtMon, PhyloTree * PtDad) {
 	Node *Nodo1;
 	Node *Nodo2;
         Node *SubTree;
-        vector<string> hojas;
+        vector<string> leaves;
         vector<int> nodosIDs;
 
 	int NumHojasT1 = tree1->getNumberOfLeaves();
@@ -157,37 +164,47 @@ void TreeCrossover::CrossTrees(PhyloTree * PtMon, PhyloTree * PtDad) {
                           SubTree=TreeTemplateTools::cloneSubtree<Node>(*Nodo1);
 			  b=false;
    		  }
+                  cout << "In CrossTrees" << endl;
          }while(b);
 
 
-       //Borra los nodos que se repiten en la Madre
-	hojas = TreeTemplateTools::getLeavesNames(*SubTree);
+       //Delete the nodes that are repeated in the Mother
+	leaves = TreeTemplateTools::getLeavesNames(*SubTree);
         
 //        cout << "SubTree to Cross" << endl;
 //        for (unsigned int i = 0; i < hojas.size(); i++){
 //            cout << hojas[i] << " " ;
 //        }cout << endl;
         
-	for (unsigned int i = 0; i < hojas.size(); i++)
-            TreeTemplateTools::dropLeaf(*tree2,hojas[i]);
+	for (unsigned int i = 0; i < leaves.size(); i++)
+            TreeTemplateTools::dropLeaf(*tree2,leaves[i]);
 
 
 	Nodo2 = selectNodeToCross(tree2, tree2->getNodesId()); //Extrae PUNTERO refrencia a NODO, NO es copia
 
-
-	Node * padre = Nodo2->getFather();
-	double distancetofather = Nodo2->getDistanceToFather();
-	int PosNodo2= padre->getSonPosition(Nodo2);
+        double distancetofather = 0;
+	Node * father = Nodo2->getFather();
+  if(Nodo2->hasDistanceToFather())
+  {
+      distancetofather = Nodo2->getDistanceToFather();
+  }
+	int PosNodo2= father->getSonPosition(Nodo2);
 
 
 	Node * nodo = new Node();
 	// agrega vector SON los punteros y establce hijos->father=nodo
 	nodo->addSon(SubTree); nodo->addSon(Nodo2);
-	Nodo2->setDistanceToFather(distancetofather/2);
+  if(Nodo2->hasDistanceToFather())
+  {
+    Nodo2->setDistanceToFather(distancetofather/2);
+  }
 
 	//Agrego Nuevo Nodo al Padre
-	padre->setSon(PosNodo2, nodo);
-	nodo->setDistanceToFather(distancetofather/2);
+	father->setSon(PosNodo2, nodo);
+  if(nodo->hasDistanceToFather())
+  {
+    nodo->setDistanceToFather(distancetofather/2);
+  }
 
 
 
@@ -234,9 +251,10 @@ void * TreeCrossover::execute(void *object) {
 
   if(numDescendientes_==1)
   {
-    void ** objects = (void **) object;
-    Solution ** parents = (Solution **) objects[1];
-    return  doCrossover(crossoverProbability_, parents[1], parents[2]);
+    //void ** objects = (void **) object;
+    //Solution ** parents = (Solution **) objects[1];
+    Solution ** parents = (Solution **) object;
+    return  doCrossover(crossoverProbability_, parents[0], parents[1]);
 
   }else{
 

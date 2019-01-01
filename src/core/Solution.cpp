@@ -309,16 +309,17 @@ string Solution::toString() {
     std::ostringstream stringStream;
 //    stringStream << this->getDecisionVariables()[i]->getValue() ;
     stringStream << this->getDecisionVariables()[i]->toString() ;
-    aux = aux + stringStream.str() + " ";
+    aux = aux + stringStream.str();
+    //aux = aux + stringStream.str() + " ";
   }
-  aux = aux + " | " ;
-  for (int i = 0; i < numberOfObjectives_; i++) {
-    std::ostringstream stringStream;
-    stringStream << this->getObjective(i) ;
-    // aux = aux + string(this->getDecisionVariables()[i]->getValue()) + " ";
-    // aux = aux + string(0.03) + " ";
-    aux = aux + stringStream.str() +  " ";
-  }
+//  aux = aux + " | " ;
+//  for (int i = 0; i < numberOfObjectives_; i++) {
+//    std::ostringstream stringStream;
+//    stringStream << this->getObjective(i) ;
+//    // aux = aux + string(this->getDecisionVariables()[i]->getValue()) + " ";
+//    // aux = aux + string(0.03) + " ";
+//    aux = aux + stringStream.str() +  " ";
+//  }
 
   return aux;
 } // toString
