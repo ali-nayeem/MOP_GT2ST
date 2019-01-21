@@ -56,7 +56,7 @@ SolutionSet * NSGAII_ST::execute() {
     crossoverOperator = operators_["crossover"];
     selectionOperator = operators_["selection"];
 
-    ApplicationTools::displayTask("Initial Population", true);
+    //ApplicationTools::displayTask("Initial Population", true);
     // Create the initial solutionSet
     Solution * newSolution;
 
@@ -76,7 +76,7 @@ SolutionSet * NSGAII_ST::execute() {
         offspringPopulation = new SolutionSet(populationSize);
         Solution ** parents = new Solution*[2];
 
-        cout << "Evaluating  " << evaluations << endl;
+        //cout << "Evaluating  " << evaluations << endl;
 
         for (int i = 0; i < (populationSize); i++) {
 

@@ -112,7 +112,9 @@ Solution * TreeCrossover::doCrossover(double probability, Solution *parent1, Sol
                  
                  if(!Problem->PLLisTreeValidate(tree)){
                      delete offspringTree;
-                     cout << "Invalited Crossed Tree " << endl ;
+                     #ifdef MAN_DEBUG
+                        cout << "Invalited Crossed Tree " << endl ;
+                     #endif
                      count++;
                  }else { 
                      b=false;
@@ -164,7 +166,9 @@ void TreeCrossover::CrossTrees(PhyloTree * PtMon, PhyloTree * PtDad) {
                           SubTree=TreeTemplateTools::cloneSubtree<Node>(*Nodo1);
 			  b=false;
    		  }
-                  cout << "In CrossTrees" << endl;
+                  #ifdef MAN_DEBUG
+                    cout << "In CrossTrees" << endl;
+                  #endif
          }while(b);
 
 

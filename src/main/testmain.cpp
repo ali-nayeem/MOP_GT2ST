@@ -41,13 +41,13 @@ string GetStdoutFromCommand(string cmd) {
 }
 
 int main(int argc, char** argv) {
-    string data = "data/10-taxon/higher-ILS/estimated-genetrees/R1";
+    string data = "10-taxon/higher-ILS/estimated-genetrees/R1";
     InferSpeciesTree * problem = new InferSpeciesTree(data, 2);
     //    for (int i = 0; i < 3; i++) {
     //        SolutionSet * pop = problem->createInitialPopulation(20);
     //        problem->evaluate(pop, 0);
     //    }
-    int populationSize = 100, maxEvaluations = 5000;
+    int populationSize = 10, maxEvaluations = 500;
     Problem * prob = problem; // The problem to solve
     Algorithm * algorithm = new NSGAII_ST(prob); // The algorithm to use
     Operator * crossover; // Crossover operator
@@ -78,7 +78,7 @@ int main(int argc, char** argv) {
     for(int i=0; i<1; i++)
     SolutionSet * result = algorithm->execute();
     
-
+    
 
     //pop->printVariablesToFile(data+"/VAR");
     //    map<string, void *> parameters;

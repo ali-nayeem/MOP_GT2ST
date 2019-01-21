@@ -84,6 +84,7 @@ private:
     void PrintScores(double p,double l);
     int numberOfTaxa_;
     int timestamp_;
+    string varFile_;
     enum Objective { MAX_ASTRAL, MIN_PHYLONET, MAX_MPEST };
     int objNegIfMax[3] = {-1, 1, -1};
     static string GetStdoutFromCommand(string cmd);

@@ -21,7 +21,7 @@
 
 InferSpeciesTree::InferSpeciesTree(string & _datapath, int _numOfObj) {
 
-    this->datapath = _datapath + "/";
+    this->datapath =  "data/" +  _datapath + "/";
     numberOfVariables_ = 1;
     numberOfObjectives_ = _numOfObj;
     numberOfConstraints_ = 0;
@@ -45,7 +45,7 @@ InferSpeciesTree::InferSpeciesTree(string & _datapath, int _numOfObj) {
 
 void InferSpeciesTree::readPrecomputedSpeciesTree() {
     for (int i = 0; i < treeFiles.size(); i++) {
-        cout << treeFiles[i] << endl;
+        //cout << treeFiles[i] << endl;
         if (fileExistsTest(treeFiles.at(i))) {
             precomputedTrees.push_back(new PhyloTree(treeFiles[i]));
             //             Variable **variables = new Variable*[this->getNumberOfVariables()];
@@ -136,7 +136,9 @@ SolutionSet * InferSpeciesTree::createInitialPopulation(int size) {
         mulMut->execute(offSpring);   
         if( getNumberOfLeaves(offSpring) != this->numberOfTaxa_ )
         {   
+            #ifdef MAN_DEBUG
             cout<<"When less taxa, then pllvalidator: "<<PLLisTreeValidate(offSpring)<<endl;
+            #endif
             continue;
         }
         pop->add(offSpring);
@@ -157,7 +159,7 @@ boolean InferSpeciesTree::PLLisTreeValidate(TreeTemplate<Node> * tree){
   }else {
       if (!pllValidateNewick (newick))  res=false;  //if (!pllValidateNewick (newick))  !pllNewickUnroot(newick)
   }
-  pllNewickParseDestroy (&newick);
+  //pllNewickParseDestroy (&newick);
   return res;
 }
 
@@ -221,11 +223,11 @@ string InferSpeciesTree::getMpestScoreList(string varFile)
 
 void InferSpeciesTree::evaluate(SolutionSet *pop, int gen)
 {
-    string varFile = "tmp/VAR"+ to_string(timestamp_);
-    pop->printVariablesToFile(varFile);
+    varFile_ = "tmp/VAR"+ to_string(timestamp_);
+    pop->printVariablesToFile(varFile_);
     for(int objId=0; objId<numberOfObjectives_; objId++)
     {
-        string scoreList = (this->*(getScoreFunctions[objId]))(varFile);
+        string scoreList = (this->*(getScoreFunctions[objId]))(varFile_);
         stringstream ss(scoreList);
         string to;
         int solId=0;
@@ -243,8 +245,10 @@ void InferSpeciesTree::evaluate(SolutionSet *pop, int gen)
 
 InferSpeciesTree::~InferSpeciesTree() {
 
-    cout<< "=====The END=====";
-    GetStdoutFromCommand("rm tmp/VAR*");
+    //cout<< "=====The END=====";
+    string cmd = "rm "+ varFile_;
+    //cout<<cmd;
+    //GetStdoutFromCommand(cmd);
     delete newick;
 
 

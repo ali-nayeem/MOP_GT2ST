@@ -3,6 +3,7 @@ bin/
 tmp/
 lib/Bpp/
 lib/Pll/
+experiment/
 
 # Prerequisites
 *.d
@@ -42,3 +43,8 @@ lib/Pll/
 .vscode/
 nbproject/
 Makefile
+
+# OSX
+.DS_Store
+.AppleDouble
+.LSOverride

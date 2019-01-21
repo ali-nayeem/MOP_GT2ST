@@ -34,7 +34,9 @@ void * MultipleRandomMutation::execute(void *object)  {
   //double probability = *(double *)getParameter("probability");
   if ( PseudoRandom::randDouble() <= mutationProbability_) {
     int randIndex = PseudoRandom::randInt(0, mutList.size()-1);
+    #ifdef MAN_DEBUG
     cout<<"Apply Mut: "<<randIndex<<endl;
+    #endif
     mutList[randIndex]->execute(solution);
   }
   
