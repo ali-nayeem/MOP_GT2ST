@@ -1,1 +1,0 @@
-/opt/local/bin/g++-mp-5  -Wall -Wshadow -Weffc++ -Wconversion -O2 -g -DNDEBUG -Wl,-search_paths_first -Wl,-headerpad_max_install_names  CMakeFiles/test_likelihood.dir/test_likelihood.cpp.o  -o test_likelihood /usr/local/lib/libbpp-seq.dylib /usr/local/lib/libbpp-core.dylib /opt/local/lib/libbpp-phyl.dylib 

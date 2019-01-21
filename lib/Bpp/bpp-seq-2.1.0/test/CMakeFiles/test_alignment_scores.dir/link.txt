@@ -1,1 +1,0 @@
-/opt/local/bin/g++-mp-5  -Wall -Weffc++ -Wshadow -Wconversion -O2 -g -DNDEBUG -Wl,-search_paths_first -Wl,-headerpad_max_install_names  CMakeFiles/test_alignment_scores.dir/test_alignment_scores.cpp.o  -o test_alignment_scores /usr/local/lib/libbpp-core.dylib /opt/local/lib/libbpp-seq.dylib 

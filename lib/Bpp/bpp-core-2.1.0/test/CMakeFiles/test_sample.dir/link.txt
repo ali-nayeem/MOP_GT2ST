@@ -1,1 +1,0 @@
-/opt/local/bin/g++-mp-5  -Wall -Weffc++ -Wshadow -Wconversion -O2 -g -DNDEBUG -Wl,-search_paths_first -Wl,-headerpad_max_install_names  CMakeFiles/test_sample.dir/test_sample.cpp.o  -o test_sample /opt/local/lib/libbpp-core.dylib 
