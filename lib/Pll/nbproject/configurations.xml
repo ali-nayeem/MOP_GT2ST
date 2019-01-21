@@ -9,7 +9,6 @@
         <in>evaluateGenericSpecial.c</in>
         <in>evaluatePartialGenericSpecial.c</in>
         <in>fastDNAparsimony.c</in>
-        <in>genericParallelization.c</in>
         <in>hash.c</in>
         <in>lexer.c</in>
         <in>makenewzGenericSpecial.c</in>
@@ -49,20 +48,13 @@
   <confs>
     <conf name="Default" type="0">
       <toolsSet>
-        <compilerSet>default</compilerSet>
+        <compilerSet>GNU_5.5|GNU</compilerSet>
         <dependencyChecking>false</dependencyChecking>
         <rebuildPropChanged>false</rebuildPropChanged>
       </toolsSet>
       <flagsDictionary>
-        <element flagsID="0" commonFlags="-mavx -msse3 -O2 -g -O2 -fPIC"/>
-        <element flagsID="1"
-                 commonFlags="-mavx -msse3 -mtune=generic -march=x86-64 -g -O2 -O2 -fPIC -fstack-protector-strong"/>
-        <element flagsID="2"
-                 commonFlags="-mavx -msse3 -mtune=generic -march=x86-64 -g -O2 -O2 -fstack-protector-strong"/>
-        <element flagsID="3"
-                 commonFlags="-msse3 -mtune=generic -march=x86-64 -g -O2 -O2 -fPIC -fstack-protector-strong"/>
-        <element flagsID="4"
-                 commonFlags="-msse3 -mtune=generic -march=x86-64 -g -O2 -O2 -fstack-protector-strong"/>
+        <element flagsID="0" commonFlags="-mavx -msse3 -O2"/>
+        <element flagsID="1" commonFlags="-msse3 -O2"/>
       </flagsDictionary>
       <codeAssistance>
       </codeAssistance>
@@ -72,208 +64,131 @@
           <buildCommand>${MAKE} -f Makefile</buildCommand>
           <cleanCommand>${MAKE} -f Makefile clean</cleanCommand>
           <executablePath></executablePath>
+          <cTool>
+            <incDir>
+              <pElem>src</pElem>
+              <pElem>.</pElem>
+            </incDir>
+            <preprocessorList>
+              <Elem>HAVE_CONFIG_H</Elem>
+              <Elem>_GNU_SOURCE</Elem>
+              <Elem>__SSE3</Elem>
+            </preprocessorList>
+          </cTool>
         </makeTool>
         <preBuild>
           <preBuildCommandWorkingDir>.</preBuildCommandWorkingDir>
           <preBuildCommand>./configure CC=${IDE_CC} CXX=${IDE_CXX} CFLAGS="-g3 -gdwarf-2" CXXFLAGS="-g3 -gdwarf-2"</preBuildCommand>
         </preBuild>
       </makefileType>
-      <item path="src/alignment.c" ex="false" tool="0" flavor2="3">
+      <item path="src/alignment.c" ex="false" tool="0" flavor2="0">
         <cTool flags="1">
-          <incDir>
-            <pElem>src</pElem>
-          </incDir>
         </cTool>
       </item>
-      <item path="src/avxLikelihood.c" ex="false" tool="0" flavor2="3">
-        <cTool flags="2">
-          <incDir>
-            <pElem>src</pElem>
-          </incDir>
+      <item path="src/avxLikelihood.c" ex="false" tool="0" flavor2="0">
+        <cTool flags="0">
+          <preprocessorList>
+            <Elem>__AVX</Elem>
+          </preprocessorList>
         </cTool>
       </item>
-      <item path="src/bipartitionList.c" ex="false" tool="0" flavor2="3">
-        <cTool flags="2">
-          <incDir>
-            <pElem>src</pElem>
-          </incDir>
+      <item path="src/bipartitionList.c" ex="false" tool="0" flavor2="0">
+        <cTool flags="1">
         </cTool>
       </item>
-      <item path="src/evaluateGenericSpecial.c" ex="false" tool="0" flavor2="3">
-        <cTool flags="4">
-          <incDir>
-            <pElem>src</pElem>
-          </incDir>
+      <item path="src/evaluateGenericSpecial.c" ex="false" tool="0" flavor2="0">
+        <cTool flags="1">
         </cTool>
       </item>
       <item path="src/evaluatePartialGenericSpecial.c"
             ex="false"
             tool="0"
-            flavor2="3">
-        <cTool flags="2">
-          <incDir>
-            <pElem>src</pElem>
-          </incDir>
-        </cTool>
-      </item>
-      <item path="src/fastDNAparsimony.c" ex="false" tool="0" flavor2="3">
-        <cTool flags="2">
-          <incDir>
-            <pElem>src</pElem>
-          </incDir>
-        </cTool>
-      </item>
-      <item path="src/genericParallelization.c" ex="false" tool="0" flavor2="3">
-        <cTool flags="2">
-          <incDir>
-            <pElem>src</pElem>
-          </incDir>
-        </cTool>
-      </item>
-      <item path="src/hash.c" ex="false" tool="0" flavor2="3">
-        <cTool flags="4">
-          <incDir>
-            <pElem>src</pElem>
-          </incDir>
-        </cTool>
-      </item>
-      <item path="src/lexer.c" ex="false" tool="0" flavor2="3">
-        <cTool flags="2">
-          <incDir>
-            <pElem>src</pElem>
-          </incDir>
-        </cTool>
-      </item>
-      <item path="src/makenewzGenericSpecial.c" ex="false" tool="0" flavor2="3">
-        <cTool flags="1">
-          <incDir>
-            <pElem>src</pElem>
-          </incDir>
-        </cTool>
-      </item>
-      <item path="src/models.c" ex="false" tool="0" flavor2="3">
-        <cTool flags="4">
-          <incDir>
-            <pElem>src</pElem>
-          </incDir>
-        </cTool>
-      </item>
-      <item path="src/newick.c" ex="false" tool="0" flavor2="3">
-        <cTool flags="0">
-          <incDir>
-            <pElem>src</pElem>
-            <pElem>.</pElem>
-          </incDir>
-          <preprocessorList>
-            <Elem>HAVE_CONFIG_H</Elem>
-            <Elem>PIC</Elem>
-            <Elem>_GNU_SOURCE</Elem>
-            <Elem>_USE_PTHREADS</Elem>
-            <Elem>__AVX</Elem>
-            <Elem>__SSE3</Elem>
-          </preprocessorList>
-        </cTool>
-      </item>
-      <item path="src/newviewGenericSpecial.c" ex="false" tool="0" flavor2="3">
-        <cTool flags="4">
-          <incDir>
-            <pElem>src</pElem>
-          </incDir>
-        </cTool>
-      </item>
-      <item path="src/optimizeModel.c" ex="false" tool="0" flavor2="3">
-        <cTool flags="3">
-          <incDir>
-            <pElem>src</pElem>
-          </incDir>
-        </cTool>
-      </item>
-      <item path="src/parsePartition.c" ex="false" tool="0" flavor2="3">
-        <cTool flags="2">
-          <incDir>
-            <pElem>src</pElem>
-          </incDir>
-        </cTool>
-      </item>
-      <item path="src/parsimony.c" ex="false" tool="0" flavor2="3">
-        <cTool flags="2">
-          <incDir>
-            <pElem>src</pElem>
-          </incDir>
-        </cTool>
-      </item>
-      <item path="src/queue.c" ex="false" tool="0" flavor2="3">
-        <cTool flags="2">
-          <incDir>
-            <pElem>src</pElem>
-          </incDir>
-        </cTool>
-      </item>
-      <item path="src/randomTree.c" ex="false" tool="0" flavor2="3">
-        <cTool flags="2">
-          <incDir>
-            <pElem>src</pElem>
-          </incDir>
-        </cTool>
-      </item>
-      <item path="src/recom.c" ex="false" tool="0" flavor2="3">
-        <cTool flags="4">
-          <incDir>
-            <pElem>src</pElem>
-          </incDir>
-        </cTool>
-      </item>
-      <item path="src/restartHashTable.c" ex="false" tool="0" flavor2="3">
+            flavor2="0">
         <cTool flags="1">
         </cTool>
       </item>
-      <item path="src/searchAlgo.c" ex="false" tool="0" flavor2="3">
-        <cTool flags="4">
-          <incDir>
-            <pElem>src</pElem>
-          </incDir>
-        </cTool>
-      </item>
-      <item path="src/ssort.c" ex="false" tool="0" flavor2="3">
-        <cTool flags="2">
-          <incDir>
-            <pElem>src</pElem>
-          </incDir>
-        </cTool>
-      </item>
-      <item path="src/stack.c" ex="false" tool="0" flavor2="3">
-        <cTool flags="2">
-          <incDir>
-            <pElem>src</pElem>
-          </incDir>
-        </cTool>
-      </item>
-      <item path="src/topologies.c" ex="false" tool="0" flavor2="3">
-        <cTool flags="2">
-          <incDir>
-            <pElem>src</pElem>
-          </incDir>
-        </cTool>
-      </item>
-      <item path="src/trash.c" ex="false" tool="0" flavor2="3">
+      <item path="src/fastDNAparsimony.c" ex="false" tool="0" flavor2="0">
         <cTool flags="1">
-          <incDir>
-            <pElem>src</pElem>
-          </incDir>
         </cTool>
       </item>
-      <item path="src/treeIO.c" ex="false" tool="0" flavor2="3">
-        <cTool flags="2">
-          <incDir>
-            <pElem>src</pElem>
-          </incDir>
+      <item path="src/hash.c" ex="false" tool="0" flavor2="0">
+        <cTool flags="1">
         </cTool>
       </item>
-      <item path="src/utils.c" ex="false" tool="0" flavor2="3">
-        <cTool flags="4">
-          <incDir>
-            <pElem>src</pElem>
-          </incDir>
+      <item path="src/lexer.c" ex="false" tool="0" flavor2="0">
+        <cTool flags="1">
+        </cTool>
+      </item>
+      <item path="src/makenewzGenericSpecial.c" ex="false" tool="0" flavor2="0">
+        <cTool flags="1">
+        </cTool>
+      </item>
+      <item path="src/models.c" ex="false" tool="0" flavor2="0">
+        <cTool flags="1">
+        </cTool>
+      </item>
+      <item path="src/newick.c" ex="false" tool="0" flavor2="0">
+        <cTool flags="1">
+        </cTool>
+      </item>
+      <item path="src/newviewGenericSpecial.c" ex="false" tool="0" flavor2="0">
+        <cTool flags="1">
+        </cTool>
+      </item>
+      <item path="src/optimizeModel.c" ex="false" tool="0" flavor2="0">
+        <cTool flags="1">
+        </cTool>
+      </item>
+      <item path="src/parsePartition.c" ex="false" tool="0" flavor2="0">
+        <cTool flags="1">
+        </cTool>
+      </item>
+      <item path="src/parsimony.c" ex="false" tool="0" flavor2="0">
+        <cTool flags="1">
+        </cTool>
+      </item>
+      <item path="src/queue.c" ex="false" tool="0" flavor2="0">
+        <cTool flags="1">
+        </cTool>
+      </item>
+      <item path="src/randomTree.c" ex="false" tool="0" flavor2="0">
+        <cTool flags="1">
+        </cTool>
+      </item>
+      <item path="src/recom.c" ex="false" tool="0" flavor2="0">
+        <cTool flags="1">
+        </cTool>
+      </item>
+      <item path="src/restartHashTable.c" ex="false" tool="0" flavor2="0">
+        <cTool flags="1">
+        </cTool>
+      </item>
+      <item path="src/searchAlgo.c" ex="false" tool="0" flavor2="0">
+        <cTool flags="1">
+        </cTool>
+      </item>
+      <item path="src/ssort.c" ex="false" tool="0" flavor2="0">
+        <cTool flags="1">
+        </cTool>
+      </item>
+      <item path="src/stack.c" ex="false" tool="0" flavor2="0">
+        <cTool flags="1">
+        </cTool>
+      </item>
+      <item path="src/topologies.c" ex="false" tool="0" flavor2="0">
+        <cTool flags="1">
+        </cTool>
+      </item>
+      <item path="src/trash.c" ex="false" tool="0" flavor2="0">
+        <cTool flags="1">
+        </cTool>
+      </item>
+      <item path="src/treeIO.c" ex="false" tool="0" flavor2="0">
+        <cTool flags="1">
+        </cTool>
+      </item>
+      <item path="src/utils.c" ex="false" tool="0" flavor2="0">
+        <cTool flags="1">
         </cTool>
       </item>
     </conf>

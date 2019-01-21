@@ -1,1 +1,1 @@
-/usr/bin/c++   -Wall -Weffc++ -Wshadow -Wconversion -O2 -g -DNDEBUG   CMakeFiles/test_derivative1.dir/test_derivative1.cpp.o  -o test_derivative1 -rdynamic -L../src -lbpp-core 
+/opt/local/bin/g++-mp-5  -Wall -Weffc++ -Wshadow -Wconversion -O2 -g -DNDEBUG -Wl,-search_paths_first -Wl,-headerpad_max_install_names  CMakeFiles/test_derivative1.dir/test_derivative1.cpp.o  -o test_derivative1 /opt/local/lib/libbpp-core.dylib 

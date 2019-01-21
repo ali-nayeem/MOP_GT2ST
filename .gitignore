@@ -1,5 +1,8 @@
-build/*
-bin/*
+build/
+bin/
+tmp/
+lib/Bpp/
+lib/Pll/
 
 # Prerequisites
 *.d
@@ -36,5 +39,6 @@ bin/*
 
 # IDE
 .idea
-.vscode/*
-nbproject/*
+.vscode/
+nbproject/
+Makefile

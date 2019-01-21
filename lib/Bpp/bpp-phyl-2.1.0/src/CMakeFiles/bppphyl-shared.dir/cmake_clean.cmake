@@ -141,9 +141,9 @@ file(REMOVE_RECURSE
   "CMakeFiles/bppphyl-shared.dir/Bpp/Phyl/TreeTemplateTools.cpp.o"
   "CMakeFiles/bppphyl-shared.dir/Bpp/Phyl/TreeTools.cpp.o"
   "libbpp-phyl.pdb"
-  "libbpp-phyl.so"
-  "libbpp-phyl.so.9.1.3"
-  "libbpp-phyl.so.9"
+  "libbpp-phyl.9.1.3.dylib"
+  "libbpp-phyl.dylib"
+  "libbpp-phyl.9.dylib"
 )
 
 # Per-language clean rules from dependency scanning.

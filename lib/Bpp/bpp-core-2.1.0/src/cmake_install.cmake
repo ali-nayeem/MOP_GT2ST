@@ -1,8 +1,8 @@
-# Install script for directory: /home/ali_nayeem/Projects/MO-Phylogenetics/lib/Bpp/bpp-core-2.1.0/src
+# Install script for directory: /Users/ali_nayeem/Projects/MO-Phylogenetics/lib/Bpp/bpp-core-2.1.0/src
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
-  set(CMAKE_INSTALL_PREFIX "/home/ali_nayeem/Projects/MO-Phylogenetics/lib/Bpp")
+  set(CMAKE_INSTALL_PREFIX "/usr/local")
 endif()
 string(REGEX REPLACE "/$" "" CMAKE_INSTALL_PREFIX "${CMAKE_INSTALL_PREFIX}")
 
@@ -27,52 +27,58 @@ if(NOT CMAKE_INSTALL_COMPONENT)
   endif()
 endif()
 
-# Install shared libraries without execute permission?
-if(NOT DEFINED CMAKE_INSTALL_SO_NO_EXE)
-  set(CMAKE_INSTALL_SO_NO_EXE "1")
+# Is this installation the result of a crosscompile?
+if(NOT DEFINED CMAKE_CROSSCOMPILING)
+  set(CMAKE_CROSSCOMPILING "FALSE")
 endif()
 
-if(NOT CMAKE_INSTALL_COMPONENT OR "${CMAKE_INSTALL_COMPONENT}" STREQUAL "Unspecified")
-  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/lib" TYPE STATIC_LIBRARY FILES "/home/ali_nayeem/Projects/MO-Phylogenetics/lib/Bpp/bpp-core-2.1.0/src/libbpp-core.a")
+if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)
+  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/lib" TYPE STATIC_LIBRARY FILES "/Users/ali_nayeem/Projects/MO-Phylogenetics/lib/Bpp/bpp-core-2.1.0/src/libbpp-core.a")
+  if(EXISTS "$ENV{DESTDIR}${CMAKE_INSTALL_PREFIX}/lib/libbpp-core.a" AND
+     NOT IS_SYMLINK "$ENV{DESTDIR}${CMAKE_INSTALL_PREFIX}/lib/libbpp-core.a")
+    execute_process(COMMAND "/opt/local/bin/ranlib" "$ENV{DESTDIR}${CMAKE_INSTALL_PREFIX}/lib/libbpp-core.a")
+  endif()
 endif()
 
-if(NOT CMAKE_INSTALL_COMPONENT OR "${CMAKE_INSTALL_COMPONENT}" STREQUAL "Unspecified")
-  foreach(file
-      "$ENV{DESTDIR}${CMAKE_INSTALL_PREFIX}/lib/libbpp-core.so.2.0.3"
-      "$ENV{DESTDIR}${CMAKE_INSTALL_PREFIX}/lib/libbpp-core.so.2"
-      "$ENV{DESTDIR}${CMAKE_INSTALL_PREFIX}/lib/libbpp-core.so"
-      )
-    if(EXISTS "${file}" AND
-       NOT IS_SYMLINK "${file}")
-      file(RPATH_CHECK
-           FILE "${file}"
-           RPATH "")
-    endif()
-  endforeach()
+if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)
   file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/lib" TYPE SHARED_LIBRARY FILES
-    "/home/ali_nayeem/Projects/MO-Phylogenetics/lib/Bpp/bpp-core-2.1.0/src/libbpp-core.so.2.0.3"
-    "/home/ali_nayeem/Projects/MO-Phylogenetics/lib/Bpp/bpp-core-2.1.0/src/libbpp-core.so.2"
-    "/home/ali_nayeem/Projects/MO-Phylogenetics/lib/Bpp/bpp-core-2.1.0/src/libbpp-core.so"
+    "/Users/ali_nayeem/Projects/MO-Phylogenetics/lib/Bpp/bpp-core-2.1.0/src/libbpp-core.2.0.3.dylib"
+    "/Users/ali_nayeem/Projects/MO-Phylogenetics/lib/Bpp/bpp-core-2.1.0/src/libbpp-core.2.dylib"
     )
   foreach(file
-      "$ENV{DESTDIR}${CMAKE_INSTALL_PREFIX}/lib/libbpp-core.so.2.0.3"
-      "$ENV{DESTDIR}${CMAKE_INSTALL_PREFIX}/lib/libbpp-core.so.2"
-      "$ENV{DESTDIR}${CMAKE_INSTALL_PREFIX}/lib/libbpp-core.so"
+      "$ENV{DESTDIR}${CMAKE_INSTALL_PREFIX}/lib/libbpp-core.2.0.3.dylib"
+      "$ENV{DESTDIR}${CMAKE_INSTALL_PREFIX}/lib/libbpp-core.2.dylib"
       )
     if(EXISTS "${file}" AND
        NOT IS_SYMLINK "${file}")
+      execute_process(COMMAND "/opt/local/bin/install_name_tool"
+        -id "libbpp-core.2.dylib"
+        "${file}")
       if(CMAKE_INSTALL_DO_STRIP)
-        execute_process(COMMAND "/usr/bin/strip" "${file}")
+        execute_process(COMMAND "/opt/local/bin/strip" "${file}")
       endif()
     endif()
   endforeach()
 endif()
 
-if(NOT CMAKE_INSTALL_COMPONENT OR "${CMAKE_INSTALL_COMPONENT}" STREQUAL "Unspecified")
-  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/include/Bpp" TYPE DIRECTORY FILES "/home/ali_nayeem/Projects/MO-Phylogenetics/lib/Bpp/bpp-core-2.1.0/src/Bpp/" FILES_MATCHING REGEX "/[^/]*\\.h$")
+if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)
+  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/lib" TYPE SHARED_LIBRARY FILES "/Users/ali_nayeem/Projects/MO-Phylogenetics/lib/Bpp/bpp-core-2.1.0/src/libbpp-core.dylib")
+  if(EXISTS "$ENV{DESTDIR}${CMAKE_INSTALL_PREFIX}/lib/libbpp-core.dylib" AND
+     NOT IS_SYMLINK "$ENV{DESTDIR}${CMAKE_INSTALL_PREFIX}/lib/libbpp-core.dylib")
+    execute_process(COMMAND "/opt/local/bin/install_name_tool"
+      -id "libbpp-core.2.dylib"
+      "$ENV{DESTDIR}${CMAKE_INSTALL_PREFIX}/lib/libbpp-core.dylib")
+    if(CMAKE_INSTALL_DO_STRIP)
+      execute_process(COMMAND "/opt/local/bin/strip" "$ENV{DESTDIR}${CMAKE_INSTALL_PREFIX}/lib/libbpp-core.dylib")
+    endif()
+  endif()
 endif()
 
-if(NOT CMAKE_INSTALL_COMPONENT OR "${CMAKE_INSTALL_COMPONENT}" STREQUAL "Unspecified")
-  EXECUTE_PROCESS(COMMAND /home/ali_nayeem/Projects/MO-Phylogenetics/lib/Bpp/bpp-core-2.1.0/genIncludes.sh /home/ali_nayeem/Projects/MO-Phylogenetics/lib/Bpp/include/Bpp)
+if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)
+  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/include/Bpp" TYPE DIRECTORY FILES "/Users/ali_nayeem/Projects/MO-Phylogenetics/lib/Bpp/bpp-core-2.1.0/src/Bpp/" FILES_MATCHING REGEX "/[^/]*\\.h$")
+endif()
+
+if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)
+  EXECUTE_PROCESS(COMMAND /Users/ali_nayeem/Projects/MO-Phylogenetics/lib/Bpp/bpp-core-2.1.0/genIncludes.sh /usr/local/include/Bpp)
 endif()
 

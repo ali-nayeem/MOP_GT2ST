@@ -1,4 +1,4 @@
-#IncludeRegexLine: ^[ 	]*#[ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
 
 #IncludeRegexScan: ^.*$
 
@@ -6,7 +6,7 @@
 
 #IncludeRegexTransform: 
 
-/home/ali_nayeem/Projects/MO-Phylogenetics/lib/Bpp/bpp-core-2.1.0/test/test_text_tools.cpp
+/Users/ali_nayeem/Projects/MO-Phylogenetics/lib/Bpp/bpp-core-2.1.0/test/test_text_tools.cpp
 Bpp/Text/TextTools.h
 -
 Bpp/Text/StringTokenizer.h
@@ -14,13 +14,13 @@ Bpp/Text/StringTokenizer.h
 iostream
 -
 
-test/../src/Bpp/Exceptions.h
+/opt/local/include/Bpp/Exceptions.h
 stdexcept
 -
 vector
 -
 
-test/../src/Bpp/Text/StringTokenizer.h
+/opt/local/include/Bpp/Text/StringTokenizer.h
 deque
 -
 string
@@ -28,11 +28,11 @@ string
 iostream
 -
 ../Exceptions.h
-test/../src/Bpp/Exceptions.h
+/opt/local/include/Bpp/Exceptions.h
 
-test/../src/Bpp/Text/TextTools.h
+/opt/local/include/Bpp/Text/TextTools.h
 ../Exceptions.h
-test/../src/Bpp/Exceptions.h
+/opt/local/include/Bpp/Exceptions.h
 string
 -
 vector

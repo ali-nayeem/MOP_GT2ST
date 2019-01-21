@@ -1,8 +1,8 @@
-The system is: Linux - 4.4.0-139-generic - x86_64
+The system is: Darwin - 17.6.0 - x86_64
 Compiling the CXX compiler identification source file "CMakeCXXCompilerId.cpp" succeeded.
-Compiler: /usr/bin/c++ 
+Compiler: /opt/local/bin/g++-mp-5 
 Build flags: 
-Id flags: 
+Id flags:  
 
 The output was:
 0
@@ -10,146 +10,203 @@ The output was:
 
 Compilation of the CXX compiler identification source "CMakeCXXCompilerId.cpp" produced "a.out"
 
-The CXX compiler identification is GNU, found in "/home/ali_nayeem/Projects/MO-Phylogenetics/lib/Bpp/bpp-core-2.1.0/CMakeFiles/3.5.1/CompilerIdCXX/a.out"
+The CXX compiler identification is GNU, found in "/Users/ali_nayeem/Projects/MO-Phylogenetics/lib/Bpp/bpp-core-2.1.0/CMakeFiles/3.13.2/CompilerIdCXX/a.out"
 
 Determining if the CXX compiler works passed with the following output:
-Change Dir: /home/ali_nayeem/Projects/MO-Phylogenetics/lib/Bpp/bpp-core-2.1.0/CMakeFiles/CMakeTmp
+Change Dir: /Users/ali_nayeem/Projects/MO-Phylogenetics/lib/Bpp/bpp-core-2.1.0/CMakeFiles/CMakeTmp
 
-Run Build Command:"/usr/bin/make" "cmTC_7dac4/fast"
-/usr/bin/make -f CMakeFiles/cmTC_7dac4.dir/build.make CMakeFiles/cmTC_7dac4.dir/build
-make[1]: Entering directory '/home/ali_nayeem/Projects/MO-Phylogenetics/lib/Bpp/bpp-core-2.1.0/CMakeFiles/CMakeTmp'
-Building CXX object CMakeFiles/cmTC_7dac4.dir/testCXXCompiler.cxx.o
-/usr/bin/c++      -o CMakeFiles/cmTC_7dac4.dir/testCXXCompiler.cxx.o -c /home/ali_nayeem/Projects/MO-Phylogenetics/lib/Bpp/bpp-core-2.1.0/CMakeFiles/CMakeTmp/testCXXCompiler.cxx
-Linking CXX executable cmTC_7dac4
-/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_7dac4.dir/link.txt --verbose=1
-/usr/bin/c++        CMakeFiles/cmTC_7dac4.dir/testCXXCompiler.cxx.o  -o cmTC_7dac4 -rdynamic 
-make[1]: Leaving directory '/home/ali_nayeem/Projects/MO-Phylogenetics/lib/Bpp/bpp-core-2.1.0/CMakeFiles/CMakeTmp'
+Run Build Command:"/usr/bin/make" "cmTC_21412/fast"
+/Library/Developer/CommandLineTools/usr/bin/make -f CMakeFiles/cmTC_21412.dir/build.make CMakeFiles/cmTC_21412.dir/build
+Building CXX object CMakeFiles/cmTC_21412.dir/testCXXCompiler.cxx.o
+/opt/local/bin/g++-mp-5     -o CMakeFiles/cmTC_21412.dir/testCXXCompiler.cxx.o -c /Users/ali_nayeem/Projects/MO-Phylogenetics/lib/Bpp/bpp-core-2.1.0/CMakeFiles/CMakeTmp/testCXXCompiler.cxx
+Linking CXX executable cmTC_21412
+/usr/local/Cellar/cmake/3.13.2/bin/cmake -E cmake_link_script CMakeFiles/cmTC_21412.dir/link.txt --verbose=1
+/opt/local/bin/g++-mp-5    -Wl,-search_paths_first -Wl,-headerpad_max_install_names   CMakeFiles/cmTC_21412.dir/testCXXCompiler.cxx.o  -o cmTC_21412 
 
 
 Detecting CXX compiler ABI info compiled with the following output:
-Change Dir: /home/ali_nayeem/Projects/MO-Phylogenetics/lib/Bpp/bpp-core-2.1.0/CMakeFiles/CMakeTmp
+Change Dir: /Users/ali_nayeem/Projects/MO-Phylogenetics/lib/Bpp/bpp-core-2.1.0/CMakeFiles/CMakeTmp
 
-Run Build Command:"/usr/bin/make" "cmTC_b919f/fast"
-/usr/bin/make -f CMakeFiles/cmTC_b919f.dir/build.make CMakeFiles/cmTC_b919f.dir/build
-make[1]: Entering directory '/home/ali_nayeem/Projects/MO-Phylogenetics/lib/Bpp/bpp-core-2.1.0/CMakeFiles/CMakeTmp'
-Building CXX object CMakeFiles/cmTC_b919f.dir/CMakeCXXCompilerABI.cpp.o
-/usr/bin/c++      -o CMakeFiles/cmTC_b919f.dir/CMakeCXXCompilerABI.cpp.o -c /usr/share/cmake-3.5/Modules/CMakeCXXCompilerABI.cpp
-Linking CXX executable cmTC_b919f
-/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_b919f.dir/link.txt --verbose=1
-/usr/bin/c++       -v CMakeFiles/cmTC_b919f.dir/CMakeCXXCompilerABI.cpp.o  -o cmTC_b919f -rdynamic  
+Run Build Command:"/usr/bin/make" "cmTC_b362e/fast"
+/Library/Developer/CommandLineTools/usr/bin/make -f CMakeFiles/cmTC_b362e.dir/build.make CMakeFiles/cmTC_b362e.dir/build
+Building CXX object CMakeFiles/cmTC_b362e.dir/CMakeCXXCompilerABI.cpp.o
+/opt/local/bin/g++-mp-5     -o CMakeFiles/cmTC_b362e.dir/CMakeCXXCompilerABI.cpp.o -c /usr/local/Cellar/cmake/3.13.2/share/cmake/Modules/CMakeCXXCompilerABI.cpp
+Linking CXX executable cmTC_b362e
+/usr/local/Cellar/cmake/3.13.2/bin/cmake -E cmake_link_script CMakeFiles/cmTC_b362e.dir/link.txt --verbose=1
+/opt/local/bin/g++-mp-5    -Wl,-search_paths_first -Wl,-headerpad_max_install_names  -v -Wl,-v CMakeFiles/cmTC_b362e.dir/CMakeCXXCompilerABI.cpp.o  -o cmTC_b362e 
 Using built-in specs.
-COLLECT_GCC=/usr/bin/c++
-COLLECT_LTO_WRAPPER=/usr/lib/gcc/x86_64-linux-gnu/5/lto-wrapper
-Target: x86_64-linux-gnu
-Configured with: ../src/configure -v --with-pkgversion='Ubuntu 5.4.0-6ubuntu1~16.04.10' --with-bugurl=file:///usr/share/doc/gcc-5/README.Bugs --enable-languages=c,ada,c++,java,go,d,fortran,objc,obj-c++ --prefix=/usr --program-suffix=-5 --enable-shared --enable-linker-build-id --libexecdir=/usr/lib --without-included-gettext --enable-threads=posix --libdir=/usr/lib --enable-nls --with-sysroot=/ --enable-clocale=gnu --enable-libstdcxx-debug --enable-libstdcxx-time=yes --with-default-libstdcxx-abi=new --enable-gnu-unique-object --disable-vtable-verify --enable-libmpx --enable-plugin --with-system-zlib --disable-browser-plugin --enable-java-awt=gtk --enable-gtk-cairo --with-java-home=/usr/lib/jvm/java-1.5.0-gcj-5-amd64/jre --enable-java-home --with-jvm-root-dir=/usr/lib/jvm/java-1.5.0-gcj-5-amd64 --with-jvm-jar-dir=/usr/lib/jvm-exports/java-1.5.0-gcj-5-amd64 --with-arch-directory=amd64 --with-ecj-jar=/usr/share/java/eclipse-ecj.jar --enable-objc-gc --enable-multiarch --disable-werror --with-arch-32=i686 --with-abi=m64 --with-multilib-list=m32,m64,mx32 --enable-multilib --with-tune=generic --enable-checking=release --build=x86_64-linux-gnu --host=x86_64-linux-gnu --target=x86_64-linux-gnu
+COLLECT_GCC=/opt/local/bin/g++-mp-5
+COLLECT_LTO_WRAPPER=/opt/local/libexec/gcc/x86_64-apple-darwin17/5.5.0/lto-wrapper
+Target: x86_64-apple-darwin17
+Configured with: /opt/local/var/macports/build/_opt_bblocal_var_buildworker_ports_build_ports_lang_gcc5/gcc5/work/gcc-5.5.0/configure --prefix=/opt/local --build=x86_64-apple-darwin17 --enable-languages=c,c++,objc,obj-c++,lto,fortran,java --libdir=/opt/local/lib/gcc5 --includedir=/opt/local/include/gcc5 --infodir=/opt/local/share/info --mandir=/opt/local/share/man --datarootdir=/opt/local/share/gcc-5 --with-libiconv-prefix=/opt/local --with-local-prefix=/opt/local --with-system-zlib --disable-nls --program-suffix=-mp-5 --with-gxx-include-dir=/opt/local/include/gcc5/c++/ --with-gmp=/opt/local --with-mpfr=/opt/local --with-mpc=/opt/local --with-isl=/opt/local/libexec/isl18 --enable-stage1-checking --disable-multilib --enable-lto --enable-libstdcxx-time --with-build-config=bootstrap-debug --with-as=/opt/local/bin/as --with-ld=/opt/local/bin/ld --with-ar=/opt/local/bin/ar --with-bugurl=https://trac.macports.org/newticket --disable-tls --with-pkgversion='MacPorts gcc5 5.5.0_4'
 Thread model: posix
-gcc version 5.4.0 20160609 (Ubuntu 5.4.0-6ubuntu1~16.04.10) 
-COMPILER_PATH=/usr/lib/gcc/x86_64-linux-gnu/5/:/usr/lib/gcc/x86_64-linux-gnu/5/:/usr/lib/gcc/x86_64-linux-gnu/:/usr/lib/gcc/x86_64-linux-gnu/5/:/usr/lib/gcc/x86_64-linux-gnu/
-LIBRARY_PATH=/usr/lib/gcc/x86_64-linux-gnu/5/:/usr/lib/gcc/x86_64-linux-gnu/5/../../../x86_64-linux-gnu/:/usr/lib/gcc/x86_64-linux-gnu/5/../../../../lib/:/lib/x86_64-linux-gnu/:/lib/../lib/:/usr/lib/x86_64-linux-gnu/:/usr/lib/../lib/:./:/usr/lib/gcc/x86_64-linux-gnu/5/../../../:/lib/:/usr/lib/
-COLLECT_GCC_OPTIONS='-v' '-o' 'cmTC_b919f' '-rdynamic' '-shared-libgcc' '-mtune=generic' '-march=x86-64'
- /usr/lib/gcc/x86_64-linux-gnu/5/collect2 -plugin /usr/lib/gcc/x86_64-linux-gnu/5/liblto_plugin.so -plugin-opt=/usr/lib/gcc/x86_64-linux-gnu/5/lto-wrapper -plugin-opt=-fresolution=/tmp/ccMq5OPO.res -plugin-opt=-pass-through=-lgcc_s -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lc -plugin-opt=-pass-through=-lgcc_s -plugin-opt=-pass-through=-lgcc --sysroot=/ --build-id --eh-frame-hdr -m elf_x86_64 --hash-style=gnu --as-needed -export-dynamic -dynamic-linker /lib64/ld-linux-x86-64.so.2 -z relro -o cmTC_b919f /usr/lib/gcc/x86_64-linux-gnu/5/../../../x86_64-linux-gnu/crt1.o /usr/lib/gcc/x86_64-linux-gnu/5/../../../x86_64-linux-gnu/crti.o /usr/lib/gcc/x86_64-linux-gnu/5/crtbegin.o -L/usr/lib/gcc/x86_64-linux-gnu/5 -L/usr/lib/gcc/x86_64-linux-gnu/5/../../../x86_64-linux-gnu -L/usr/lib/gcc/x86_64-linux-gnu/5/../../../../lib -L/lib/x86_64-linux-gnu -L/lib/../lib -L/usr/lib/x86_64-linux-gnu -L/usr/lib/../lib -L. -L/usr/lib/gcc/x86_64-linux-gnu/5/../../.. CMakeFiles/cmTC_b919f.dir/CMakeCXXCompilerABI.cpp.o -lstdc++ -lm -lgcc_s -lgcc -lc -lgcc_s -lgcc /usr/lib/gcc/x86_64-linux-gnu/5/crtend.o /usr/lib/gcc/x86_64-linux-gnu/5/../../../x86_64-linux-gnu/crtn.o
-make[1]: Leaving directory '/home/ali_nayeem/Projects/MO-Phylogenetics/lib/Bpp/bpp-core-2.1.0/CMakeFiles/CMakeTmp'
+gcc version 5.5.0 (MacPorts gcc5 5.5.0_4) 
+COMPILER_PATH=/opt/local/libexec/gcc/x86_64-apple-darwin17/5.5.0/:/opt/local/libexec/gcc/x86_64-apple-darwin17/5.5.0/:/opt/local/libexec/gcc/x86_64-apple-darwin17/:/opt/local/lib/gcc5/gcc/x86_64-apple-darwin17/5.5.0/:/opt/local/lib/gcc5/gcc/x86_64-apple-darwin17/
+LIBRARY_PATH=/opt/local/lib/gcc5/gcc/x86_64-apple-darwin17/5.5.0/:/opt/local/lib/gcc5/gcc/x86_64-apple-darwin17/5.5.0/../../../:/usr/lib/
+COLLECT_GCC_OPTIONS='-mmacosx-version-min=10.13.6' '-v' '-o' 'cmTC_b362e' '-shared-libgcc' '-mtune=core2'
+ /opt/local/libexec/gcc/x86_64-apple-darwin17/5.5.0/collect2 -dynamic -arch x86_64 -macosx_version_min 10.13.6 -weak_reference_mismatches non-weak -o cmTC_b362e -L/opt/local/lib/gcc5/gcc/x86_64-apple-darwin17/5.5.0 -L/opt/local/lib/gcc5/gcc/x86_64-apple-darwin17/5.5.0/../../.. -search_paths_first -headerpad_max_install_names -v CMakeFiles/cmTC_b362e.dir/CMakeCXXCompilerABI.cpp.o -lstdc++ -no_compact_unwind -lSystem -lgcc_ext.10.5 -lgcc -lSystem -v
+collect2 version 5.5.0
+/opt/local/bin/ld -dynamic -arch x86_64 -macosx_version_min 10.13.6 -weak_reference_mismatches non-weak -o cmTC_b362e -L/opt/local/lib/gcc5/gcc/x86_64-apple-darwin17/5.5.0 -L/opt/local/lib/gcc5/gcc/x86_64-apple-darwin17/5.5.0/../../.. -search_paths_first -headerpad_max_install_names -v CMakeFiles/cmTC_b362e.dir/CMakeCXXCompilerABI.cpp.o -lstdc++ -no_compact_unwind -lSystem -lgcc_ext.10.5 -lgcc -lSystem -v
+@(#)PROGRAM:ld  PROJECT:ld64-274.2
+configured to support archs: i386 x86_64 x86_64h armv6 armv7 armv7s armv7m armv7k arm64 (tvOS)
+@(#)PROGRAM:ld  PROJECT:ld64-274.2
+configured to support archs: i386 x86_64 x86_64h armv6 armv7 armv7s armv7m armv7k arm64 (tvOS)
+Library search paths:
+	/opt/local/lib/gcc5/gcc/x86_64-apple-darwin17/5.5.0
+	/opt/local/lib/gcc5
+	/usr/lib
+	/usr/local/lib
+Framework search paths:
+	/Library/Frameworks/
+	/System/Library/Frameworks/
+ /opt/local/bin/nm -n CMakeFiles/cmTC_b362e.dir/CMakeCXXCompilerABI.cpp.o
 
 
 Parsed CXX implicit link information from above output:
-  link line regex: [^( *|.*[/\])(ld|([^/\]+-)?ld|collect2)[^/\]*( |$)]
-  ignore line: [Change Dir: /home/ali_nayeem/Projects/MO-Phylogenetics/lib/Bpp/bpp-core-2.1.0/CMakeFiles/CMakeTmp]
+  link line regex: [^( *|.*[/\])(ld|CMAKE_LINK_STARTFILE-NOTFOUND|([^/\]+-)?ld|collect2)[^/\]*( |$)]
+  ignore line: [Change Dir: /Users/ali_nayeem/Projects/MO-Phylogenetics/lib/Bpp/bpp-core-2.1.0/CMakeFiles/CMakeTmp]
   ignore line: []
-  ignore line: [Run Build Command:"/usr/bin/make" "cmTC_b919f/fast"]
-  ignore line: [/usr/bin/make -f CMakeFiles/cmTC_b919f.dir/build.make CMakeFiles/cmTC_b919f.dir/build]
-  ignore line: [make[1]: Entering directory '/home/ali_nayeem/Projects/MO-Phylogenetics/lib/Bpp/bpp-core-2.1.0/CMakeFiles/CMakeTmp']
-  ignore line: [Building CXX object CMakeFiles/cmTC_b919f.dir/CMakeCXXCompilerABI.cpp.o]
-  ignore line: [/usr/bin/c++      -o CMakeFiles/cmTC_b919f.dir/CMakeCXXCompilerABI.cpp.o -c /usr/share/cmake-3.5/Modules/CMakeCXXCompilerABI.cpp]
-  ignore line: [Linking CXX executable cmTC_b919f]
-  ignore line: [/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_b919f.dir/link.txt --verbose=1]
-  ignore line: [/usr/bin/c++       -v CMakeFiles/cmTC_b919f.dir/CMakeCXXCompilerABI.cpp.o  -o cmTC_b919f -rdynamic  ]
+  ignore line: [Run Build Command:"/usr/bin/make" "cmTC_b362e/fast"]
+  ignore line: [/Library/Developer/CommandLineTools/usr/bin/make -f CMakeFiles/cmTC_b362e.dir/build.make CMakeFiles/cmTC_b362e.dir/build]
+  ignore line: [Building CXX object CMakeFiles/cmTC_b362e.dir/CMakeCXXCompilerABI.cpp.o]
+  ignore line: [/opt/local/bin/g++-mp-5     -o CMakeFiles/cmTC_b362e.dir/CMakeCXXCompilerABI.cpp.o -c /usr/local/Cellar/cmake/3.13.2/share/cmake/Modules/CMakeCXXCompilerABI.cpp]
+  ignore line: [Linking CXX executable cmTC_b362e]
+  ignore line: [/usr/local/Cellar/cmake/3.13.2/bin/cmake -E cmake_link_script CMakeFiles/cmTC_b362e.dir/link.txt --verbose=1]
+  ignore line: [/opt/local/bin/g++-mp-5    -Wl,-search_paths_first -Wl,-headerpad_max_install_names  -v -Wl,-v CMakeFiles/cmTC_b362e.dir/CMakeCXXCompilerABI.cpp.o  -o cmTC_b362e ]
   ignore line: [Using built-in specs.]
-  ignore line: [COLLECT_GCC=/usr/bin/c++]
-  ignore line: [COLLECT_LTO_WRAPPER=/usr/lib/gcc/x86_64-linux-gnu/5/lto-wrapper]
-  ignore line: [Target: x86_64-linux-gnu]
-  ignore line: [Configured with: ../src/configure -v --with-pkgversion='Ubuntu 5.4.0-6ubuntu1~16.04.10' --with-bugurl=file:///usr/share/doc/gcc-5/README.Bugs --enable-languages=c,ada,c++,java,go,d,fortran,objc,obj-c++ --prefix=/usr --program-suffix=-5 --enable-shared --enable-linker-build-id --libexecdir=/usr/lib --without-included-gettext --enable-threads=posix --libdir=/usr/lib --enable-nls --with-sysroot=/ --enable-clocale=gnu --enable-libstdcxx-debug --enable-libstdcxx-time=yes --with-default-libstdcxx-abi=new --enable-gnu-unique-object --disable-vtable-verify --enable-libmpx --enable-plugin --with-system-zlib --disable-browser-plugin --enable-java-awt=gtk --enable-gtk-cairo --with-java-home=/usr/lib/jvm/java-1.5.0-gcj-5-amd64/jre --enable-java-home --with-jvm-root-dir=/usr/lib/jvm/java-1.5.0-gcj-5-amd64 --with-jvm-jar-dir=/usr/lib/jvm-exports/java-1.5.0-gcj-5-amd64 --with-arch-directory=amd64 --with-ecj-jar=/usr/share/java/eclipse-ecj.jar --enable-objc-gc --enable-multiarch --disable-werror --with-arch-32=i686 --with-abi=m64 --with-multilib-list=m32,m64,mx32 --enable-multilib --with-tune=generic --enable-checking=release --build=x86_64-linux-gnu --host=x86_64-linux-gnu --target=x86_64-linux-gnu]
+  ignore line: [COLLECT_GCC=/opt/local/bin/g++-mp-5]
+  ignore line: [COLLECT_LTO_WRAPPER=/opt/local/libexec/gcc/x86_64-apple-darwin17/5.5.0/lto-wrapper]
+  ignore line: [Target: x86_64-apple-darwin17]
+  ignore line: [Configured with: /opt/local/var/macports/build/_opt_bblocal_var_buildworker_ports_build_ports_lang_gcc5/gcc5/work/gcc-5.5.0/configure --prefix=/opt/local --build=x86_64-apple-darwin17 --enable-languages=c,c++,objc,obj-c++,lto,fortran,java --libdir=/opt/local/lib/gcc5 --includedir=/opt/local/include/gcc5 --infodir=/opt/local/share/info --mandir=/opt/local/share/man --datarootdir=/opt/local/share/gcc-5 --with-libiconv-prefix=/opt/local --with-local-prefix=/opt/local --with-system-zlib --disable-nls --program-suffix=-mp-5 --with-gxx-include-dir=/opt/local/include/gcc5/c++/ --with-gmp=/opt/local --with-mpfr=/opt/local --with-mpc=/opt/local --with-isl=/opt/local/libexec/isl18 --enable-stage1-checking --disable-multilib --enable-lto --enable-libstdcxx-time --with-build-config=bootstrap-debug --with-as=/opt/local/bin/as --with-ld=/opt/local/bin/ld --with-ar=/opt/local/bin/ar --with-bugurl=https://trac.macports.org/newticket --disable-tls --with-pkgversion='MacPorts gcc5 5.5.0_4']
   ignore line: [Thread model: posix]
-  ignore line: [gcc version 5.4.0 20160609 (Ubuntu 5.4.0-6ubuntu1~16.04.10) ]
-  ignore line: [COMPILER_PATH=/usr/lib/gcc/x86_64-linux-gnu/5/:/usr/lib/gcc/x86_64-linux-gnu/5/:/usr/lib/gcc/x86_64-linux-gnu/:/usr/lib/gcc/x86_64-linux-gnu/5/:/usr/lib/gcc/x86_64-linux-gnu/]
-  ignore line: [LIBRARY_PATH=/usr/lib/gcc/x86_64-linux-gnu/5/:/usr/lib/gcc/x86_64-linux-gnu/5/../../../x86_64-linux-gnu/:/usr/lib/gcc/x86_64-linux-gnu/5/../../../../lib/:/lib/x86_64-linux-gnu/:/lib/../lib/:/usr/lib/x86_64-linux-gnu/:/usr/lib/../lib/:./:/usr/lib/gcc/x86_64-linux-gnu/5/../../../:/lib/:/usr/lib/]
-  ignore line: [COLLECT_GCC_OPTIONS='-v' '-o' 'cmTC_b919f' '-rdynamic' '-shared-libgcc' '-mtune=generic' '-march=x86-64']
-  link line: [ /usr/lib/gcc/x86_64-linux-gnu/5/collect2 -plugin /usr/lib/gcc/x86_64-linux-gnu/5/liblto_plugin.so -plugin-opt=/usr/lib/gcc/x86_64-linux-gnu/5/lto-wrapper -plugin-opt=-fresolution=/tmp/ccMq5OPO.res -plugin-opt=-pass-through=-lgcc_s -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lc -plugin-opt=-pass-through=-lgcc_s -plugin-opt=-pass-through=-lgcc --sysroot=/ --build-id --eh-frame-hdr -m elf_x86_64 --hash-style=gnu --as-needed -export-dynamic -dynamic-linker /lib64/ld-linux-x86-64.so.2 -z relro -o cmTC_b919f /usr/lib/gcc/x86_64-linux-gnu/5/../../../x86_64-linux-gnu/crt1.o /usr/lib/gcc/x86_64-linux-gnu/5/../../../x86_64-linux-gnu/crti.o /usr/lib/gcc/x86_64-linux-gnu/5/crtbegin.o -L/usr/lib/gcc/x86_64-linux-gnu/5 -L/usr/lib/gcc/x86_64-linux-gnu/5/../../../x86_64-linux-gnu -L/usr/lib/gcc/x86_64-linux-gnu/5/../../../../lib -L/lib/x86_64-linux-gnu -L/lib/../lib -L/usr/lib/x86_64-linux-gnu -L/usr/lib/../lib -L. -L/usr/lib/gcc/x86_64-linux-gnu/5/../../.. CMakeFiles/cmTC_b919f.dir/CMakeCXXCompilerABI.cpp.o -lstdc++ -lm -lgcc_s -lgcc -lc -lgcc_s -lgcc /usr/lib/gcc/x86_64-linux-gnu/5/crtend.o /usr/lib/gcc/x86_64-linux-gnu/5/../../../x86_64-linux-gnu/crtn.o]
-    arg [/usr/lib/gcc/x86_64-linux-gnu/5/collect2] ==> ignore
-    arg [-plugin] ==> ignore
-    arg [/usr/lib/gcc/x86_64-linux-gnu/5/liblto_plugin.so] ==> ignore
-    arg [-plugin-opt=/usr/lib/gcc/x86_64-linux-gnu/5/lto-wrapper] ==> ignore
-    arg [-plugin-opt=-fresolution=/tmp/ccMq5OPO.res] ==> ignore
-    arg [-plugin-opt=-pass-through=-lgcc_s] ==> ignore
-    arg [-plugin-opt=-pass-through=-lgcc] ==> ignore
-    arg [-plugin-opt=-pass-through=-lc] ==> ignore
-    arg [-plugin-opt=-pass-through=-lgcc_s] ==> ignore
-    arg [-plugin-opt=-pass-through=-lgcc] ==> ignore
-    arg [--sysroot=/] ==> ignore
-    arg [--build-id] ==> ignore
-    arg [--eh-frame-hdr] ==> ignore
-    arg [-m] ==> ignore
-    arg [elf_x86_64] ==> ignore
-    arg [--hash-style=gnu] ==> ignore
-    arg [--as-needed] ==> ignore
-    arg [-export-dynamic] ==> ignore
-    arg [-dynamic-linker] ==> ignore
-    arg [/lib64/ld-linux-x86-64.so.2] ==> ignore
-    arg [-zrelro] ==> ignore
+  ignore line: [gcc version 5.5.0 (MacPorts gcc5 5.5.0_4) ]
+  ignore line: [COMPILER_PATH=/opt/local/libexec/gcc/x86_64-apple-darwin17/5.5.0/:/opt/local/libexec/gcc/x86_64-apple-darwin17/5.5.0/:/opt/local/libexec/gcc/x86_64-apple-darwin17/:/opt/local/lib/gcc5/gcc/x86_64-apple-darwin17/5.5.0/:/opt/local/lib/gcc5/gcc/x86_64-apple-darwin17/]
+  ignore line: [LIBRARY_PATH=/opt/local/lib/gcc5/gcc/x86_64-apple-darwin17/5.5.0/:/opt/local/lib/gcc5/gcc/x86_64-apple-darwin17/5.5.0/../../../:/usr/lib/]
+  ignore line: [COLLECT_GCC_OPTIONS='-mmacosx-version-min=10.13.6' '-v' '-o' 'cmTC_b362e' '-shared-libgcc' '-mtune=core2']
+  link line: [ /opt/local/libexec/gcc/x86_64-apple-darwin17/5.5.0/collect2 -dynamic -arch x86_64 -macosx_version_min 10.13.6 -weak_reference_mismatches non-weak -o cmTC_b362e -L/opt/local/lib/gcc5/gcc/x86_64-apple-darwin17/5.5.0 -L/opt/local/lib/gcc5/gcc/x86_64-apple-darwin17/5.5.0/../../.. -search_paths_first -headerpad_max_install_names -v CMakeFiles/cmTC_b362e.dir/CMakeCXXCompilerABI.cpp.o -lstdc++ -no_compact_unwind -lSystem -lgcc_ext.10.5 -lgcc -lSystem -v]
+    arg [/opt/local/libexec/gcc/x86_64-apple-darwin17/5.5.0/collect2] ==> ignore
+    arg [-dynamic] ==> ignore
+    arg [-arch] ==> ignore
+    arg [x86_64] ==> ignore
+    arg [-macosx_version_min] ==> ignore
+    arg [10.13.6] ==> ignore
+    arg [-weak_reference_mismatches] ==> ignore
+    arg [non-weak] ==> ignore
     arg [-o] ==> ignore
-    arg [cmTC_b919f] ==> ignore
-    arg [/usr/lib/gcc/x86_64-linux-gnu/5/../../../x86_64-linux-gnu/crt1.o] ==> ignore
-    arg [/usr/lib/gcc/x86_64-linux-gnu/5/../../../x86_64-linux-gnu/crti.o] ==> ignore
-    arg [/usr/lib/gcc/x86_64-linux-gnu/5/crtbegin.o] ==> ignore
-    arg [-L/usr/lib/gcc/x86_64-linux-gnu/5] ==> dir [/usr/lib/gcc/x86_64-linux-gnu/5]
-    arg [-L/usr/lib/gcc/x86_64-linux-gnu/5/../../../x86_64-linux-gnu] ==> dir [/usr/lib/gcc/x86_64-linux-gnu/5/../../../x86_64-linux-gnu]
-    arg [-L/usr/lib/gcc/x86_64-linux-gnu/5/../../../../lib] ==> dir [/usr/lib/gcc/x86_64-linux-gnu/5/../../../../lib]
-    arg [-L/lib/x86_64-linux-gnu] ==> dir [/lib/x86_64-linux-gnu]
-    arg [-L/lib/../lib] ==> dir [/lib/../lib]
-    arg [-L/usr/lib/x86_64-linux-gnu] ==> dir [/usr/lib/x86_64-linux-gnu]
-    arg [-L/usr/lib/../lib] ==> dir [/usr/lib/../lib]
-    arg [-L.] ==> ignore
-    arg [-L/usr/lib/gcc/x86_64-linux-gnu/5/../../..] ==> dir [/usr/lib/gcc/x86_64-linux-gnu/5/../../..]
-    arg [CMakeFiles/cmTC_b919f.dir/CMakeCXXCompilerABI.cpp.o] ==> ignore
+    arg [cmTC_b362e] ==> ignore
+    arg [-L/opt/local/lib/gcc5/gcc/x86_64-apple-darwin17/5.5.0] ==> dir [/opt/local/lib/gcc5/gcc/x86_64-apple-darwin17/5.5.0]
+    arg [-L/opt/local/lib/gcc5/gcc/x86_64-apple-darwin17/5.5.0/../../..] ==> dir [/opt/local/lib/gcc5/gcc/x86_64-apple-darwin17/5.5.0/../../..]
+    arg [-search_paths_first] ==> ignore
+    arg [-headerpad_max_install_names] ==> ignore
+    arg [-v] ==> ignore
+    arg [CMakeFiles/cmTC_b362e.dir/CMakeCXXCompilerABI.cpp.o] ==> ignore
     arg [-lstdc++] ==> lib [stdc++]
-    arg [-lm] ==> lib [m]
-    arg [-lgcc_s] ==> lib [gcc_s]
+    arg [-no_compact_unwind] ==> ignore
+    arg [-lSystem] ==> lib [System]
+    arg [-lgcc_ext.10.5] ==> lib [gcc_ext.10.5]
     arg [-lgcc] ==> lib [gcc]
-    arg [-lc] ==> lib [c]
-    arg [-lgcc_s] ==> lib [gcc_s]
-    arg [-lgcc] ==> lib [gcc]
-    arg [/usr/lib/gcc/x86_64-linux-gnu/5/crtend.o] ==> ignore
-    arg [/usr/lib/gcc/x86_64-linux-gnu/5/../../../x86_64-linux-gnu/crtn.o] ==> ignore
-  remove lib [gcc_s]
-  remove lib [gcc]
-  remove lib [gcc_s]
-  remove lib [gcc]
-  collapse library dir [/usr/lib/gcc/x86_64-linux-gnu/5] ==> [/usr/lib/gcc/x86_64-linux-gnu/5]
-  collapse library dir [/usr/lib/gcc/x86_64-linux-gnu/5/../../../x86_64-linux-gnu] ==> [/usr/lib/x86_64-linux-gnu]
-  collapse library dir [/usr/lib/gcc/x86_64-linux-gnu/5/../../../../lib] ==> [/usr/lib]
-  collapse library dir [/lib/x86_64-linux-gnu] ==> [/lib/x86_64-linux-gnu]
-  collapse library dir [/lib/../lib] ==> [/lib]
-  collapse library dir [/usr/lib/x86_64-linux-gnu] ==> [/usr/lib/x86_64-linux-gnu]
-  collapse library dir [/usr/lib/../lib] ==> [/usr/lib]
-  collapse library dir [/usr/lib/gcc/x86_64-linux-gnu/5/../../..] ==> [/usr/lib]
-  implicit libs: [stdc++;m;c]
-  implicit dirs: [/usr/lib/gcc/x86_64-linux-gnu/5;/usr/lib/x86_64-linux-gnu;/usr/lib;/lib/x86_64-linux-gnu;/lib]
-  implicit fwks: []
+    arg [-lSystem] ==> lib [System]
+    arg [-v] ==> ignore
+  Library search paths: [;/opt/local/lib/gcc5/gcc/x86_64-apple-darwin17/5.5.0;/opt/local/lib/gcc5;/usr/lib;/usr/local/lib]
+  Framework search paths: [;/Library/Frameworks/;/System/Library/Frameworks/]
+  remove lib [System]
+  remove lib [System]
+  collapse library dir [/opt/local/lib/gcc5/gcc/x86_64-apple-darwin17/5.5.0] ==> [/opt/local/lib/gcc5/gcc/x86_64-apple-darwin17/5.5.0]
+  collapse library dir [/opt/local/lib/gcc5/gcc/x86_64-apple-darwin17/5.5.0/../../..] ==> [/opt/local/lib/gcc5]
+  collapse library dir [/opt/local/lib/gcc5/gcc/x86_64-apple-darwin17/5.5.0] ==> [/opt/local/lib/gcc5/gcc/x86_64-apple-darwin17/5.5.0]
+  collapse library dir [/opt/local/lib/gcc5] ==> [/opt/local/lib/gcc5]
+  collapse library dir [/usr/lib] ==> [/usr/lib]
+  collapse library dir [/usr/local/lib] ==> [/usr/local/lib]
+  collapse framework dir [/Library/Frameworks/] ==> [/Library/Frameworks]
+  collapse framework dir [/System/Library/Frameworks/] ==> [/System/Library/Frameworks]
+  implicit libs: [stdc++;gcc_ext.10.5;gcc]
+  implicit dirs: [/opt/local/lib/gcc5/gcc/x86_64-apple-darwin17/5.5.0;/opt/local/lib/gcc5;/usr/lib;/usr/local/lib]
+  implicit fwks: [/Library/Frameworks;/System/Library/Frameworks]
 
 
+
+
+Detecting CXX [-std=c++1z] compiler features compiled with the following output:
+Change Dir: /Users/ali_nayeem/Projects/MO-Phylogenetics/lib/Bpp/bpp-core-2.1.0/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/make" "cmTC_36ed1/fast"
+/Library/Developer/CommandLineTools/usr/bin/make -f CMakeFiles/cmTC_36ed1.dir/build.make CMakeFiles/cmTC_36ed1.dir/build
+Building CXX object CMakeFiles/cmTC_36ed1.dir/feature_tests.cxx.o
+/opt/local/bin/g++-mp-5    -std=c++1z -o CMakeFiles/cmTC_36ed1.dir/feature_tests.cxx.o -c /Users/ali_nayeem/Projects/MO-Phylogenetics/lib/Bpp/bpp-core-2.1.0/CMakeFiles/feature_tests.cxx
+Linking CXX executable cmTC_36ed1
+/usr/local/Cellar/cmake/3.13.2/bin/cmake -E cmake_link_script CMakeFiles/cmTC_36ed1.dir/link.txt --verbose=1
+/opt/local/bin/g++-mp-5    -Wl,-search_paths_first -Wl,-headerpad_max_install_names   CMakeFiles/cmTC_36ed1.dir/feature_tests.cxx.o  -o cmTC_36ed1 
+
+
+    Feature record: CXX_FEATURE:1cxx_aggregate_default_initializers
+    Feature record: CXX_FEATURE:1cxx_alias_templates
+    Feature record: CXX_FEATURE:1cxx_alignas
+    Feature record: CXX_FEATURE:1cxx_alignof
+    Feature record: CXX_FEATURE:1cxx_attributes
+    Feature record: CXX_FEATURE:1cxx_attribute_deprecated
+    Feature record: CXX_FEATURE:1cxx_auto_type
+    Feature record: CXX_FEATURE:1cxx_binary_literals
+    Feature record: CXX_FEATURE:1cxx_constexpr
+    Feature record: CXX_FEATURE:1cxx_contextual_conversions
+    Feature record: CXX_FEATURE:1cxx_decltype
+    Feature record: CXX_FEATURE:1cxx_decltype_auto
+    Feature record: CXX_FEATURE:1cxx_decltype_incomplete_return_types
+    Feature record: CXX_FEATURE:1cxx_default_function_template_args
+    Feature record: CXX_FEATURE:1cxx_defaulted_functions
+    Feature record: CXX_FEATURE:1cxx_defaulted_move_initializers
+    Feature record: CXX_FEATURE:1cxx_delegating_constructors
+    Feature record: CXX_FEATURE:1cxx_deleted_functions
+    Feature record: CXX_FEATURE:1cxx_digit_separators
+    Feature record: CXX_FEATURE:1cxx_enum_forward_declarations
+    Feature record: CXX_FEATURE:1cxx_explicit_conversions
+    Feature record: CXX_FEATURE:1cxx_extended_friend_declarations
+    Feature record: CXX_FEATURE:1cxx_extern_templates
+    Feature record: CXX_FEATURE:1cxx_final
+    Feature record: CXX_FEATURE:1cxx_func_identifier
+    Feature record: CXX_FEATURE:1cxx_generalized_initializers
+    Feature record: CXX_FEATURE:1cxx_generic_lambdas
+    Feature record: CXX_FEATURE:1cxx_inheriting_constructors
+    Feature record: CXX_FEATURE:1cxx_inline_namespaces
+    Feature record: CXX_FEATURE:1cxx_lambdas
+    Feature record: CXX_FEATURE:1cxx_lambda_init_captures
+    Feature record: CXX_FEATURE:1cxx_local_type_template_args
+    Feature record: CXX_FEATURE:1cxx_long_long_type
+    Feature record: CXX_FEATURE:1cxx_noexcept
+    Feature record: CXX_FEATURE:1cxx_nonstatic_member_init
+    Feature record: CXX_FEATURE:1cxx_nullptr
+    Feature record: CXX_FEATURE:1cxx_override
+    Feature record: CXX_FEATURE:1cxx_range_for
+    Feature record: CXX_FEATURE:1cxx_raw_string_literals
+    Feature record: CXX_FEATURE:1cxx_reference_qualified_functions
+    Feature record: CXX_FEATURE:1cxx_relaxed_constexpr
+    Feature record: CXX_FEATURE:1cxx_return_type_deduction
+    Feature record: CXX_FEATURE:1cxx_right_angle_brackets
+    Feature record: CXX_FEATURE:1cxx_rvalue_references
+    Feature record: CXX_FEATURE:1cxx_sizeof_member
+    Feature record: CXX_FEATURE:1cxx_static_assert
+    Feature record: CXX_FEATURE:1cxx_strong_enums
+    Feature record: CXX_FEATURE:1cxx_template_template_parameters
+    Feature record: CXX_FEATURE:1cxx_thread_local
+    Feature record: CXX_FEATURE:1cxx_trailing_return_types
+    Feature record: CXX_FEATURE:1cxx_unicode_literals
+    Feature record: CXX_FEATURE:1cxx_uniform_initialization
+    Feature record: CXX_FEATURE:1cxx_unrestricted_unions
+    Feature record: CXX_FEATURE:1cxx_user_literals
+    Feature record: CXX_FEATURE:1cxx_variable_templates
+    Feature record: CXX_FEATURE:1cxx_variadic_macros
+    Feature record: CXX_FEATURE:1cxx_variadic_templates
 
 
 Detecting CXX [-std=c++14] compiler features compiled with the following output:
-Change Dir: /home/ali_nayeem/Projects/MO-Phylogenetics/lib/Bpp/bpp-core-2.1.0/CMakeFiles/CMakeTmp
+Change Dir: /Users/ali_nayeem/Projects/MO-Phylogenetics/lib/Bpp/bpp-core-2.1.0/CMakeFiles/CMakeTmp
 
-Run Build Command:"/usr/bin/make" "cmTC_f8178/fast"
-/usr/bin/make -f CMakeFiles/cmTC_f8178.dir/build.make CMakeFiles/cmTC_f8178.dir/build
-make[1]: Entering directory '/home/ali_nayeem/Projects/MO-Phylogenetics/lib/Bpp/bpp-core-2.1.0/CMakeFiles/CMakeTmp'
-Building CXX object CMakeFiles/cmTC_f8178.dir/feature_tests.cxx.o
-/usr/bin/c++     -std=c++14 -o CMakeFiles/cmTC_f8178.dir/feature_tests.cxx.o -c /home/ali_nayeem/Projects/MO-Phylogenetics/lib/Bpp/bpp-core-2.1.0/CMakeFiles/feature_tests.cxx
-Linking CXX executable cmTC_f8178
-/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_f8178.dir/link.txt --verbose=1
-/usr/bin/c++        CMakeFiles/cmTC_f8178.dir/feature_tests.cxx.o  -o cmTC_f8178 -rdynamic 
-make[1]: Leaving directory '/home/ali_nayeem/Projects/MO-Phylogenetics/lib/Bpp/bpp-core-2.1.0/CMakeFiles/CMakeTmp'
+Run Build Command:"/usr/bin/make" "cmTC_f56c6/fast"
+/Library/Developer/CommandLineTools/usr/bin/make -f CMakeFiles/cmTC_f56c6.dir/build.make CMakeFiles/cmTC_f56c6.dir/build
+Building CXX object CMakeFiles/cmTC_f56c6.dir/feature_tests.cxx.o
+/opt/local/bin/g++-mp-5    -std=c++14 -o CMakeFiles/cmTC_f56c6.dir/feature_tests.cxx.o -c /Users/ali_nayeem/Projects/MO-Phylogenetics/lib/Bpp/bpp-core-2.1.0/CMakeFiles/feature_tests.cxx
+Linking CXX executable cmTC_f56c6
+/usr/local/Cellar/cmake/3.13.2/bin/cmake -E cmake_link_script CMakeFiles/cmTC_f56c6.dir/link.txt --verbose=1
+/opt/local/bin/g++-mp-5    -Wl,-search_paths_first -Wl,-headerpad_max_install_names   CMakeFiles/cmTC_f56c6.dir/feature_tests.cxx.o  -o cmTC_f56c6 
 
 
     Feature record: CXX_FEATURE:1cxx_aggregate_default_initializers
@@ -212,17 +269,15 @@ make[1]: Leaving directory '/home/ali_nayeem/Projects/MO-Phylogenetics/lib/Bpp/b
 
 
 Detecting CXX [-std=c++11] compiler features compiled with the following output:
-Change Dir: /home/ali_nayeem/Projects/MO-Phylogenetics/lib/Bpp/bpp-core-2.1.0/CMakeFiles/CMakeTmp
+Change Dir: /Users/ali_nayeem/Projects/MO-Phylogenetics/lib/Bpp/bpp-core-2.1.0/CMakeFiles/CMakeTmp
 
-Run Build Command:"/usr/bin/make" "cmTC_22955/fast"
-/usr/bin/make -f CMakeFiles/cmTC_22955.dir/build.make CMakeFiles/cmTC_22955.dir/build
-make[1]: Entering directory '/home/ali_nayeem/Projects/MO-Phylogenetics/lib/Bpp/bpp-core-2.1.0/CMakeFiles/CMakeTmp'
-Building CXX object CMakeFiles/cmTC_22955.dir/feature_tests.cxx.o
-/usr/bin/c++     -std=c++11 -o CMakeFiles/cmTC_22955.dir/feature_tests.cxx.o -c /home/ali_nayeem/Projects/MO-Phylogenetics/lib/Bpp/bpp-core-2.1.0/CMakeFiles/feature_tests.cxx
-Linking CXX executable cmTC_22955
-/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_22955.dir/link.txt --verbose=1
-/usr/bin/c++        CMakeFiles/cmTC_22955.dir/feature_tests.cxx.o  -o cmTC_22955 -rdynamic 
-make[1]: Leaving directory '/home/ali_nayeem/Projects/MO-Phylogenetics/lib/Bpp/bpp-core-2.1.0/CMakeFiles/CMakeTmp'
+Run Build Command:"/usr/bin/make" "cmTC_6b897/fast"
+/Library/Developer/CommandLineTools/usr/bin/make -f CMakeFiles/cmTC_6b897.dir/build.make CMakeFiles/cmTC_6b897.dir/build
+Building CXX object CMakeFiles/cmTC_6b897.dir/feature_tests.cxx.o
+/opt/local/bin/g++-mp-5    -std=c++11 -o CMakeFiles/cmTC_6b897.dir/feature_tests.cxx.o -c /Users/ali_nayeem/Projects/MO-Phylogenetics/lib/Bpp/bpp-core-2.1.0/CMakeFiles/feature_tests.cxx
+Linking CXX executable cmTC_6b897
+/usr/local/Cellar/cmake/3.13.2/bin/cmake -E cmake_link_script CMakeFiles/cmTC_6b897.dir/link.txt --verbose=1
+/opt/local/bin/g++-mp-5    -Wl,-search_paths_first -Wl,-headerpad_max_install_names   CMakeFiles/cmTC_6b897.dir/feature_tests.cxx.o  -o cmTC_6b897 
 
 
     Feature record: CXX_FEATURE:0cxx_aggregate_default_initializers
@@ -285,17 +340,15 @@ make[1]: Leaving directory '/home/ali_nayeem/Projects/MO-Phylogenetics/lib/Bpp/b
 
 
 Detecting CXX [-std=c++98] compiler features compiled with the following output:
-Change Dir: /home/ali_nayeem/Projects/MO-Phylogenetics/lib/Bpp/bpp-core-2.1.0/CMakeFiles/CMakeTmp
+Change Dir: /Users/ali_nayeem/Projects/MO-Phylogenetics/lib/Bpp/bpp-core-2.1.0/CMakeFiles/CMakeTmp
 
-Run Build Command:"/usr/bin/make" "cmTC_5b144/fast"
-/usr/bin/make -f CMakeFiles/cmTC_5b144.dir/build.make CMakeFiles/cmTC_5b144.dir/build
-make[1]: Entering directory '/home/ali_nayeem/Projects/MO-Phylogenetics/lib/Bpp/bpp-core-2.1.0/CMakeFiles/CMakeTmp'
-Building CXX object CMakeFiles/cmTC_5b144.dir/feature_tests.cxx.o
-/usr/bin/c++     -std=c++98 -o CMakeFiles/cmTC_5b144.dir/feature_tests.cxx.o -c /home/ali_nayeem/Projects/MO-Phylogenetics/lib/Bpp/bpp-core-2.1.0/CMakeFiles/feature_tests.cxx
-Linking CXX executable cmTC_5b144
-/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_5b144.dir/link.txt --verbose=1
-/usr/bin/c++        CMakeFiles/cmTC_5b144.dir/feature_tests.cxx.o  -o cmTC_5b144 -rdynamic 
-make[1]: Leaving directory '/home/ali_nayeem/Projects/MO-Phylogenetics/lib/Bpp/bpp-core-2.1.0/CMakeFiles/CMakeTmp'
+Run Build Command:"/usr/bin/make" "cmTC_41776/fast"
+/Library/Developer/CommandLineTools/usr/bin/make -f CMakeFiles/cmTC_41776.dir/build.make CMakeFiles/cmTC_41776.dir/build
+Building CXX object CMakeFiles/cmTC_41776.dir/feature_tests.cxx.o
+/opt/local/bin/g++-mp-5    -std=c++98 -o CMakeFiles/cmTC_41776.dir/feature_tests.cxx.o -c /Users/ali_nayeem/Projects/MO-Phylogenetics/lib/Bpp/bpp-core-2.1.0/CMakeFiles/feature_tests.cxx
+Linking CXX executable cmTC_41776
+/usr/local/Cellar/cmake/3.13.2/bin/cmake -E cmake_link_script CMakeFiles/cmTC_41776.dir/link.txt --verbose=1
+/opt/local/bin/g++-mp-5    -Wl,-search_paths_first -Wl,-headerpad_max_install_names   CMakeFiles/cmTC_41776.dir/feature_tests.cxx.o  -o cmTC_41776 
 
 
     Feature record: CXX_FEATURE:0cxx_aggregate_default_initializers

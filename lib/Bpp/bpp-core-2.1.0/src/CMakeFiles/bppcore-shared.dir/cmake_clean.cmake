@@ -83,9 +83,9 @@ file(REMOVE_RECURSE
   "CMakeFiles/bppcore-shared.dir/Bpp/Numeric/Stat/Mva/PrincipalComponentAnalysis.cpp.o"
   "CMakeFiles/bppcore-shared.dir/Bpp/Numeric/Stat/Mva/CorrespondenceAnalysis.cpp.o"
   "libbpp-core.pdb"
-  "libbpp-core.so"
-  "libbpp-core.so.2.0.3"
-  "libbpp-core.so.2"
+  "libbpp-core.2.0.3.dylib"
+  "libbpp-core.dylib"
+  "libbpp-core.2.dylib"
 )
 
 # Per-language clean rules from dependency scanning.

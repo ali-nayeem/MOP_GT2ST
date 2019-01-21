@@ -1,4 +1,4 @@
-#IncludeRegexLine: ^[ 	]*#[ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
 
 #IncludeRegexScan: ^.*$
 
@@ -6,7 +6,7 @@
 
 #IncludeRegexTransform: 
 
-/home/ali_nayeem/Projects/MO-Phylogenetics/lib/Bpp/bpp-core-2.1.0/test/PolynomialFunction.h
+/Users/ali_nayeem/Projects/MO-Phylogenetics/lib/Bpp/bpp-core-2.1.0/test/PolynomialFunction.h
 Bpp/Numeric/Function/Functions.h
 -
 Bpp/Numeric/AbstractParametrizable.h
@@ -16,7 +16,7 @@ map
 string
 -
 
-/home/ali_nayeem/Projects/MO-Phylogenetics/lib/Bpp/bpp-core-2.1.0/test/test_downhill.cpp
+/Users/ali_nayeem/Projects/MO-Phylogenetics/lib/Bpp/bpp-core-2.1.0/test/test_downhill.cpp
 Bpp/Numeric/Function/DownhillSimplexMethod.h
 -
 vector
@@ -24,19 +24,19 @@ vector
 iostream
 -
 PolynomialFunction.h
-/home/ali_nayeem/Projects/MO-Phylogenetics/lib/Bpp/bpp-core-2.1.0/test/PolynomialFunction.h
+/Users/ali_nayeem/Projects/MO-Phylogenetics/lib/Bpp/bpp-core-2.1.0/test/PolynomialFunction.h
 
-test/../src/Bpp/App/ApplicationTools.h
+/opt/local/include/Bpp/App/ApplicationTools.h
 ../Io/FileTools.h
-test/../src/Bpp/Io/FileTools.h
+/opt/local/include/Bpp/Io/FileTools.h
 ../Io/OutputStream.h
-test/../src/Bpp/Io/OutputStream.h
+/opt/local/include/Bpp/Io/OutputStream.h
 ../Text/TextTools.h
-test/../src/Bpp/Text/TextTools.h
+/opt/local/include/Bpp/Text/TextTools.h
 ../Text/StringTokenizer.h
-test/../src/Bpp/Text/StringTokenizer.h
+/opt/local/include/Bpp/Text/StringTokenizer.h
 ../Text/NestedStringTokenizer.h
-test/../src/Bpp/Text/NestedStringTokenizer.h
+/opt/local/include/Bpp/Text/NestedStringTokenizer.h
 map
 -
 vector
@@ -46,15 +46,15 @@ iostream
 ctime
 -
 
-test/../src/Bpp/Clonable.h
+/opt/local/include/Bpp/Clonable.h
 
-test/../src/Bpp/Exceptions.h
+/opt/local/include/Bpp/Exceptions.h
 stdexcept
 -
 vector
 -
 
-test/../src/Bpp/Io/FileTools.h
+/opt/local/include/Bpp/Io/FileTools.h
 string
 -
 vector
@@ -66,9 +66,9 @@ fstream
 cstdio
 -
 
-test/../src/Bpp/Io/OutputStream.h
+/opt/local/include/Bpp/Io/OutputStream.h
 ../Clonable.h
-test/../src/Bpp/Clonable.h
+/opt/local/include/Bpp/Clonable.h
 string
 -
 iostream
@@ -82,103 +82,103 @@ memory
 iomanip
 -
 
-test/../src/Bpp/Numeric/AbstractParametrizable.h
+/opt/local/include/Bpp/Numeric/AbstractParametrizable.h
 Parametrizable.h
-test/../src/Bpp/Numeric/Parametrizable.h
+/opt/local/include/Bpp/Numeric/Parametrizable.h
 map
 -
 
-test/../src/Bpp/Numeric/AdaptiveKernelDensityEstimation.h
+/opt/local/include/Bpp/Numeric/AdaptiveKernelDensityEstimation.h
 Matrix/Matrix.h
-test/../src/Bpp/Numeric/Matrix/Matrix.h
+/opt/local/include/Bpp/Numeric/Matrix/Matrix.h
 
-test/../src/Bpp/Numeric/Constraints.h
+/opt/local/include/Bpp/Numeric/Constraints.h
 string
 -
 iostream
 -
 ../Clonable.h
-test/../src/Bpp/Clonable.h
+/opt/local/include/Bpp/Clonable.h
 ../Text/TextTools.h
-test/../src/Bpp/Text/TextTools.h
+/opt/local/include/Bpp/Text/TextTools.h
 NumConstants.h
-test/../src/Bpp/Numeric/NumConstants.h
+/opt/local/include/Bpp/Numeric/NumConstants.h
 
-test/../src/Bpp/Numeric/Function/AbstractOptimizer.h
+/opt/local/include/Bpp/Numeric/Function/AbstractOptimizer.h
 Optimizer.h
-test/../src/Bpp/Numeric/Function/Optimizer.h
+/opt/local/include/Bpp/Numeric/Function/Optimizer.h
 
-test/../src/Bpp/Numeric/Function/DownhillSimplexMethod.h
+/opt/local/include/Bpp/Numeric/Function/DownhillSimplexMethod.h
 AbstractOptimizer.h
-test/../src/Bpp/Numeric/Function/AbstractOptimizer.h
+/opt/local/include/Bpp/Numeric/Function/AbstractOptimizer.h
 ../VectorTools.h
-test/../src/Bpp/Numeric/VectorTools.h
+/opt/local/include/Bpp/Numeric/VectorTools.h
 cmath
 -
 
-test/../src/Bpp/Numeric/Function/Functions.h
+/opt/local/include/Bpp/Numeric/Function/Functions.h
 ../ParameterList.h
-test/../src/Bpp/Numeric/ParameterList.h
+/opt/local/include/Bpp/Numeric/ParameterList.h
 ../Parametrizable.h
-test/../src/Bpp/Numeric/Parametrizable.h
+/opt/local/include/Bpp/Numeric/Parametrizable.h
 ../AbstractParametrizable.h
-test/../src/Bpp/Numeric/AbstractParametrizable.h
+/opt/local/include/Bpp/Numeric/AbstractParametrizable.h
 ../ParameterExceptions.h
-test/../src/Bpp/Numeric/ParameterExceptions.h
+/opt/local/include/Bpp/Numeric/ParameterExceptions.h
 ../../Clonable.h
-test/../src/Bpp/Clonable.h
+/opt/local/include/Bpp/Clonable.h
 ../../Exceptions.h
-test/../src/Bpp/Exceptions.h
+/opt/local/include/Bpp/Exceptions.h
 cmath
 -
 
-test/../src/Bpp/Numeric/Function/OptimizationStopCondition.h
+/opt/local/include/Bpp/Numeric/Function/OptimizationStopCondition.h
 ../ParameterList.h
-test/../src/Bpp/Numeric/ParameterList.h
+/opt/local/include/Bpp/Numeric/ParameterList.h
 
-test/../src/Bpp/Numeric/Function/Optimizer.h
+/opt/local/include/Bpp/Numeric/Function/Optimizer.h
 Functions.h
-test/../src/Bpp/Numeric/Function/Functions.h
+/opt/local/include/Bpp/Numeric/Function/Functions.h
 ../ParameterList.h
-test/../src/Bpp/Numeric/ParameterList.h
+/opt/local/include/Bpp/Numeric/ParameterList.h
 OptimizationStopCondition.h
-test/../src/Bpp/Numeric/Function/OptimizationStopCondition.h
+/opt/local/include/Bpp/Numeric/Function/OptimizationStopCondition.h
 ../../Clonable.h
-test/../src/Bpp/Clonable.h
+/opt/local/include/Bpp/Clonable.h
 ../../Io/OutputStream.h
-test/../src/Bpp/Io/OutputStream.h
+/opt/local/include/Bpp/Io/OutputStream.h
 
-test/../src/Bpp/Numeric/Matrix/Matrix.h
+/opt/local/include/Bpp/Numeric/Matrix/Matrix.h
 vector
 -
 ../../Clonable.h
-test/../src/Bpp/Clonable.h
+/opt/local/include/Bpp/Clonable.h
 ../NumConstants.h
-test/../src/Bpp/Numeric/NumConstants.h
+/opt/local/include/Bpp/Numeric/NumConstants.h
 ../NumTools.h
-test/../src/Bpp/Numeric/NumTools.h
+/opt/local/include/Bpp/Numeric/NumTools.h
 ../VectorExceptions.h
-test/../src/Bpp/Numeric/VectorExceptions.h
+/opt/local/include/Bpp/Numeric/VectorExceptions.h
 iostream
 -
 
-test/../src/Bpp/Numeric/NumConstants.h
+/opt/local/include/Bpp/Numeric/NumConstants.h
 cmath
 -
 limits
 -
 
-test/../src/Bpp/Numeric/NumTools.h
+/opt/local/include/Bpp/Numeric/NumTools.h
 Function/Functions.h
-test/../src/Bpp/Numeric/Function/Functions.h
+/opt/local/include/Bpp/Numeric/Function/Functions.h
 
-test/../src/Bpp/Numeric/Parameter.h
+/opt/local/include/Bpp/Numeric/Parameter.h
 ParameterExceptions.h
-test/../src/Bpp/Numeric/ParameterExceptions.h
+/opt/local/include/Bpp/Numeric/ParameterExceptions.h
 Constraints.h
-test/../src/Bpp/Numeric/Constraints.h
+/opt/local/include/Bpp/Numeric/Constraints.h
 ../Clonable.h
-test/../src/Bpp/Clonable.h
+/opt/local/include/Bpp/Clonable.h
 string
 -
 iostream
@@ -186,19 +186,19 @@ iostream
 vector
 -
 
-test/../src/Bpp/Numeric/ParameterExceptions.h
+/opt/local/include/Bpp/Numeric/ParameterExceptions.h
 ../Exceptions.h
-test/../src/Bpp/Exceptions.h
+/opt/local/include/Bpp/Exceptions.h
 string
 -
 
-test/../src/Bpp/Numeric/ParameterList.h
+/opt/local/include/Bpp/Numeric/ParameterList.h
 Parameter.h
-test/../src/Bpp/Numeric/Parameter.h
+/opt/local/include/Bpp/Numeric/Parameter.h
 ../Clonable.h
-test/../src/Bpp/Clonable.h
+/opt/local/include/Bpp/Clonable.h
 ../Io/OutputStream.h
-test/../src/Bpp/Io/OutputStream.h
+/opt/local/include/Bpp/Io/OutputStream.h
 vector
 -
 string
@@ -206,37 +206,37 @@ string
 iostream
 -
 
-test/../src/Bpp/Numeric/Parametrizable.h
+/opt/local/include/Bpp/Numeric/Parametrizable.h
 ../Clonable.h
-test/../src/Bpp/Clonable.h
+/opt/local/include/Bpp/Clonable.h
 string
 -
 ParameterList.h
-test/../src/Bpp/Numeric/ParameterList.h
+/opt/local/include/Bpp/Numeric/ParameterList.h
 
-test/../src/Bpp/Numeric/VectorExceptions.h
+/opt/local/include/Bpp/Numeric/VectorExceptions.h
 ../Exceptions.h
-test/../src/Bpp/Exceptions.h
+/opt/local/include/Bpp/Exceptions.h
 ../Text/TextTools.h
-test/../src/Bpp/Text/TextTools.h
+/opt/local/include/Bpp/Text/TextTools.h
 string
 -
 vector
 -
 
-test/../src/Bpp/Numeric/VectorTools.h
+/opt/local/include/Bpp/Numeric/VectorTools.h
 VectorExceptions.h
-test/../src/Bpp/Numeric/VectorExceptions.h
+/opt/local/include/Bpp/Numeric/VectorExceptions.h
 NumTools.h
-test/../src/Bpp/Numeric/NumTools.h
+/opt/local/include/Bpp/Numeric/NumTools.h
 AdaptiveKernelDensityEstimation.h
-test/../src/Bpp/Numeric/AdaptiveKernelDensityEstimation.h
+/opt/local/include/Bpp/Numeric/AdaptiveKernelDensityEstimation.h
 Matrix/Matrix.h
-test/../src/Bpp/Numeric/Matrix/Matrix.h
+/opt/local/include/Bpp/Numeric/Matrix/Matrix.h
 ../Io/OutputStream.h
-test/../src/Bpp/Io/OutputStream.h
+/opt/local/include/Bpp/Io/OutputStream.h
 ../App/ApplicationTools.h
-test/../src/Bpp/App/ApplicationTools.h
+/opt/local/include/Bpp/App/ApplicationTools.h
 vector
 -
 map
@@ -248,17 +248,17 @@ algorithm
 complex
 -
 
-test/../src/Bpp/Text/NestedStringTokenizer.h
+/opt/local/include/Bpp/Text/NestedStringTokenizer.h
 deque
 -
 string
 -
 StringTokenizer.h
-test/../src/Bpp/Text/StringTokenizer.h
+/opt/local/include/Bpp/Text/StringTokenizer.h
 ../Exceptions.h
-test/../src/Bpp/Exceptions.h
+/opt/local/include/Bpp/Exceptions.h
 
-test/../src/Bpp/Text/StringTokenizer.h
+/opt/local/include/Bpp/Text/StringTokenizer.h
 deque
 -
 string
@@ -266,11 +266,11 @@ string
 iostream
 -
 ../Exceptions.h
-test/../src/Bpp/Exceptions.h
+/opt/local/include/Bpp/Exceptions.h
 
-test/../src/Bpp/Text/TextTools.h
+/opt/local/include/Bpp/Text/TextTools.h
 ../Exceptions.h
-test/../src/Bpp/Exceptions.h
+/opt/local/include/Bpp/Exceptions.h
 string
 -
 vector

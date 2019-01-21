@@ -1,1 +1,1 @@
-/usr/bin/c++   -Wall -Weffc++ -Wshadow -Wconversion -O2 -g -DNDEBUG   CMakeFiles/test_bowker.dir/test_bowker.cpp.o  -o test_bowker -rdynamic /usr/local/lib/libbpp-core.so -L../src -lbpp-seq -Wl,-rpath,/usr/local/lib 
+/opt/local/bin/g++-mp-5  -Wall -Weffc++ -Wshadow -Wconversion -O2 -g -DNDEBUG -Wl,-search_paths_first -Wl,-headerpad_max_install_names  CMakeFiles/test_bowker.dir/test_bowker.cpp.o  -o test_bowker /usr/local/lib/libbpp-core.dylib /opt/local/lib/libbpp-seq.dylib 

@@ -159,10 +159,12 @@ void PhylogeneticMutation::NNI(Solution * solution){
 
     Node * NodoSel;
     vector<Node *> nodes = tree->getNodes();
-
+    int count = 0;
     do{
           NodoSel =  nodes[PseudoRandom::randInt(0, nodes.size() - 1)];
-          
+          count++;
+          if(count > 3)
+              return;
     }while(!NNIValidate(NodoSel));
     
     Node * Nodo1;

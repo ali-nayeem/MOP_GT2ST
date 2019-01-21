@@ -15,6 +15,9 @@
 #include <iostream>
 #include <InferSpeciesTree.h>
 
+#include "NSGAII_ST.h"
+#include <BinaryTournament2.h>
+
 using namespace std;
 
 /*
@@ -26,7 +29,7 @@ string GetStdoutFromCommand(string cmd) {
     FILE * stream;
     const int max_buffer = 256;
     char buffer[max_buffer];
-    cmd.append(" 2>&1");
+    //cmd.append(" 2>&1");
 
     stream = popen(cmd.c_str(), "r");
     if (stream) {
@@ -38,29 +41,65 @@ string GetStdoutFromCommand(string cmd) {
 }
 
 int main(int argc, char** argv) {
+    string data = "data/10-taxon/higher-ILS/estimated-genetrees/R1";
+    InferSpeciesTree * problem = new InferSpeciesTree(data, 2);
+    //    for (int i = 0; i < 3; i++) {
+    //        SolutionSet * pop = problem->createInitialPopulation(20);
+    //        problem->evaluate(pop, 0);
+    //    }
+    int populationSize = 100, maxEvaluations = 5000;
+    Problem * prob = problem; // The problem to solve
+    Algorithm * algorithm = new NSGAII_ST(prob); // The algorithm to use
+    Operator * crossover; // Crossover operator
+    Operator * mutation; // Mutation operator
+    Operator * selection; // Selection operator
 
-//    cout << "Hello\n";
-//    string ls = GetStdoutFromCommand("java -jar lib/ASTRAL/astral.5.6.3.jar -q data/dummy/mpest_species.tre   -i data/dummy/gene.tre -t 0 2> log");
-//    cout << ls << endl;
-    string data = "data/R1";
-    InferSpeciesTree  * problem = new InferSpeciesTree(data, 3);
-    SolutionSet * pop =  problem->createInitialPopulation(1000);
-    pop->printVariablesToFile(data+"/VAR");
-//    map<string, void *> parameters;
-//    parameters.clear();
-//    double prob = 1.0; int numDes = 1;
-//    parameters["probability"] = &prob;
-//    parameters["numDescendientes"] = &numDes;
-//    cout<<*(int*)parameters["numDescendientes"];
-//    TreeCrossover crossover = TreeCrossover(parameters);
-//    Solution ** parents = new Solution*[2];
-//    int parent1, parent2;
-//    //vector<Solution> children, parents;   
-//    parents[0] = pop->get(4);
-//    parents[1] = pop->get(5);
-//    Solution * offSpring = (Solution *) (crossover.execute(parents));
+    map<string, void *> parameters;
+    double pb = 6.0;
+    int numDes = 1.0;
+    parameters["probability"] = &pb;
+    parameters["numDescendientes"] = &numDes;
+    crossover = new TreeCrossover(parameters);
+
+    parameters.clear();
+    pb = 0.8;
+    parameters["probability"] = &pb;
+    //parameters["metodo"] = "NNI";
+    mutation = new PhylogeneticMutation(parameters);
+
+    selection = new BinaryTournament2(parameters);
+
+    algorithm->setInputParameter("populationSize", &populationSize);
+    algorithm->setInputParameter("maxEvaluations", &maxEvaluations);
+    algorithm->addOperator("crossover", crossover);
+    algorithm->addOperator("mutation", mutation);
+    algorithm->addOperator("selection", selection);
+
+    for(int i=0; i<1; i++)
+    SolutionSet * result = algorithm->execute();
     
-    
+
+
+    //pop->printVariablesToFile(data+"/VAR");
+    //    map<string, void *> parameters;
+    //    parameters.clear();
+    //    double prob = 1.0; int numDes = 1;
+    //    parameters["probability"] = &prob;
+    //    parameters["numDescendientes"] = &numDes;
+    //    cout<<*(int*)parameters["numDescendientes"];
+    //    TreeCrossover crossover = TreeCrossover(parameters);
+    //    Solution ** parents = new Solution*[2];
+    //    int parent1, parent2;
+    //    //vector<Solution> children, parents;   
+    //    parents[0] = pop->get(4);
+    //    parents[1] = pop->get(5);
+    //    Solution * offSpring = (Solution *) (crossover.execute(parents));
+    delete crossover;
+    delete mutation;
+    delete selection;
+    //delete problem;
+    delete algorithm;
+
     return 0;
 }
 

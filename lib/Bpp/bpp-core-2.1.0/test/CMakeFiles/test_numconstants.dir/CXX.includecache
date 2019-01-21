@@ -1,4 +1,4 @@
-#IncludeRegexLine: ^[ 	]*#[ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
 
 #IncludeRegexScan: ^.*$
 
@@ -6,7 +6,7 @@
 
 #IncludeRegexTransform: 
 
-/home/ali_nayeem/Projects/MO-Phylogenetics/lib/Bpp/bpp-core-2.1.0/test/test_numconstants.cpp
+/Users/ali_nayeem/Projects/MO-Phylogenetics/lib/Bpp/bpp-core-2.1.0/test/test_numconstants.cpp
 Bpp/Numeric/NumConstants.h
 -
 iostream
@@ -14,7 +14,7 @@ iostream
 limits
 -
 
-test/../src/Bpp/Numeric/NumConstants.h
+/opt/local/include/Bpp/Numeric/NumConstants.h
 cmath
 -
 limits

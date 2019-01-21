@@ -4,17 +4,20 @@
 
 
 # Configuration directories and files
-SourceDirectory: /home/ali_nayeem/Projects/MO-Phylogenetics/lib/Bpp/bpp-seq-2.1.0
-BuildDirectory: /home/ali_nayeem/Projects/MO-Phylogenetics/lib/Bpp/bpp-seq-2.1.0
+SourceDirectory: /Users/ali_nayeem/Projects/MO-Phylogenetics/lib/Bpp/bpp-seq-2.1.0
+BuildDirectory: /Users/ali_nayeem/Projects/MO-Phylogenetics/lib/Bpp/bpp-seq-2.1.0
 
 # Where to place the cost data store
 CostDataFile: 
 
 # Site is something like machine.domain, i.e. pragmatic.crd
-Site: ACER-MAN
+Site: Nayeems-MacBook-Pro.local
 
 # Build name is osname-revision-compiler, i.e. Linux-2.4.2-2smp-c++
-BuildName: Linux-c++
+BuildName: Darwin-g++-mp-5
+
+# Subprojects
+LabelsForSubprojects: 
 
 # Submission information
 IsCDash: 
@@ -33,8 +36,8 @@ ScpCommand: /usr/bin/scp
 NightlyStartTime: 00:00:00 EDT
 
 # Commands for the build/test/submit cycle
-ConfigureCommand: "/usr/bin/cmake" "/home/ali_nayeem/Projects/MO-Phylogenetics/lib/Bpp/bpp-seq-2.1.0"
-MakeCommand: /usr/bin/cmake --build . --config "${CTEST_CONFIGURATION_TYPE}" -- -i
+ConfigureCommand: "/usr/local/Cellar/cmake/3.13.2/bin/cmake" "/Users/ali_nayeem/Projects/MO-Phylogenetics/lib/Bpp/bpp-seq-2.1.0"
+MakeCommand: /usr/local/Cellar/cmake/3.13.2/bin/cmake --build . --config "${CTEST_CONFIGURATION_TYPE}" -- -i
 DefaultCTestConfigurationType: Release
 
 # version control
@@ -46,12 +49,13 @@ CVSCommand: CVSCOMMAND-NOTFOUND
 CVSUpdateOptions: -d -A -P
 
 # Subversion options
-SVNCommand: SVNCOMMAND-NOTFOUND
+SVNCommand: /usr/bin/svn
 SVNOptions: 
 SVNUpdateOptions: 
 
 # Git options
 GITCommand: /usr/bin/git
+GITInitSubmodules: 
 GITUpdateOptions: 
 GITUpdateCustom: 
 
@@ -68,8 +72,8 @@ UpdateOptions:
 UpdateType: 
 
 # Compiler info
-Compiler: /usr/bin/c++
-CompilerVersion: 5.4.0
+Compiler: /opt/local/bin/g++-mp-5
+CompilerVersion: 5.5.0
 
 # Dynamic analysis (MemCheck)
 PurifyCommand: 

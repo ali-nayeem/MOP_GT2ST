@@ -11,7 +11,7 @@
 
 
 # This is the main compiler
-CC := g++
+CC := g++-mp-5
 # CC := clang --analyze # and comment out the linker last line for sanity
 
 # Source files extension
@@ -54,7 +54,7 @@ OBJECTS := $(patsubst $(SRCDIR)/%,$(BUILDDIR)/%,$(LIB_SOURCES:.$(SRCEXT)=.o))
 #BINARIES := $(patsubst $(MAIN_DIRS)/%,$(BUILDDIR)/%,$(SOURCES:.$(SRCEXT)=.o))
 
 # Flags
-CFLAGS := -O3 -g -std=c++11#-O3 -g -Wall
+CFLAGS := -g -std=c++11#-O3 -g -Wall
 
 # Include flags when compiling
 INC := $(patsubst %,-I %/.,$(HEADER_DIRS)) -lbpp-core -lbpp-seq -lbpp-phyl -lpll-sse3 -lm

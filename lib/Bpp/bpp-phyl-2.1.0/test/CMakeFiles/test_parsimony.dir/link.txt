@@ -1,1 +1,1 @@
-/usr/bin/c++   -Wall -Wshadow -Weffc++ -Wconversion -O2 -g -DNDEBUG   CMakeFiles/test_parsimony.dir/test_parsimony.cpp.o  -o test_parsimony -rdynamic /usr/local/lib/libbpp-seq.so /usr/local/lib/libbpp-core.so -L../src -lbpp-phyl -Wl,-rpath,/usr/local/lib 
+/opt/local/bin/g++-mp-5  -Wall -Wshadow -Weffc++ -Wconversion -O2 -g -DNDEBUG -Wl,-search_paths_first -Wl,-headerpad_max_install_names  CMakeFiles/test_parsimony.dir/test_parsimony.cpp.o  -o test_parsimony /usr/local/lib/libbpp-seq.dylib /usr/local/lib/libbpp-core.dylib /opt/local/lib/libbpp-phyl.dylib 

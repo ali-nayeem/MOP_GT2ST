@@ -21,35 +21,35 @@
 
 #include <time.h>
 
-#include <Bpp/Seq/Alphabet/DNA.h>
-#include <Bpp/Seq/Alphabet/Alphabet.h>
-#include <Bpp/Seq/Container/SiteContainer.h>
-#include <Bpp/Seq/Container/SequenceContainer.h>
-#include <Bpp/Seq/Container/SiteContainerTools.h>
-#include <Bpp/Seq/Io/Phylip.h>
-#include <Bpp/Seq/Io/Fasta.h>
+//#include <Bpp/Seq/Alphabet/DNA.h>
+//#include <Bpp/Seq/Alphabet/Alphabet.h>
+//#include <Bpp/Seq/Container/SiteContainer.h>
+//#include <Bpp/Seq/Container/SequenceContainer.h>
+//#include <Bpp/Seq/Container/SiteContainerTools.h>
+//#include <Bpp/Seq/Io/Phylip.h>
+//#include <Bpp/Seq/Io/Fasta.h>
 
 #include <Bpp/Phyl/TreeTemplate.h>
 #include <Bpp/Phyl/TreeTemplateTools.h>
 
-#include <Bpp/Phyl/Model/Nucleotide/HKY85.h>
-#include <Bpp/Phyl/Model/Nucleotide/GTR.h>
+//#include <Bpp/Phyl/Model/Nucleotide/HKY85.h>
+//#include <Bpp/Phyl/Model/Nucleotide/GTR.h>
 
-#include <Bpp/Phyl/Model/RateDistribution/GammaDiscreteRateDistribution.h>
+//#include <Bpp/Phyl/Model/RateDistribution/GammaDiscreteRateDistribution.h>
 #include <Bpp/Phyl/Io/Newick.h>
 #include <Bpp/Phyl/Node.h>
 
-#include <Bpp/Phyl/Parsimony/DRTreeParsimonyScore.h>
-#include <Bpp/Phyl/Likelihood/RHomogeneousTreeLikelihood.h>
-#include <Bpp/Phyl/Likelihood/NNIHomogeneousTreeLikelihood.h>
+//#include <Bpp/Phyl/Parsimony/DRTreeParsimonyScore.h>
+//#include <Bpp/Phyl/Likelihood/RHomogeneousTreeLikelihood.h>
+//#include <Bpp/Phyl/Likelihood/NNIHomogeneousTreeLikelihood.h>
 
 
-#include <Bpp/Phyl/OptimizationTools.h>
+//#include <Bpp/Phyl/OptimizationTools.h>
 
-#include <Bpp/Io/FileTools.h>
+//#include <Bpp/Io/FileTools.h>
 
-#include <Bpp/Seq/App/SequenceApplicationTools.h>
-#include <Bpp/App/BppApplication.h>
+//#include <Bpp/Seq/App/SequenceApplicationTools.h>
+//#include <Bpp/App/BppApplication.h>
 
 
 //#include <Bpp/Numeric/ParameterList.h>
@@ -63,13 +63,14 @@
 
 #include <pll/pll.h>
 
-#include <Bpp/Text/KeyvalTools.h>
+//#include <Bpp/Text/KeyvalTools.h>
 #include <sys/stat.h>
-#include <SpeciesTree.h>
+//#include <SpeciesTree.h>
 #include <SolutionSet.h>
 #include <TreeCrossover.h>
 #include <PhylogeneticMutation.h>
-
+class InferSpeciesTree;
+typedef string(InferSpeciesTree::*GetScoreFuncPointer)(string);
 
 using namespace std;
 using namespace bpp;
@@ -82,7 +83,16 @@ class InferSpeciesTree : public Problem {
 private:
     void PrintScores(double p,double l);
     int numberOfTaxa_;
-    
+    int timestamp_;
+    enum Objective { MAX_ASTRAL, MIN_PHYLONET, MAX_MPEST };
+    int objNegIfMax[3] = {-1, 1, -1};
+    static string GetStdoutFromCommand(string cmd);
+    string getAstralScoreList(string varFile);
+    string getPhylonetScoreList(string varFile);
+    string getMpestScoreList(string varFile);
+    GetScoreFuncPointer getScoreFunctions[3] = {&InferSpeciesTree::getAstralScoreList, 
+                                                &InferSpeciesTree::getPhylonetScoreList, 
+                                                &InferSpeciesTree::getMpestScoreList};
 public:
   //Phylogeny(string solutionType);
   /*Phylogeny(string SequenceFile, double  kappa_, double alpha_, double beta_, int NumCat_ ,
@@ -96,9 +106,10 @@ public:
   boolean PLLisTreeValidate(TreeTemplate<Node> * tree);
   boolean PLLisTreeValidate(Solution * sol);
   int getNumberOfLeaves(Solution * sol);
-
+  int getNumberOfTaxa();
   void evaluate(Solution *solution);
-  void evaluate(Solution *solution,float p, float l);
+  //void evaluate(Solution *solution,float p, float l);
+  void evaluate(SolutionSet *pop, int gen=-1);
   
   //void evaluate(Solution *solution, DRTreeParsimonyScore* ParsimonyEvaluator); 
   //void evaluate(Solution *solution, DRTreeParsimonyScore* ParsimonyEvaluator, NNIHomogeneousTreeLikelihood * LikelihoodEvaluator );
@@ -106,10 +117,10 @@ public:
       
 
   void printParameters();
-  void readParameters(BppApplication *objApp);
-  void GenerateInitialTrees();
-  void GenerateRandomTrees();
-  void LoadUserTrees();
+//  void readParameters(BppApplication *objApp);
+//  void GenerateInitialTrees();
+//  void GenerateRandomTrees();
+//  void LoadUserTrees();
 
   Newick * newick;
   string datapath;

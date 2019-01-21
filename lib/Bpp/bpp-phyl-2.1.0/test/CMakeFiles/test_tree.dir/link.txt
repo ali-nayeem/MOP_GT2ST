@@ -1,1 +1,1 @@
-/usr/bin/c++   -Wall -Wshadow -Weffc++ -Wconversion -O2 -g -DNDEBUG   CMakeFiles/test_tree.dir/test_tree.cpp.o  -o test_tree -rdynamic /usr/local/lib/libbpp-seq.so /usr/local/lib/libbpp-core.so -L../src -lbpp-phyl -Wl,-rpath,/usr/local/lib 
+/opt/local/bin/g++-mp-5  -Wall -Wshadow -Weffc++ -Wconversion -O2 -g -DNDEBUG -Wl,-search_paths_first -Wl,-headerpad_max_install_names  CMakeFiles/test_tree.dir/test_tree.cpp.o  -o test_tree /usr/local/lib/libbpp-seq.dylib /usr/local/lib/libbpp-core.dylib /opt/local/lib/libbpp-phyl.dylib 
