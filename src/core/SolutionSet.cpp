@@ -228,7 +228,7 @@ void SolutionSet::printObjectivesToFile(string file){
         
         ///************* MODIFICACIONS POR LA MV NEGATIVA ********************//
         if (obj==1)
-             out << solutionsList_[i]->getObjective(obj)*-1 << " ";
+             out << solutionsList_[i]->getObjective(obj) << " ";
         else
              out << solutionsList_[i]->getObjective(obj) << " ";
         

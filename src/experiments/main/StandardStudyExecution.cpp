@@ -76,7 +76,7 @@ int main(int argc, char ** argv) {
                                  exp->experimentName_;
 
   // Number of independent runs of each algorithm for each problem:
-  exp->independentRuns_ = 3;
+  exp->independentRuns_ = 10;
 
   // Number of threads to be used to execute the experiment
   int numberOfThreads = 4;
