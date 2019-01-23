@@ -18,6 +18,8 @@
 #include "NSGAII_ST.h"
 #include <BinaryTournament2.h>
 
+#define MAN_DEBUG 1
+
 using namespace std;
 
 /*
@@ -47,7 +49,7 @@ int main(int argc, char** argv) {
     //        SolutionSet * pop = problem->createInitialPopulation(20);
     //        problem->evaluate(pop, 0);
     //    }
-    int populationSize = 10, maxEvaluations = 500;
+    int populationSize = 10, maxEvaluations = 200;
     Problem * prob = problem; // The problem to solve
     Algorithm * algorithm = new NSGAII_ST(prob); // The algorithm to use
     Operator * crossover; // Crossover operator
@@ -75,10 +77,11 @@ int main(int argc, char** argv) {
     algorithm->addOperator("mutation", mutation);
     algorithm->addOperator("selection", selection);
 
-    for(int i=0; i<1; i++)
+    //for(int i=0; i<1; i++)
     SolutionSet * result = algorithm->execute();
     
-    
+    result->printVariablesToFile("experiment/StandardStudy/data/NSGAII/10-taxon.higher-ILS.estimated-genetrees.R1/VAR.x");
+    result->printObjectivesToFile("experiment/StandardStudy/data/NSGAII/10-taxon.higher-ILS.estimated-genetrees.R1/FUN.x");
 
     //pop->printVariablesToFile(data+"/VAR");
     //    map<string, void *> parameters;

@@ -33,6 +33,7 @@ InferSpeciesTree::InferSpeciesTree(string & _datapath, int _numOfObj) {
     //treeFiles.push_back(datapath + speciesTreeFileName + "_triplet");
     newick = new Newick;
     timestamp_ = time(0);
+    threadId_ = -1;
     readPrecomputedSpeciesTree();
 
 
@@ -181,7 +182,10 @@ int InferSpeciesTree::getNumberOfLeaves(Solution * solution)
 void InferSpeciesTree::evaluate(Solution *solution) {
 
 }
-
+void InferSpeciesTree::setThreadId(int id)
+{
+    threadId_ = id;
+}
 string InferSpeciesTree::GetStdoutFromCommand(string cmd) {
 
     string data;
@@ -223,7 +227,7 @@ string InferSpeciesTree::getMpestScoreList(string varFile)
 
 void InferSpeciesTree::evaluate(SolutionSet *pop, int gen)
 {
-    varFile_ = "tmp/VAR"+ to_string(timestamp_);
+    varFile_ = "tmp/VAR"+ to_string(timestamp_) + to_string(threadId_);
     pop->printVariablesToFile(varFile_);
     for(int objId=0; objId<numberOfObjectives_; objId++)
     {
@@ -248,7 +252,7 @@ InferSpeciesTree::~InferSpeciesTree() {
     //cout<< "=====The END=====";
     string cmd = "rm "+ varFile_;
     //cout<<cmd;
-    //GetStdoutFromCommand(cmd);
+    GetStdoutFromCommand(cmd);
     delete newick;
 
 

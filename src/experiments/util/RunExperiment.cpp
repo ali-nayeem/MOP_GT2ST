@@ -21,6 +21,8 @@
 
 #include <RunExperiment.h>
 
+#include "InferSpeciesTree.h"
+
 
 /**
  * Class implementing the steps to run an experiment
@@ -54,23 +56,23 @@ void RunExperiment::run() {
   Algorithm * algorithm; // jMetal algorithm to be executed
 
   string experimentName = *(string*) map_["name"];
-  cout << experimentName << endl;
+  //cout << experimentName << endl;
   experimentBaseDirectory_ = *(string*) map_["experimentDirectory"];
-  cout << experimentBaseDirectory_ << endl;
+  //cout << experimentBaseDirectory_ << endl;
   algorithmNameList_ = *(vector<string>*) map_["algorithmNameList"];
   problemList_ = *(vector<string>*) map_["problemList"];
   independentRuns_ = *(int*) map_["independentRuns"];
-  cout << independentRuns_ << endl;
+  //cout << independentRuns_ << endl;
   outputParetoFrontFile_ = *(string*) map_["outputParetoFrontFile"];
-  cout << outputParetoFrontFile_ << endl;
+  //cout << outputParetoFrontFile_ << endl;
   outputParetoSetFile_ = *(string*) map_["outputParetoSetFile"];
-  cout << outputParetoSetFile_ << endl;
+  //cout << outputParetoSetFile_ << endl;
 
   int numberOfAlgorithms = algorithmNameList_.size();
 
-  cout << "Experiment name: " <<  experimentName << endl;
-  cout << "Experiment directory: " << experimentBaseDirectory_ << endl;
-  cout << "Number of threads: " << numberOfThreads_ << endl;
+  //cout << "Experiment name: " <<  experimentName << endl;
+  //cout << "Experiment directory: " << experimentBaseDirectory_ << endl;
+  //cout << "Number of threads: " << numberOfThreads_ << endl;
 
   SolutionSet * resultFront = NULL;
 
@@ -130,6 +132,7 @@ void RunExperiment::run() {
           experimentIndividualListIndex);
 
       problem = algorithm->getProblem();
+      ((InferSpeciesTree*)problem)->setThreadId(threadIndex_);
 
       // Create output directories
       string directory;
@@ -141,9 +144,11 @@ void RunExperiment::run() {
       }
 
       // Run the algorithm
+      mutex_->lock();
       cout << "Thread[" << threadIndex_ << "]: Start of algorithm: " <<
           algorithmNameList_[algorithmIndex] << ", problem: " <<
           problemList_[problemIndex] << ", run: " << numRun << endl;
+      mutex_->unlock();
       resultFront= algorithm->execute();
 
       // Put the results in the output directory
@@ -164,9 +169,11 @@ void RunExperiment::run() {
       resultFront->printVariablesToFile(outputParetoSetFilePath.str(),
           experiment_->isSingleObjective_);
 
+      mutex_->lock();
       cout << "Thread[" << threadIndex_ << "]: End of algorithm: " <<
           algorithmNameList_[algorithmIndex] << ", problem: " <<
           problemList_[problemIndex] << ", run: " << numRun << endl;
+      mutex_->unlock();
 
       delete resultFront;
       delete experiment_->algorithmSettingsList_[experimentIndividualListIndex];
@@ -175,7 +182,9 @@ void RunExperiment::run() {
 
   } // while
 
+  mutex_->lock();
   cout << "Thread[" << threadIndex_ << "] has finished." << endl;
+  mutex_->unlock();
 
 } // run
 

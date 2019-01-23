@@ -68,7 +68,7 @@ int main(int argc, char ** argv) {
   // List of problem names to be used in the experiment
   // (please, refer to the README to check the possible values):
   vector<string> problemList_ {
-      "10-taxon.higher-ILS.estimated-genetrees.R1", "10-taxon.higher-ILS.estimated-genetrees.R2"}; //, "ZDT2", "ZDT3", "ZDT4", "ZDT6"
+      "10-taxon.higher-ILS.estimated-genetrees.R2"}; //, "ZDT2", "ZDT3", "ZDT4", "ZDT6" , "10-taxon.higher-ILS.estimated-genetrees.R2"
 
   // Directory where the execution results will be stored:
   //exp->experimentBaseDirectory_ = "C:/jMetal/pruebas/jmetal-cpp/" +
@@ -76,14 +76,18 @@ int main(int argc, char ** argv) {
                                  exp->experimentName_;
 
   // Number of independent runs of each algorithm for each problem:
-  exp->independentRuns_ = 10;
+  exp->independentRuns_ = 16;
 
   // Number of threads to be used to execute the experiment
-  int numberOfThreads = 4;
+  int numberOfThreads = 16;
   
   exp->algorithmNameList_ = algorithmNameList_;
   exp->problemList_ = problemList_;
   int numberOfAlgorithms = exp->algorithmNameList_.size();
+  
+  cout << "Experiment name: " <<  exp->experimentName_ << endl;
+  cout << "Experiment directory: " << exp->experimentBaseDirectory_ << endl;
+  cout << "Number of threads: " << numberOfThreads << endl;
 
   cout << "Experiment (" << exp->experimentName_ << ") is starting." << endl;
 

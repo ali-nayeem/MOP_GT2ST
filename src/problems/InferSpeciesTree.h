@@ -84,6 +84,7 @@ private:
     void PrintScores(double p,double l);
     int numberOfTaxa_;
     int timestamp_;
+    int threadId_;
     string varFile_;
     enum Objective { MAX_ASTRAL, MIN_PHYLONET, MAX_MPEST };
     int objNegIfMax[3] = {-1, 1, -1};
@@ -102,7 +103,7 @@ public:
   
   InferSpeciesTree(string & _datapath, int _numOfObj);
   ~InferSpeciesTree();
-
+  void setThreadId(int id);
   vector<string> getLeavesName();
   boolean PLLisTreeValidate(TreeTemplate<Node> * tree);
   boolean PLLisTreeValidate(Solution * sol);

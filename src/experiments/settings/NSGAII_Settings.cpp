@@ -53,8 +53,8 @@ NSGAII_Settings::NSGAII_Settings(string problemName)
     problem_ = new InferSpeciesTree(path, 2);
 
     // Algorithm parameters
-    populationSize_ = 6;
-    maxEvaluations_ = 60;
+    populationSize_ = 10;
+    maxEvaluations_ = 40;
     mutationProbability_ = 0.8;
     crossoverProbability_ = 0.6;
 
@@ -91,7 +91,7 @@ Algorithm * NSGAII_Settings::configure()
     algorithm->addOperator("mutation", mutation);
     algorithm->addOperator("selection", selection);
 
-    cout << "NGSAII algorithm initialized." << endl;
+    //cout << "NGSAII algorithm initialized." << endl;
 
     return algorithm;
 } // configure

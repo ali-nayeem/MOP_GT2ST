@@ -11,10 +11,7 @@
  * Created on December 29, 2018, 2:33 PM
  */
 
-#include <algorithm>
-
 #include "MultipleRandomMutation.h"
-#include "PseudoRandom.h"
 
 MultipleRandomMutation::MultipleRandomMutation(map<string, void *> parameters) : Mutation(parameters){
     if (parameters["mutationList"] != NULL)

@@ -31,14 +31,24 @@ def phylonet(path, subpath, i):
 	cmd = "perl strip_edge_support.pl -i " + out + " -o " + out2
 	run(cmd)
 
+def check(path, subpath, i, pwd):
+	estimateTree = pwd + "/"+ path+ "/"+subpath+"/R"+str(i)+"/species.tre_phylonet"
+	trueTree = pwd + "/"+path+ "/true-speciestrees/" + "R"+str(i) + ".label.true.tre"
+	cmd = "python /Users/ali_nayeem/Projects/PyTreePerf/getFpFn.py -t " + trueTree + " -e " + estimateTree
+	if run(cmd) != "0.0, 0.0, 0.0":
+		print "R"+str(i)
+
+
 def main():
+	pwd = run("pwd")
 	paths = ["higher-ILS", "lower-ILS"]
-	subpaths = ["estimated-genetrees", "true-genetrees"]
+	subpaths = ["estimated-genetrees"] #, "true-genetrees"]
 	for  path in paths:
+		  print path
 		  for subpath in subpaths:
 				for i in range(1,21):
-					#copy(path, subpath, i)
-					phylonet(path, subpath, i)
+					check(path, subpath, i, pwd)
+					#check(path, subpath, i)
 					#return
 					#sys.exit(0)
 					#print(run ("diff "+old+" "+new))

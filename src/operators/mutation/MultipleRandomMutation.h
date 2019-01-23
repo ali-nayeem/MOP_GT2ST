@@ -20,6 +20,8 @@
 #include <Operator.h>
 #include <Solution.h>
 #include <algorithm> 
+#include "PseudoRandom.h"
+
 
 class MultipleRandomMutation : public Mutation {
 public:
