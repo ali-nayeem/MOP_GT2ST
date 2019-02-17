@@ -86,11 +86,15 @@ SolutionSet * NSGAII_ST::execute() {
                 parents[1] = (Solution *) (selectionOperator->execute(population));
 
                 Solution * offSpring = (Solution *) (crossoverOperator->execute(parents));
+                if(p->isMultifurcating(offSpring))
+                    continue;
                 Solution * copy;
                 do {
                     copy = new Solution(offSpring);
                     mutationOperator->execute(copy);
-                } while (p->getNumberOfLeaves(copy) != p->getNumberOfTaxa());
+                } while ( (p->getNumberOfLeaves(copy) != p->getNumberOfTaxa()) );
+                if(p->isMultifurcating(copy))
+                    continue;
 
                 offspringPopulation->add(copy);
                 //offspringPopulation->add(offSpring[1]);

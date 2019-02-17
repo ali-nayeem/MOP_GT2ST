@@ -69,8 +69,15 @@
 #include <SolutionSet.h>
 #include <TreeCrossover.h>
 #include <PhylogeneticMutation.h>
+#include "vector"
+#include "SpeciesTree.h"
+#include "SpeciesTreeSolutionType.h"
+#include "ShuffledMutation.h"
+#include "MultipleRandomMutation.h"
+//#define MAN_DEBUG 1
+
 class InferSpeciesTree;
-typedef string(InferSpeciesTree::*GetScoreFuncPointer)(string);
+typedef string(InferSpeciesTree::*GetScoreFuncPointer)(string, int);
 
 using namespace std;
 using namespace bpp;
@@ -87,14 +94,15 @@ private:
     int threadId_;
     string varFile_;
     enum Objective { MAX_ASTRAL, MIN_PHYLONET, MAX_MPEST };
-    int objNegIfMax[3] = {-1, 1, -1};
+    int objNegIfMax[3] = {-1, 1, 1};
     static string GetStdoutFromCommand(string cmd);
-    string getAstralScoreList(string varFile);
-    string getPhylonetScoreList(string varFile);
-    string getMpestScoreList(string varFile);
+    string getAstralScoreList(string varFile, int popSize);
+    string getPhylonetScoreList(string varFile, int popSize);
+    string getMpestScoreList(string varFile, int popSize);
     GetScoreFuncPointer getScoreFunctions[3] = {&InferSpeciesTree::getAstralScoreList, 
                                                 &InferSpeciesTree::getPhylonetScoreList, 
                                                 &InferSpeciesTree::getMpestScoreList};
+    string os;
 public:
   //Phylogeny(string solutionType);
   /*Phylogeny(string SequenceFile, double  kappa_, double alpha_, double beta_, int NumCat_ ,
@@ -112,6 +120,7 @@ public:
   void evaluate(Solution *solution);
   //void evaluate(Solution *solution,float p, float l);
   void evaluate(SolutionSet *pop, int gen=-1);
+  bool isMultifurcating(Solution * solution);
   
   //void evaluate(Solution *solution, DRTreeParsimonyScore* ParsimonyEvaluator); 
   //void evaluate(Solution *solution, DRTreeParsimonyScore* ParsimonyEvaluator, NNIHomogeneousTreeLikelihood * LikelihoodEvaluator );

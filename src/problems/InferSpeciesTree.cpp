@@ -12,12 +12,7 @@
  */
 
 #include <InferSpeciesTree.h>
-#include "vector"
-#include "SpeciesTree.h"
-#include "SpeciesTreeSolutionType.h"
-#include "SolutionSet.h"
-#include "ShuffledMutation.h"
-#include "MultipleRandomMutation.h"
+
 
 InferSpeciesTree::InferSpeciesTree(string & _datapath, int _numOfObj) {
 
@@ -35,7 +30,17 @@ InferSpeciesTree::InferSpeciesTree(string & _datapath, int _numOfObj) {
     timestamp_ = time(0);
     threadId_ = -1;
     readPrecomputedSpeciesTree();
-
+    string cmdOut = GetStdoutFromCommand("uname");
+    
+    string mac = "Darwin";
+    if(cmdOut.find(mac) != string::npos)
+    {
+        os = "mac";
+    }
+    else
+    {
+        os = "linux";
+    }
 
     //GenerateInitialTrees();
 
@@ -46,8 +51,11 @@ InferSpeciesTree::InferSpeciesTree(string & _datapath, int _numOfObj) {
 
 void InferSpeciesTree::readPrecomputedSpeciesTree() {
     for (int i = 0; i < treeFiles.size(); i++) {
-        //cout << treeFiles[i] << endl;
+        
         if (fileExistsTest(treeFiles.at(i))) {
+            #ifdef MAN_DEBUG
+                cout << "Reading precomputed tree: "<< treeFiles[i] << endl;
+            #endif
             precomputedTrees.push_back(new PhyloTree(treeFiles[i]));
             //             Variable **variables = new Variable*[this->getNumberOfVariables()];
             //             variables[0] = new SpeciesTree(treeFiles[i]);
@@ -134,8 +142,10 @@ SolutionSet * InferSpeciesTree::createInitialPopulation(int size) {
         //Solution * sol = new Solution(parents[0]);
         
         Solution * offSpring = (Solution *) (crossover->execute(parents));
+        if(isMultifurcating(offSpring))
+            continue;
         mulMut->execute(offSpring);   
-        if( getNumberOfLeaves(offSpring) != this->numberOfTaxa_ )
+        if( getNumberOfLeaves(offSpring) != this->numberOfTaxa_ || isMultifurcating(offSpring))
         {   
             #ifdef MAN_DEBUG
             cout<<"When less taxa, then pllvalidator: "<<PLLisTreeValidate(offSpring)<<endl;
@@ -179,6 +189,14 @@ int InferSpeciesTree::getNumberOfLeaves(Solution * solution)
     TreeTemplate<Node> * tree = Pt->getTree();
     return tree->getNumberOfLeaves();
 }
+
+bool InferSpeciesTree::isMultifurcating(Solution * solution)
+{
+    Variable **variables = solution->getDecisionVariables();
+    PhyloTree * Pt = (PhyloTree*) variables[0];
+    TreeTemplate<Node> * tree = Pt->getTree();
+    return tree->isMultifurcating();
+} 
 void InferSpeciesTree::evaluate(Solution *solution) {
 
 }
@@ -203,7 +221,7 @@ string InferSpeciesTree::GetStdoutFromCommand(string cmd) {
     return data;
 }
 
-string InferSpeciesTree::getAstralScoreList(string varFile)
+string InferSpeciesTree::getAstralScoreList(string varFile, int popSize)
 {
     //cout << "Getting Astral Score"<< endl;
     string ls = GetStdoutFromCommand("java -jar lib/ASTRAL/astral.5.6.3.jar -q " + varFile 
@@ -211,7 +229,7 @@ string InferSpeciesTree::getAstralScoreList(string varFile)
     //cout << ls << endl;
     return ls;
 }
-string InferSpeciesTree::getPhylonetScoreList(string varFile)
+string InferSpeciesTree::getPhylonetScoreList(string varFile, int popSize)
 {
    //cout << "Getting Phylonet Score"<< endl;
    string ls = GetStdoutFromCommand("java -jar lib/phylonet/phylonet_v2_4.jar deep_coal_count " 
@@ -220,9 +238,16 @@ string InferSpeciesTree::getPhylonetScoreList(string varFile)
    //cout << ls << endl;
    return ls;
 }
-string InferSpeciesTree::getMpestScoreList(string varFile)
+string InferSpeciesTree::getMpestScoreList(string varFile, int popSize)
 {
-    
+    string ls = "";
+    string cmd = "lib/mpest/" + os + "/mpest " + datapath + "control_score " + varFile;
+    for(int i=0; i<popSize; i++)
+    {
+        ls += GetStdoutFromCommand(cmd + " " + std::to_string(i));
+        //ls += "\n"; 
+    }
+    return ls;
 }
 
 void InferSpeciesTree::evaluate(SolutionSet *pop, int gen)
@@ -231,7 +256,7 @@ void InferSpeciesTree::evaluate(SolutionSet *pop, int gen)
     pop->printVariablesToFile(varFile_);
     for(int objId=0; objId<numberOfObjectives_; objId++)
     {
-        string scoreList = (this->*(getScoreFunctions[objId]))(varFile_);
+        string scoreList = (this->*(getScoreFunctions[objId]))(varFile_, pop->size());
         stringstream ss(scoreList);
         string to;
         int solId=0;

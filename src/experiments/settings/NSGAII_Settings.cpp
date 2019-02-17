@@ -21,6 +21,8 @@
 
 #include <NSGAII_Settings.h>
 
+#include "MultipleRandomMutation.h"
+
 /**
  * Default constructor
  */
@@ -50,11 +52,11 @@ NSGAII_Settings::NSGAII_Settings(string problemName)
     //cout<<path;
 
     //problem_ = ProblemFactory::getProblem((char *) problemName_.c_str());
-    problem_ = new InferSpeciesTree(path, 2);
+    problem_ = new InferSpeciesTree(path, 3);
 
     // Algorithm parameters
-    populationSize_ = 10;
-    maxEvaluations_ = 40;
+    populationSize_ = 100;
+    maxEvaluations_ = 5000;
     mutationProbability_ = 0.8;
     crossoverProbability_ = 0.6;
 
@@ -78,9 +80,26 @@ Algorithm * NSGAII_Settings::configure()
     crossover = new TreeCrossover(parameters);
 
     parameters.clear();
-    double mutationProbability = mutationProbability_;
+    double mutationProbability = 1.0;
     parameters["probability"] = &mutationProbability;
-    mutation = new PhylogeneticMutation(parameters);
+    //mutation = new PhylogeneticMutation(parameters);
+    string method[] = {"NNI", "SPR", "TBR"};
+    vector<Mutation *> mutList1;
+
+    parameters["metodo"] = &method[0];
+    Mutation * NNI = new PhylogeneticMutation(parameters);
+    parameters["metodo"] = &method[1];
+    Mutation * SPR = new PhylogeneticMutation(parameters);
+    parameters["metodo"] = &method[2];
+    Mutation * TBR = new PhylogeneticMutation(parameters);
+
+    mutList1.push_back(NNI);
+    mutList1.push_back(SPR);
+    mutList1.push_back(TBR);
+    parameters.clear();
+    //parameters["probability"] = &mutationProbability;
+    parameters["mutationList"] = &mutList1;
+    mutation = new MultipleRandomMutation(parameters);
 
     // Selection Operator
     parameters.clear();

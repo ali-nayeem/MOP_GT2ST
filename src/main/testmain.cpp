@@ -43,8 +43,8 @@ string GetStdoutFromCommand(string cmd) {
 }
 
 int main(int argc, char** argv) {
-    string data = "10-taxon/higher-ILS/estimated-genetrees/R1";
-    InferSpeciesTree * problem = new InferSpeciesTree(data, 2);
+    string data = "10-taxon/higher-ILS/estimated-genetrees/R2";
+    InferSpeciesTree * problem = new InferSpeciesTree(data, 3);
     //    for (int i = 0; i < 3; i++) {
     //        SolutionSet * pop = problem->createInitialPopulation(20);
     //        problem->evaluate(pop, 0);
