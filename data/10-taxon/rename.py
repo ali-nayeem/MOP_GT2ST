@@ -25,7 +25,11 @@ def copy_mpest_control(path, subpath, i):
 	new = path+ "/"+subpath+"/R"+str(i)+"/control_score"
 	run ("echo "+input+" > "+new)
 	run ("cat "+old+" >> "+new)
-
+def copy_true_species_tree(path, subpath, i):
+	old = path+ "/true-speciestrees/"+"R"+str(i)+".label.true.tre"
+	new = path+ "/"+subpath+"/R"+str(i)+"/true_st.tre"
+	run ("cp "+old+" "+new)
+	run ("diff "+old+" "+new)
 def astral(path, subpath, i):
 	input = path+ "/"+subpath+"/R"+str(i)+"/gene.tre"
 	out = path+ "/"+subpath+"/R"+str(i)+"/species.tre_astral_bl"
@@ -61,7 +65,7 @@ def main():
 		  print path
 		  for subpath in subpaths:
 				for i in range(1,21):
-					copy_mpest_control(path, subpath, i)
+					copy_true_species_tree(path, subpath, i)
 					#check(path, subpath, i)
 					#return
 					#sys.exit(0)

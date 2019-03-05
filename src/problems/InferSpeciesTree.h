@@ -137,6 +137,7 @@ public:
   string datapath;
   vector<string> treeFiles;
   string speciesTreeFileName = "species.tre";
+  //string trueTreeName = "true_st.tre";
   vector< PhyloTree* > precomputedTrees;
   
   void readPrecomputedSpeciesTree();

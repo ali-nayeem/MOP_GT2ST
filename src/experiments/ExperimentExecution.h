@@ -57,6 +57,8 @@ public:
 
   void runExperiment(int numberOfThreads);
   void runExperiment();
+  string GetStdoutFromCommand(string cmd);
+  void calculateTreePerf();
 
   // TODO: Check different algorithmSettings configurations
   // virtual void algorithmSettings(string problemName, int problemId,

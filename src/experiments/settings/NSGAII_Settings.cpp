@@ -99,7 +99,7 @@ Algorithm * NSGAII_Settings::configure()
     parameters.clear();
     //parameters["probability"] = &mutationProbability;
     parameters["mutationList"] = &mutList1;
-    mutation = new MultipleRandomMutation(parameters);
+    mutation = NNI;//new MultipleRandomMutation(parameters);
 
     // Selection Operator
     parameters.clear();

@@ -20,6 +20,7 @@
 
 
 #include <ExperimentExecution.h>
+#include <algorithm>
 
 
 void* executeRun(void* ctx) {
@@ -146,3 +147,42 @@ void ExperimentExecution::runExperiment(int numberOfThreads) {
 void ExperimentExecution::runExperiment() {
   runExperiment(1);
 } // runExperiment
+
+string ExperimentExecution::GetStdoutFromCommand(string cmd) {
+
+    string data;
+    FILE * stream;
+    const int max_buffer = 256;
+    char buffer[max_buffer];
+    //cmd.append(" 2>&1");
+
+    stream = popen(cmd.c_str(), "r");
+    if (stream) {
+        while (!feof(stream))
+            if (fgets(buffer, max_buffer, stream) != NULL) data.append(buffer);
+        pclose(stream);
+    }
+    return data;
+}
+
+void ExperimentExecution::calculateTreePerf(){
+    
+    for (int i=0; i<algorithmNameList_.size(); i++) {
+        string varPath1 = experimentBaseDirectory_+"/data/"+algorithmNameList_[i]+"/";
+        for (int j=0; j<problemList_.size(); j++) {
+            string varPath2 = varPath1 + problemList_[j] + "/";
+            string path(problemList_[j]);
+            std::replace(path.begin(), path.end(), '.', '/');
+            path = "data/" + path;
+            for (int k=0; k<independentRuns_; k++) {
+                string varPath3 = varPath2 + "VAR." +to_string(k);
+                string treePerfPath = varPath2 + "TreePerf." +to_string(k);
+                string trueStPath = path + "/true_st.tre";
+                string cmd = "python2  lib/PyTreePerf/getTreePerfFromVAR.py -t" + trueStPath + " -v " + varPath3 + " -o " + treePerfPath;
+                string r = GetStdoutFromCommand(cmd);
+                cout << r << endl;
+            }
+        }
+  }
+    
+}

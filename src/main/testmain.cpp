@@ -49,7 +49,7 @@ int main(int argc, char** argv) {
     //        SolutionSet * pop = problem->createInitialPopulation(20);
     //        problem->evaluate(pop, 0);
     //    }
-    int populationSize = 10, maxEvaluations = 200;
+    int populationSize = 10, maxEvaluations = 20;
     Problem * prob = problem; // The problem to solve
     Algorithm * algorithm = new NSGAII_ST(prob); // The algorithm to use
     Operator * crossover; // Crossover operator
@@ -80,8 +80,8 @@ int main(int argc, char** argv) {
     //for(int i=0; i<1; i++)
     SolutionSet * result = algorithm->execute();
     
-    result->printVariablesToFile("experiment/StandardStudy/data/NSGAII/10-taxon.higher-ILS.estimated-genetrees.R1/VAR.x");
-    result->printObjectivesToFile("experiment/StandardStudy/data/NSGAII/10-taxon.higher-ILS.estimated-genetrees.R1/FUN.x");
+    result->printVariablesToFile("experiment/StandardStudy/data/NSGAII/10-taxon.higher-ILS.estimated-genetrees.R2/VAR.br");
+    result->printObjectivesToFile("experiment/StandardStudy/data/NSGAII/10-taxon.higher-ILS.estimated-genetrees.R2/FUN.br");
 
     //pop->printVariablesToFile(data+"/VAR");
     //    map<string, void *> parameters;

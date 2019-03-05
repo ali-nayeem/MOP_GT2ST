@@ -252,7 +252,12 @@ string InferSpeciesTree::getMpestScoreList(string varFile, int popSize)
 
 void InferSpeciesTree::evaluate(SolutionSet *pop, int gen)
 {
-    varFile_ = "tmp/VAR"+ to_string(timestamp_) + to_string(threadId_);
+    varFile_ = datapath + "tmp";
+    if(!fileExistsTest(varFile_))
+    {
+        GetStdoutFromCommand("mkdir " + varFile_);
+    }
+    varFile_ += "/"+ to_string(timestamp_) + to_string(threadId_);
     pop->printVariablesToFile(varFile_);
     for(int objId=0; objId<numberOfObjectives_; objId++)
     {
