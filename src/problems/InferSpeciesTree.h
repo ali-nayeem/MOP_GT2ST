@@ -94,7 +94,7 @@ private:
     int threadId_;
     string varFile_;
     enum Objective { MAX_ASTRAL, MIN_PHYLONET, MAX_MPEST };
-    int objNegIfMax[3] = {-1, 1, 1};
+    int objNegIfMax[3] = {-1, 1, -1};
     static string GetStdoutFromCommand(string cmd);
     string getAstralScoreList(string varFile, int popSize);
     string getPhylonetScoreList(string varFile, int popSize);

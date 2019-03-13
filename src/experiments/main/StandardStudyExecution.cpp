@@ -92,7 +92,7 @@ int main(int argc, char ** argv) {
 
   cout << "Experiment (" << exp->experimentName_ << ") is starting." << endl;
 
-  //exp->runExperiment(numberOfThreads);
+  exp->runExperiment(numberOfThreads);
   exp->calculateTreePerf();
 
   cout << "Experiment (" << exp->experimentName_ << ") has finished." << endl;

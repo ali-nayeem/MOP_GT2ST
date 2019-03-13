@@ -55,8 +55,8 @@ NSGAII_Settings::NSGAII_Settings(string problemName)
     problem_ = new InferSpeciesTree(path, 3);
 
     // Algorithm parameters
-    populationSize_ = 100;
-    maxEvaluations_ = 5000;
+    populationSize_ = 150;
+    maxEvaluations_ = 4000;
     mutationProbability_ = 0.8;
     crossoverProbability_ = 0.6;
 
@@ -99,7 +99,7 @@ Algorithm * NSGAII_Settings::configure()
     parameters.clear();
     //parameters["probability"] = &mutationProbability;
     parameters["mutationList"] = &mutList1;
-    mutation = NNI;//new MultipleRandomMutation(parameters);
+    mutation = new MultipleRandomMutation(parameters);
 
     // Selection Operator
     parameters.clear();
