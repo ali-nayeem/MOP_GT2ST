@@ -49,7 +49,7 @@ int main(int argc, char** argv) {
     //        SolutionSet * pop = problem->createInitialPopulation(20);
     //        problem->evaluate(pop, 0);
     //    }
-    int populationSize = 10, maxEvaluations = 20;
+    int populationSize = 200, maxEvaluations = 20;
     Problem * prob = problem; // The problem to solve
     Algorithm * algorithm = new NSGAII_ST(prob); // The algorithm to use
     Operator * crossover; // Crossover operator

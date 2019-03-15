@@ -21,6 +21,7 @@
 #include <Solution.h>
 #include <algorithm> 
 #include "PseudoRandom.h"
+#include "InferSpeciesTree.h"
 
 
 class MultipleRandomMutation : public Mutation {
