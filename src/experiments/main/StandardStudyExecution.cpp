@@ -68,7 +68,7 @@ int main(int argc, char ** argv) {
   // List of problem names to be used in the experiment
   // (please, refer to the README to check the possible values):
   vector<string> problemList_ {
-      "10-taxon.higher-ILS.estimated-genetrees.R14"};//, "10-taxon.higher-ILS.estimated-genetrees.R2", 
+      "37-taxon.noscale_200g_500b.estimated-genetrees.R2"};//, "10-taxon.higher-ILS.estimated-genetrees.R2", 
       //"10-taxon.higher-ILS.estimated-genetrees.R4", "10-taxon.higher-ILS.estimated-genetrees.R20"}; //, "ZDT2", "ZDT3", "ZDT4", "ZDT6" , "10-taxon.higher-ILS.estimated-genetrees.R2"
 
   // Directory where the execution results will be stored:
@@ -80,7 +80,7 @@ int main(int argc, char ** argv) {
   exp->independentRuns_ = 2;
 
   // Number of threads to be used to execute the experiment
-  int numberOfThreads = 2;
+  int numberOfThreads = 1;
   
   exp->algorithmNameList_ = algorithmNameList_;
   exp->problemList_ = problemList_;

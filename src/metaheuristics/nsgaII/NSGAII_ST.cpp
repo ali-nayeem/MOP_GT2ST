@@ -70,8 +70,10 @@ SolutionSet * NSGAII_ST::execute() {
 
     // Generations
     //ApplicationTools::displayTask("Generations", true);
+    int gen = 0;
     while (evaluations < maxEvaluations) {
-
+        
+        cout<<"Generation: "<<gen++ << endl;
         // Create the offSpring solutionSet
         offspringPopulation = new SolutionSet(populationSize);
         Solution ** parents = new Solution*[2];

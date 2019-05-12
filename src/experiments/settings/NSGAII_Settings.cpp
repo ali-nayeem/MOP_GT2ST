@@ -55,8 +55,8 @@ NSGAII_Settings::NSGAII_Settings(string problemName)
     problem_ = new InferSpeciesTree(path, 3);
 
     // Algorithm parameters
-    populationSize_ = 150;
-    maxEvaluations_ = 4000;
+    populationSize_ = 50;
+    maxEvaluations_ = 5050;
     mutationProbability_ = 0.8;
     crossoverProbability_ = 0.6;
 
