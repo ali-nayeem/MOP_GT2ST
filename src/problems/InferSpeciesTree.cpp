@@ -69,9 +69,11 @@ void InferSpeciesTree::readPrecomputedSpeciesTree() {
             //double distancetofather = Nodo2->getDistanceToFather();
             //int PosNodo2= padre->getSonPosition(Nodo2);
             //cout<< distancetofather << ", "<<PosNodo2;
+            
         }        
     }
     this->numberOfTaxa_ = precomputedTrees[0]->getNumberOfLeaves();
+    this->leavesName = precomputedTrees[0]->getTree()->getLeavesNames();
 //    if(precomputedTrees.size()<2){
 //        throw Exception("More than one PreComputedSpeciesTree is needed");
 //    }
@@ -81,12 +83,14 @@ int InferSpeciesTree::getNumberOfTaxa()
     return numberOfTaxa_;
 }
 SolutionSet * InferSpeciesTree::createInitialPopulation(int size) {
+    unordered_set<string> uniqueSolutionSet;
     SolutionSet * pop = new SolutionSet(size);
     for (int i = 0; i < precomputedTrees.size(); i++) {
         Variable **variables = new Variable*[this->getNumberOfVariables()];
         variables[0] = new PhyloTree(precomputedTrees[i]);
         Solution * newSolution = new Solution(this, variables);
         pop->add(newSolution);
+        uniqueSolutionSet.insert(variables[0]->toString());
     }
     map<string, void *> parameters;
     double prob = 1.0; int numDes = 1.0;
@@ -152,12 +156,47 @@ SolutionSet * InferSpeciesTree::createInitialPopulation(int size) {
             #endif
             continue;
         }
+        Variable **variables = offSpring->getDecisionVariables();
+        if(uniqueSolutionSet.find(variables[0]->toString()) != uniqueSolutionSet.end())
+        {
+            cout<<"Duplicate found!"<<endl;
+            continue;
+        }
+        else
+        {
+            uniqueSolutionSet.insert(variables[0]->toString());
+        }
         pop->add(offSpring);
         
         //delete[] offSpring;
     }
-    delete[] parents;
+    delete[] parents; 
     return pop;
+}
+
+void InferSpeciesTree::appendRandomlyGeneratedSolution(SolutionSet * pop, int size)
+{
+    TreeTemplate<Node> * tree;
+    while (pop->size() < size) {
+            vector<string> Leaves= leavesName;
+            tree = TreeTemplateTools::getRandomTree(Leaves, false);
+            Node * root = tree->getNode("A"); //->getFather()
+            //tree->setRootNode(root);
+            //tree->unroot();
+            tree->newOutGroup(root);
+            if(tree->isMultifurcating())
+            {
+                continue;
+            }
+            Variable **variables = new Variable*[this->getNumberOfVariables()];
+            variables[0] = new PhyloTree();
+            ((PhyloTree *) variables[0])->setTree(tree);
+            //cout << variables[0]->toString();
+            Solution * newSolution = new Solution(this, variables);
+            pop->add(newSolution);
+	    //tree->setBranchLengths(0.05);
+            //trees.push_back(tree);
+    }
 }
 
 boolean InferSpeciesTree::PLLisTreeValidate(TreeTemplate<Node> * tree){

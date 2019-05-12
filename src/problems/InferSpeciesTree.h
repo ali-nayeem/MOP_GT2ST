@@ -74,6 +74,7 @@
 #include "SpeciesTreeSolutionType.h"
 #include "ShuffledMutation.h"
 #include "MultipleRandomMutation.h"
+#include <unordered_set>
 //#define MAN_DEBUG 1
 
 class InferSpeciesTree;
@@ -102,6 +103,8 @@ private:
     GetScoreFuncPointer getScoreFunctions[3] = {&InferSpeciesTree::getAstralScoreList, 
                                                 &InferSpeciesTree::getPhylonetScoreList, 
                                                 &InferSpeciesTree::getMpestScoreList};
+    void appendRandomlyGeneratedSolution(SolutionSet * pop, int size);
+    vector <string> leavesName;
     string os;
 public:
   //Phylogeny(string solutionType);

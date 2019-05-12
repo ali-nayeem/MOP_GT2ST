@@ -43,13 +43,13 @@ string GetStdoutFromCommand(string cmd) {
 }
 
 int main(int argc, char** argv) {
-    string data = "10-taxon/higher-ILS/estimated-genetrees/R2";
+    string data = "37-taxon/noscale_200g_500b/estimated-genetrees/R2";
     InferSpeciesTree * problem = new InferSpeciesTree(data, 3);
     //    for (int i = 0; i < 3; i++) {
     //        SolutionSet * pop = problem->createInitialPopulation(20);
     //        problem->evaluate(pop, 0);
     //    }
-    int populationSize = 200, maxEvaluations = 20;
+    int populationSize = 20, maxEvaluations = 20;
     Problem * prob = problem; // The problem to solve
     Algorithm * algorithm = new NSGAII_ST(prob); // The algorithm to use
     Operator * crossover; // Crossover operator
@@ -80,8 +80,8 @@ int main(int argc, char** argv) {
     //for(int i=0; i<1; i++)
     SolutionSet * result = algorithm->execute();
     
-    result->printVariablesToFile("experiment/StandardStudy/data/NSGAII/10-taxon.higher-ILS.estimated-genetrees.R2/VAR.br");
-    result->printObjectivesToFile("experiment/StandardStudy/data/NSGAII/10-taxon.higher-ILS.estimated-genetrees.R2/FUN.br");
+    result->printVariablesToFile("experiment/VAR.br");
+    result->printObjectivesToFile("experiment/FUN.br");
 
     //pop->printVariablesToFile(data+"/VAR");
     //    map<string, void *> parameters;

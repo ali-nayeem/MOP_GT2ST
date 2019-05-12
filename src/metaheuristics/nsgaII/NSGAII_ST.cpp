@@ -62,16 +62,16 @@ SolutionSet * NSGAII_ST::execute() {
 
 
 
-    InferSpeciesTree * p = (InferSpeciesTree *) problem_;
+    InferSpeciesTree * prob = (InferSpeciesTree *) problem_;
     // Create the initial solutionSet
-    population = p->createInitialPopulation(populationSize);
-    p->evaluate(population);
+    population = prob->createInitialPopulation(populationSize);
+    prob->evaluate(population);
     evaluations += populationSize;
 
     // Generations
     //ApplicationTools::displayTask("Generations", true);
     while (evaluations < maxEvaluations) {
-
+        unordered_set<string> uniqueSolutionSet;
         // Create the offSpring solutionSet
         offspringPopulation = new SolutionSet(populationSize);
         Solution ** parents = new Solution*[2];
@@ -86,16 +86,29 @@ SolutionSet * NSGAII_ST::execute() {
                 parents[1] = (Solution *) (selectionOperator->execute(population));
 
                 Solution * offSpring = (Solution *) (crossoverOperator->execute(parents));
-                if(p->isMultifurcating(offSpring))
+                if(prob->isMultifurcating(offSpring))
                     continue;
                 Solution * copy;
                 do {
                     copy = new Solution(offSpring);
                     mutationOperator->execute(copy);
-                } while ( (p->getNumberOfLeaves(copy) != p->getNumberOfTaxa()) );
-                if(p->isMultifurcating(copy))
+                } while ( (prob->getNumberOfLeaves(copy) != prob->getNumberOfTaxa()) );
+                if(prob->isMultifurcating(copy))
+                {
                     continue;
-
+                }
+                
+                /*Variable **variables = copy->getDecisionVariables();
+                if(uniqueSolutionSet.find(variables[0]->toString()) != uniqueSolutionSet.end())
+                {
+                    cout<<"Duplicate found!"<<endl;
+                    continue;
+                }
+                else
+                {
+                    uniqueSolutionSet.insert(variables[0]->toString());
+                }*/
+                
                 offspringPopulation->add(copy);
                 //offspringPopulation->add(offSpring[1]);
                 //cout << "Next " << evaluations << endl;
@@ -106,7 +119,7 @@ SolutionSet * NSGAII_ST::execute() {
 
         delete[] parents;
 
-        p->evaluate(offspringPopulation);
+        prob->evaluate(offspringPopulation);
         evaluations += offspringPopulation->size();
 
         // Create the solutionSet union of solutionSet and offSpring
