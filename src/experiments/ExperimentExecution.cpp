@@ -180,10 +180,10 @@ void ExperimentExecution::calculateTreePerf(){
                 string trueStPath = path + "/true_st.tre";
                 string cmd = "python2  lib/PyTreePerf/getTreePerfFromVAR.py -t" + trueStPath + " -v " + varPath3 + " -o " + treePerfPath;
                 string r = GetStdoutFromCommand(cmd);
-                cout << r << endl;
-                cmd = "python2  lib/PyTreePerf/drawTreePerfDistrib.py -f " + treePerfPath;
+                //cout << r << endl;
+                cmd = "python3  lib/PyTreePerf/drawTreePerfDistrib.py -f " + treePerfPath;
                 r = GetStdoutFromCommand(cmd);
-                cout << r << endl;
+                //cout << r << endl;
             }
         }
   }
