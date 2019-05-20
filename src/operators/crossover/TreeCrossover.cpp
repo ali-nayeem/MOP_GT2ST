@@ -122,6 +122,7 @@ Solution * TreeCrossover::doCrossover(double probability, Solution *parent1, Sol
                  if(count > 3)
                  {
                      offspringTree = new PhyloTree(copyPT2);
+                     cout << "Crossover Failed !" << endl ;
                      break;
                  }
              }while(b);

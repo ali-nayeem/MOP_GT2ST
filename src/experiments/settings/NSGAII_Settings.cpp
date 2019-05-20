@@ -52,13 +52,13 @@ NSGAII_Settings::NSGAII_Settings(string problemName)
     //cout<<path;
 
     //problem_ = ProblemFactory::getProblem((char *) problemName_.c_str());
-    problem_ = new InferSpeciesTree(path, 3);
+    problem_ = new InferSpeciesTree(path, 2);
 
     // Algorithm parameters
     populationSize_ = 50;
-    maxEvaluations_ = 5050;
-    mutationProbability_ = 0.8;
-    crossoverProbability_ = 0.6;
+    maxEvaluations_ = 350;
+    mutationProbability_ = 0.6;
+    crossoverProbability_ = 0.5;
 
 } // NSGAII_Settings
 

@@ -119,7 +119,7 @@ SolutionSet * InferSpeciesTree::createInitialPopulation(int size) {
     mutList2.push_back(NNI);
     mutList2.push_back(SPR);
     mutList2.push_back(TBR);
-    //mutList2.push_back(ShufMut);
+    mutList2.push_back(ShufMut);
     parameters.clear();
     prob = 0.6;
     parameters["probability"] = &prob;
@@ -155,6 +155,11 @@ SolutionSet * InferSpeciesTree::createInitialPopulation(int size) {
         pop->add(offSpring);
         
         //delete[] offSpring;
+    }
+     for (int i = 0; i < precomputedTrees.size(); i++) {
+        Solution * sol = new Solution(pop->get(pop->size() - i - 1));
+        mulMut->execute(sol);
+        pop->replace(i, sol);
     }
     delete[] parents;
     return pop;
