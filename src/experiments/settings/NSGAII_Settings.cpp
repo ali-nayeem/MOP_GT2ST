@@ -57,7 +57,7 @@ NSGAII_Settings::NSGAII_Settings(string problemName)
     // Algorithm parameters
     populationSize_ = 50;
     maxEvaluations_ = 350;
-    mutationProbability_ = 0.6;
+    mutationProbability_ = 0.8;
     crossoverProbability_ = 0.5;
 
 } // NSGAII_Settings

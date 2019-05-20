@@ -23,7 +23,7 @@ InferSpeciesTree::InferSpeciesTree(string & _datapath, int _numOfObj) {
     problemName_ = "Infer Species Tree: " + _datapath;
     solutionType_ = new PhyloTreeSolutionType(this);
     treeFiles.push_back(datapath + speciesTreeFileName + "_astral");
-    treeFiles.push_back(datapath + speciesTreeFileName + "_mpest");
+    //treeFiles.push_back(datapath + speciesTreeFileName + "_mpest");
     treeFiles.push_back(datapath + speciesTreeFileName + "_phylonet");
     //treeFiles.push_back(datapath + speciesTreeFileName + "_triplet");
     newick = new Newick;
@@ -89,11 +89,12 @@ SolutionSet * InferSpeciesTree::createInitialPopulation(int size) {
         pop->add(newSolution);
     }
     map<string, void *> parameters;
-    double prob = 1.0; int numDes = 1.0;
+    double prob = 0.5; int numDes = 1.0;
     parameters["probability"] = &prob;
     parameters["numDescendientes"] = &numDes;
     TreeCrossover * crossover = new TreeCrossover(parameters);
 
+    prob = 1.0;
     parameters.clear();
     parameters["probability"] = &prob;
 
@@ -121,7 +122,7 @@ SolutionSet * InferSpeciesTree::createInitialPopulation(int size) {
     mutList2.push_back(TBR);
     mutList2.push_back(ShufMut);
     parameters.clear();
-    prob = 0.6;
+    prob = 1.0;
     parameters["probability"] = &prob;
     parameters["mutationList"] = &mutList2;
     Mutation * mulMut = new MultipleRandomMutation(parameters);
