@@ -181,9 +181,9 @@ SolutionSet * NSGAII_ST::execute() {
         result->add(new Solution(ranking->getSubfront(0)->get(i)));
     }
     delete ranking;
-    delete population;
+    //delete population;
 
-    return result;
+    return population; //result;
 
 } // execute
 

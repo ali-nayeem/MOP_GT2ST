@@ -12,6 +12,7 @@
  */
 
 #include <InferSpeciesTree.h>
+#include <unordered_set>
 
 
 InferSpeciesTree::InferSpeciesTree(string & _datapath, int _numOfObj) {
@@ -82,14 +83,15 @@ int InferSpeciesTree::getNumberOfTaxa()
 }
 SolutionSet * InferSpeciesTree::createInitialPopulation(int size) {
     SolutionSet * pop = new SolutionSet(size);
-    for (int i = 0; i < precomputedTrees.size(); i++) {
+    //unordered_set<string> uniqueSolutions;
+for (int i = 0; i < precomputedTrees.size(); i++) {
         Variable **variables = new Variable*[this->getNumberOfVariables()];
         variables[0] = new PhyloTree(precomputedTrees[i]);
         Solution * newSolution = new Solution(this, variables);
         pop->add(newSolution);
     }
     map<string, void *> parameters;
-    double prob = 0.5; int numDes = 1.0;
+    double prob = 1.0; int numDes = 1.0;
     parameters["probability"] = &prob;
     parameters["numDescendientes"] = &numDes;
     TreeCrossover * crossover = new TreeCrossover(parameters);
@@ -120,9 +122,9 @@ SolutionSet * InferSpeciesTree::createInitialPopulation(int size) {
     mutList2.push_back(NNI);
     mutList2.push_back(SPR);
     mutList2.push_back(TBR);
-    mutList2.push_back(ShufMut);
+    //mutList2.push_back(ShufMut);
     parameters.clear();
-    prob = 1.0;
+    prob = 0.4;
     parameters["probability"] = &prob;
     parameters["mutationList"] = &mutList2;
     Mutation * mulMut = new MultipleRandomMutation(parameters);
@@ -157,11 +159,11 @@ SolutionSet * InferSpeciesTree::createInitialPopulation(int size) {
         
         //delete[] offSpring;
     }
-     for (int i = 0; i < precomputedTrees.size(); i++) {
-        Solution * sol = new Solution(pop->get(pop->size() - i - 1));
-        mulMut->execute(sol);
-        pop->replace(i, sol);
-    }
+//     for (int i = 0; i < precomputedTrees.size(); i++) {
+//        Solution * sol = new Solution(pop->get(pop->size() - i - 1));
+//        mulMut->execute(sol);
+//        pop->replace(i, sol);
+//    }
     delete[] parents;
     return pop;
 }

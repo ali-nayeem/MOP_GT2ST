@@ -68,8 +68,8 @@ int main(int argc, char ** argv) {
   // List of problem names to be used in the experiment
   // (please, refer to the README to check the possible values):
   vector<string> problemList_ {
-      "37-taxon.noscale_200g_500b.estimated-genetrees.R5"};//, "10-taxon.higher-ILS.estimated-genetrees.R2", 
-      //"10-taxon.higher-ILS.estimated-genetrees.R4", "10-taxon.higher-ILS.estimated-genetrees.R20"}; //, "ZDT2", "ZDT3", "ZDT4", "ZDT6" , "10-taxon.higher-ILS.estimated-genetrees.R2"
+      "10-taxon.higher-ILS.estimated-genetrees.R18"};//, "10-taxon.higher-ILS.estimated-genetrees.R2", 
+      //"10-taxon.higher-ILS.estimated-genetrees.R4", "10-taxon.higher-ILS.estimated-genetrees.R20"}; //, "37-taxon.noscale_200g_500b.estimated-genetrees.R5", "10-taxon.higher-ILS.estimated-genetrees.R2"
 
   // Directory where the execution results will be stored:
   //exp->experimentBaseDirectory_ = "C:/jMetal/pruebas/jmetal-cpp/" +

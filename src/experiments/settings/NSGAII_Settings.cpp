@@ -55,10 +55,10 @@ NSGAII_Settings::NSGAII_Settings(string problemName)
     problem_ = new InferSpeciesTree(path, 2);
 
     // Algorithm parameters
-    populationSize_ = 50;
-    maxEvaluations_ = 350;
-    mutationProbability_ = 0.8;
-    crossoverProbability_ = 0.5;
+    populationSize_ = 100;
+    maxEvaluations_ = 5000;
+    mutationProbability_ = 0.2;
+    crossoverProbability_ = 0.8;
 
 } // NSGAII_Settings
 
@@ -94,10 +94,11 @@ Algorithm * NSGAII_Settings::configure()
     Mutation * TBR = new PhylogeneticMutation(parameters);
 
     mutList1.push_back(NNI);
-    mutList1.push_back(SPR);
-    mutList1.push_back(TBR);
+    //mutList1.push_back(SPR);
+    //mutList1.push_back(TBR);
     parameters.clear();
-    //parameters["probability"] = &mutationProbability;
+    mutationProbability = mutationProbability_;
+    parameters["probability"] = &mutationProbability;
     parameters["mutationList"] = &mutList1;
     mutation = new MultipleRandomMutation(parameters);
 
