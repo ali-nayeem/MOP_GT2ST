@@ -20,12 +20,15 @@
 #include <Distance.h>
 #include <Ranking.h>
 #include <CrowdingComparator.h>
+#include "Checkpoint.h"
 
 class NSGAII_ST : public Algorithm {
 
 public:
-  NSGAII_ST(Problem * problem);
+  NSGAII_ST(Problem * problem, Checkpoint *checkpoint);
   SolutionSet * execute();
+private:
+  Checkpoint *checkpoint_;    
 
 };
 

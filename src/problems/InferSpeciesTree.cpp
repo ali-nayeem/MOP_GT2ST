@@ -24,7 +24,7 @@ InferSpeciesTree::InferSpeciesTree(string & _datapath, int _numOfObj) {
     problemName_ = "Infer Species Tree: " + _datapath;
     solutionType_ = new PhyloTreeSolutionType(this);
     treeFiles.push_back(datapath + speciesTreeFileName + "_astral");
-    //treeFiles.push_back(datapath + speciesTreeFileName + "_mpest");
+    treeFiles.push_back(datapath + speciesTreeFileName + "_mpest");
     treeFiles.push_back(datapath + speciesTreeFileName + "_phylonet");
     //treeFiles.push_back(datapath + speciesTreeFileName + "_triplet");
     newick = new Newick;

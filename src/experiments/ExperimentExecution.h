@@ -33,6 +33,8 @@
 #include <Experiment.h>
 #include <ExperimentIndividual.h>
 
+#include "util/Checkpoint.h"
+
 using namespace std;
 
 class ExperimentExecution : public Experiment {
@@ -52,6 +54,8 @@ public:
   Settings ** algorithmSettingsList_;
   int experimentIndividualListIndex_;
   int experimentIndividualListSize_;
+  bool keepCheckpoint_ = false;
+  //int checkpointInterval_ = 10;
 
   ExperimentExecution();
 
@@ -59,13 +63,17 @@ public:
   void runExperiment();
   string GetStdoutFromCommand(string cmd);
   void calculateTreePerf();
+  void calculateCheckpointTreePerf();
+  void calculateMPEST();
 
   // TODO: Check different algorithmSettings configurations
   // virtual void algorithmSettings(string problemName, int problemId,
   //      Algorithm ** algorithm) = 0;
   // virtual Algorithm * algorithmSettings(string problemName) = 0;
+  //virtual Algorithm * algorithmSettings(string problemName, int algorithmId,
+      //int experimentIndividiualId) = 0;
   virtual Algorithm * algorithmSettings(string problemName, int algorithmId,
-      int experimentIndividiualId) = 0;
+      int experimentIndividiualId, Checkpoint *checkpoint) = 0;
 
 }; // ExperimentExecution
 

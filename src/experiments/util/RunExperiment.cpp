@@ -22,6 +22,7 @@
 #include <RunExperiment.h>
 
 #include "InferSpeciesTree.h"
+#include "Checkpoint.h"
 
 
 /**
@@ -127,13 +128,7 @@ void RunExperiment::run() {
       problemName = problemList_[problemIndex] ;
 
       char * problemName_ = (char *) problemName.c_str();
-      // TODO: Improve Settings
-      algorithm = experiment_->algorithmSettings(problemName, algorithmIndex,
-          experimentIndividualListIndex);
-
-      problem = algorithm->getProblem();
-      ((InferSpeciesTree*)problem)->setThreadId(threadIndex_);
-
+      
       // Create output directories
       string directory;
       directory = experimentBaseDirectory_ + "/data/" + algorithmNameList_[algorithmIndex] + "/" +
@@ -143,6 +138,14 @@ void RunExperiment::run() {
         cout << "Creating directory: " << directory << endl;
       }
 
+      // TODO: Improve Settings
+      Checkpoint *checkpoint = new Checkpoint(experiment_->keepCheckpoint_, directory, numRun);
+      algorithm = experiment_->algorithmSettings(problemName, algorithmIndex,
+          experimentIndividualListIndex, checkpoint);
+
+      problem = algorithm->getProblem();
+      ((InferSpeciesTree*)problem)->setThreadId(threadIndex_);
+      
       // Run the algorithm
       mutex_->lock();
       cout << "Thread[" << threadIndex_ << "]: Start of algorithm: " <<

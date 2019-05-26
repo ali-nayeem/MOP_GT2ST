@@ -12,11 +12,13 @@
  */
 
 #include "NSGAII_ST.h"
+#include "Checkpoint.h"
 #include <InferSpeciesTree.h>
 
 using namespace bpp;
 
-NSGAII_ST::NSGAII_ST(Problem *problem) : Algorithm(problem) {
+NSGAII_ST::NSGAII_ST(Problem *problem, Checkpoint *checkpoint) : Algorithm(problem) {
+    checkpoint_ = checkpoint;
 }
 
 SolutionSet * NSGAII_ST::execute() {
@@ -72,7 +74,7 @@ SolutionSet * NSGAII_ST::execute() {
     //ApplicationTools::displayTask("Generations", true);
     int gen = 0;
     while (evaluations < maxEvaluations) {
-        
+        checkpoint_->logVAR(population, gen);
         cout<<"Generation: "<<gen++ << endl;
         // Create the offSpring solutionSet
         offspringPopulation = new SolutionSet(populationSize);
@@ -180,6 +182,7 @@ SolutionSet * NSGAII_ST::execute() {
     for (int i = 0; i < ranking->getSubfront(0)->size(); i++) {
         result->add(new Solution(ranking->getSubfront(0)->get(i)));
     }
+    checkpoint_->logVARforce(population, gen);
     delete ranking;
     //delete population;
 

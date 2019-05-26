@@ -51,7 +51,7 @@ int main(int argc, char** argv) {
     //    }
     int populationSize = 10, maxEvaluations = 20;
     Problem * prob = problem; // The problem to solve
-    Algorithm * algorithm = new NSGAII_ST(prob); // The algorithm to use
+    Algorithm * algorithm = new NSGAII_ST(prob, NULL); // The algorithm to use
     Operator * crossover; // Crossover operator
     Operator * mutation; // Mutation operator
     Operator * selection; // Selection operator

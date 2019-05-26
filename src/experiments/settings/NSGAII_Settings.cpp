@@ -21,7 +21,6 @@
 
 #include <NSGAII_Settings.h>
 
-#include "MultipleRandomMutation.h"
 
 /**
  * Default constructor
@@ -44,7 +43,7 @@ NSGAII_Settings::~NSGAII_Settings()
 /**
  * Constructor
  */
-NSGAII_Settings::NSGAII_Settings(string problemName)
+NSGAII_Settings::NSGAII_Settings(string problemName, Checkpoint * checkpoint)
 {
     problemName_ = problemName;
     string path(problemName_);
@@ -52,13 +51,14 @@ NSGAII_Settings::NSGAII_Settings(string problemName)
     //cout<<path;
 
     //problem_ = ProblemFactory::getProblem((char *) problemName_.c_str());
-    problem_ = new InferSpeciesTree(path, 2);
+    problem_ = new InferSpeciesTree(path, 3);
 
     // Algorithm parameters
     populationSize_ = 100;
-    maxEvaluations_ = 5000;
+    maxEvaluations_ = 20100;
     mutationProbability_ = 0.2;
     crossoverProbability_ = 0.8;
+    checkpoint_ = checkpoint;
 
 } // NSGAII_Settings
 
@@ -68,7 +68,7 @@ NSGAII_Settings::NSGAII_Settings(string problemName)
 Algorithm * NSGAII_Settings::configure()
 {
 
-    algorithm = new NSGAII_ST(problem_);
+    algorithm = new NSGAII_ST(problem_, checkpoint_);
     algorithm->setInputParameter("populationSize", &populationSize_);
     algorithm->setInputParameter("maxEvaluations", &maxEvaluations_);
 

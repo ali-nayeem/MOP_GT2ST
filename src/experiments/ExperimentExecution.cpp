@@ -180,9 +180,75 @@ void ExperimentExecution::calculateTreePerf(){
                 string trueStPath = path + "/true_st.tre";
                 string cmd = "python2  lib/PyTreePerf/getTreePerfFromVAR.py -t" + trueStPath + " -v " + varPath3 + " -o " + treePerfPath;
                 string r = GetStdoutFromCommand(cmd);
-                cout << r << endl;
+                //cout << r << endl;
                 cmd = "python3  lib/PyTreePerf/drawTreePerfDistrib.py -f " + treePerfPath;
                 r = GetStdoutFromCommand(cmd);
+                cout << r << endl;
+            }
+        }
+  }
+        
+}
+
+void ExperimentExecution::calculateCheckpointTreePerf(){
+    
+    for (int i=0; i<algorithmNameList_.size(); i++) {
+        string varPath1 = experimentBaseDirectory_+"/data/"+algorithmNameList_[i]+"/";
+        for (int j=0; j<problemList_.size(); j++) {
+            string varPath2 = varPath1 + problemList_[j] + "/";
+            string path(problemList_[j]);
+            std::replace(path.begin(), path.end(), '.', '/');
+            path = "data/" + path;
+            for (int k=0; k<independentRuns_; k++) {
+                string trueStPath = path + "/true_st.tre";
+                string varPath3 = varPath2 + "run" +to_string(k) + "/";
+                string ls = GetStdoutFromCommand("ls " + varPath3 + "pop*");
+                stringstream ss(ls);
+                string to;
+                //int solId=0;
+                while(std::getline(ss,to,'\n')){
+                   size_t found = to.find_last_of(".");
+                   string gen = to.substr(found+1);
+                   string treePerfPath = varPath3 + "popTreePerf." + gen;
+                   string cmd = "python2  lib/PyTreePerf/getTreePerfFromVAR.py -t" + trueStPath + " -v " + to + " -o " + treePerfPath;
+                   string r = GetStdoutFromCommand(cmd);
+                   //cout << r << endl;
+                }
+            }
+        }
+  } 
+}
+
+void ExperimentExecution::calculateMPEST(){
+    
+    for (int i=0; i<algorithmNameList_.size(); i++) {
+        string varPath1 = experimentBaseDirectory_+"/data/"+algorithmNameList_[i]+"/";
+        for (int j=0; j<problemList_.size(); j++) {
+            string varPath2 = varPath1 + problemList_[j] + "/";
+            string path(problemList_[j]);
+            std::replace(path.begin(), path.end(), '.', '/');
+            path = "data/" + path;
+            for (int k=0; k<independentRuns_; k++) {
+                string varPath3 = varPath2 + "VAR." +to_string(k);
+                string MPESTPath = varPath2 + "mpest." +to_string(k);
+                string control = path + "/control_score";
+                std::ifstream inFile(varPath3); 
+                int popSize = std::count(std::istreambuf_iterator<char>(inFile), std::istreambuf_iterator<char>(), '\n');
+                string cmd = "lib/mpest/mac/mpest_light " + control + " " + varPath3;
+                string ls;
+                for(int i=0; i<popSize; i++)
+                {
+                    ls += "12,"; 
+                    ls += GetStdoutFromCommand(cmd + " " + std::to_string(i));
+                    //ls += "\n"; 
+                }
+              
+                //cout << ls << endl;
+                std::ofstream out(MPESTPath);
+                out << ls;
+                out.close();
+                cmd = "python2  lib/PyTreePerf/drawTreePerfDistrib.py -f " + MPESTPath;
+                string r = GetStdoutFromCommand(cmd);
                 cout << r << endl;
             }
         }

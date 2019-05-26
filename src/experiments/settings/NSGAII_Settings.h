@@ -30,6 +30,8 @@
 #include <InferSpeciesTree.h>
 #include <BinaryTournament2.h>
 #include <algorithm>
+#include "MultipleRandomMutation.h"
+#include "Checkpoint.h"
 
 class NSGAII_Settings : public Settings{
 private:
@@ -42,10 +44,11 @@ private:
   Operator  * crossover ; // Crossover operator
   Operator  * mutation  ; // Mutation operator
   Operator  * selection ; // Selection operator
+  Checkpoint * checkpoint_;
 
 public:
 	NSGAII_Settings() ;
-	NSGAII_Settings(string problemName) ;
+	NSGAII_Settings(string problemName, Checkpoint * checkpoint ) ;
 	~NSGAII_Settings() ;
 
   Algorithm * configure() ;

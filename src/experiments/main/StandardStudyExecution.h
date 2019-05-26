@@ -35,7 +35,7 @@ class StandardStudyExecution : public ExperimentExecution {
 
 public:
   Algorithm * algorithmSettings(string problemName, int algorithmId,
-      int experimentIndividualId);
+      int experimentIndividualId, Checkpoint *checkpoint);
 
 };
 

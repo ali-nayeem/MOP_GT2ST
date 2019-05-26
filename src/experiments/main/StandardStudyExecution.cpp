@@ -36,14 +36,14 @@
  * @param experimentIndividualId Index of the experiment individual
  */
 Algorithm * StandardStudyExecution::algorithmSettings(string problemName,
-    int algorithmId, int experimentIndividualId) {
+    int algorithmId, int experimentIndividualId, Checkpoint *checkpoint) {
 
   Algorithm * alg;
 
   switch (algorithmId) {
   case 0:
     algorithmSettingsList_[experimentIndividualId] =
-        new NSGAII_Settings(problemName);
+        new NSGAII_Settings(problemName, checkpoint);
     alg = (algorithmSettingsList_[experimentIndividualId])->configure();
     break;
   }
@@ -59,6 +59,7 @@ int main(int argc, char ** argv) {
 
   // Name of the experiment:
   exp->experimentName_ = "Nayeem18May";
+  exp->keepCheckpoint_ = true;
 
   // List of algorithm names to be used in the experiment
   // (please, refer to the README to check the possible values):
@@ -77,10 +78,10 @@ int main(int argc, char ** argv) {
                                  exp->experimentName_;
 
   // Number of independent runs of each algorithm for each problem:
-  exp->independentRuns_ = 2;
+  exp->independentRuns_ = 10;
 
   // Number of threads to be used to execute the experiment
-  int numberOfThreads = 2;
+  int numberOfThreads = 1;
   
   exp->algorithmNameList_ = algorithmNameList_;
   exp->problemList_ = problemList_;
@@ -94,6 +95,7 @@ int main(int argc, char ** argv) {
 
   exp->runExperiment(numberOfThreads);
   exp->calculateTreePerf();
+  exp->calculateCheckpointTreePerf();
 
   cout << "Experiment (" << exp->experimentName_ << ") has finished." << endl;
 
