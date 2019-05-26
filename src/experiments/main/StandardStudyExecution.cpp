@@ -58,7 +58,7 @@ int main(int argc, char ** argv) {
   StandardStudyExecution * exp = new StandardStudyExecution() ;
 
   // Name of the experiment:
-  exp->experimentName_ = "Nayeem18May";
+  exp->experimentName_ = "10-taxonStudy26May";
   exp->keepCheckpoint_ = true;
 
   // List of algorithm names to be used in the experiment
