@@ -124,7 +124,7 @@ for (int i = 0; i < precomputedTrees.size(); i++) {
     mutList2.push_back(TBR);
     //mutList2.push_back(ShufMut);
     parameters.clear();
-    prob = 0.4;
+    prob = 0.6;
     parameters["probability"] = &prob;
     parameters["mutationList"] = &mutList2;
     Mutation * mulMut = new MultipleRandomMutation(parameters);
@@ -159,11 +159,19 @@ for (int i = 0; i < precomputedTrees.size(); i++) {
         
         //delete[] offSpring;
     }
-//     for (int i = 0; i < precomputedTrees.size(); i++) {
-//        Solution * sol = new Solution(pop->get(pop->size() - i - 1));
-//        mulMut->execute(sol);
-//        pop->replace(i, sol);
-//    }
+     for (int i = 0; i < precomputedTrees.size(); ) {
+        //Solution * sol = new Solution(pop->get(pop->size() - i - 1));
+        parents[0] = pop->get(i);
+        parents[1] = pop->get(pop->size() - i - 1);
+        Solution * offSpring = (Solution *) (crossover->execute(parents));
+        if(isMultifurcating(offSpring))
+        {
+            continue;
+        }
+        //mulMut->execute(sol);
+        pop->replace(i, offSpring);
+        i++;
+    }
     delete[] parents;
     return pop;
 }

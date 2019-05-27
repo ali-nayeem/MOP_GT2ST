@@ -24,6 +24,9 @@
 
 #include <iostream>
 #include <RandomGenerator.h>
+#include <Bpp/Numeric/Random/RandomTools.h>
+
+using namespace bpp; 
 
 /**
  * This file is aimed at defining the interface for the random generator. 
@@ -35,6 +38,7 @@ class PseudoRandom {
 //private:
 public:
   static RandomGenerator * randomGenerator_;
+  static RandomTools * bppRand_;
   PseudoRandom();
 
 public:

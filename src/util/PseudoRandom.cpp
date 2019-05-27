@@ -30,12 +30,17 @@ using namespace std;
  **/
 
 RandomGenerator * PseudoRandom::randomGenerator_ = NULL ;
+RandomTools * PseudoRandom::bppRand_ = new RandomTools() ;
+//bppRand_->setSeed(0123456789);
 
 PseudoRandom::PseudoRandom() {
   //randomGenerator_ = NULL ;
   if (PseudoRandom::randomGenerator_ == NULL) {
-    PseudoRandom::randomGenerator_ = new RandomGenerator();
+    //PseudoRandom::randomGenerator_ = new RandomGenerator();
+    //PseudoRandom::bppRand_ = new RandomTools();
+    PseudoRandom::bppRand_->setSeed(01234567);
   }
+  
 }
 
 //static int PseudoRandom::randInt() {
@@ -49,14 +54,18 @@ double PseudoRandom::randDouble() {
   if (PseudoRandom::randomGenerator_ == NULL) {
     PseudoRandom::randomGenerator_ = new RandomGenerator();
   }
-  return PseudoRandom::randomGenerator_->rndreal(0.0,1.0);
+  //return PseudoRandom::randomGenerator_->rndreal(0.0,1.0);
+  return bppRand_->giveRandomNumberBetweenZeroAndEntry(1.0);
 }
 
 int PseudoRandom::randInt(int minBound, int maxBound) {
   if (PseudoRandom::randomGenerator_ == NULL) {
     PseudoRandom::randomGenerator_ = new RandomGenerator();
   }
-  return PseudoRandom::randomGenerator_->rnd(minBound,maxBound);
+  int diff = maxBound - minBound;
+  //return PseudoRandom::randomGenerator_->rnd(minBound,maxBound);
+  return minBound + bppRand_->giveIntRandomNumberBetweenZeroAndEntry(maxBound-minBound+1);
+
 }
 
 //int PseudoRandom::randInt(int maxBound) {
@@ -68,8 +77,9 @@ int PseudoRandom::randInt(int minBound, int maxBound) {
 
 double PseudoRandom::randDouble(double minBound, double maxBound) {
   if (PseudoRandom::randomGenerator_ == NULL) {
-    PseudoRandom::randomGenerator_ = new RandomGenerator();
+    //PseudoRandom::randomGenerator_ = new RandomGenerator();
   }
-  return PseudoRandom::randomGenerator_->rndreal(minBound,maxBound);
+  //return PseudoRandom::randomGenerator_->rndreal(minBound,maxBound);
+  return minBound + bppRand_->giveRandomNumberBetweenZeroAndEntry(maxBound-minBound);
 }
     
