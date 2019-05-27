@@ -55,7 +55,7 @@ NSGAII_Settings::NSGAII_Settings(string problemName, Checkpoint * checkpoint)
 
     // Algorithm parameters
     populationSize_ = 100;
-    maxEvaluations_ = 20100;
+    maxEvaluations_ = 50;
     mutationProbability_ = 0.2;
     crossoverProbability_ = 0.8;
     checkpoint_ = checkpoint;
