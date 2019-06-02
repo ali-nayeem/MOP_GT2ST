@@ -135,7 +135,7 @@ void RunExperiment::run() {
           problemList_[problemIndex];
       if (FileUtils::existsPath(directory.c_str()) != 1) {
         FileUtils::createDirectory(directory);
-        cout << "Creating directory: " << directory << endl;
+        //cout << "Creating directory: " << directory << endl;
       }
 
       // TODO: Improve Settings

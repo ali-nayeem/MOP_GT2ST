@@ -51,11 +51,11 @@ NSGAII_Settings::NSGAII_Settings(string problemName, Checkpoint * checkpoint)
     //cout<<path;
 
     //problem_ = ProblemFactory::getProblem((char *) problemName_.c_str());
-    problem_ = new InferSpeciesTree(path, 3);
+    problem_ = new InferSpeciesTree(path, 2);
 
     // Algorithm parameters
     populationSize_ = 100;
-    maxEvaluations_ = 500;
+    maxEvaluations_ = 3000;
     mutationProbability_ = 0.2;
     crossoverProbability_ = 0.8;
     checkpoint_ = checkpoint;

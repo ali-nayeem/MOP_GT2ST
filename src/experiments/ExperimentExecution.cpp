@@ -202,6 +202,7 @@ void ExperimentExecution::calculateCheckpointTreePerf(){
             for (int k=0; k<independentRuns_; k++) {
                 string trueStPath = path + "/true_st.tre";
                 string varPath3 = varPath2 + "run" +to_string(k) + "/";
+                GetStdoutFromCommand("rm " + varPath3 + "pop*");
                 string ls = GetStdoutFromCommand("ls " + varPath3 + "pop*");
                 stringstream ss(ls);
                 string to;
@@ -212,6 +213,9 @@ void ExperimentExecution::calculateCheckpointTreePerf(){
                    string treePerfPath = varPath3 + "popTreePerf." + gen;
                    string cmd = "python2  lib/PyTreePerf/getTreePerfFromVAR.py -t" + trueStPath + " -v " + to + " -o " + treePerfPath;
                    string r = GetStdoutFromCommand(cmd);
+                   cmd = "python2  lib/PyTreePerf/drawTreePerfDistrib.py -f " + treePerfPath;
+                   r = GetStdoutFromCommand(cmd);
+                   cout << r << endl;
                    //cout << r << endl;
                 }
             }
