@@ -257,6 +257,14 @@ string InferSpeciesTree::getMpestScoreList(string varFile, int popSize)
     }
     return ls;
 }
+string InferSpeciesTree::getStelarScoreList(string varFile, int popSize)
+{
+    //cout << "Getting Astral Score"<< endl;
+    string ls = GetStdoutFromCommand("java -cp lib/STELAR/main.jar:lib/STELAR/STELAR_MAN.jar phylonet.coalescent.MGDInference_DP -st " + varFile 
+                                    + " -i " + datapath +  "gene.tre");
+    //cout << ls << endl;
+    return ls;
+}
 
 void InferSpeciesTree::evaluate(SolutionSet *pop, int gen)
 {

@@ -58,7 +58,7 @@ int main(int argc, char ** argv) {
   StandardStudyExecution * exp = new StandardStudyExecution() ;
 
   // Name of the experiment:
-  exp->experimentName_ = "10-taxonStudy26May";
+  exp->experimentName_ = "10-taxonStudy2JuneStelar";
   exp->keepCheckpoint_ = true;
 
   // List of algorithm names to be used in the experiment
@@ -78,7 +78,7 @@ int main(int argc, char ** argv) {
                                  exp->experimentName_;
 
   // Number of independent runs of each algorithm for each problem:
-  exp->independentRuns_ = 3;
+  exp->independentRuns_ = 10;
 
   // Number of threads to be used to execute the experiment
   int numberOfThreads = 1;
