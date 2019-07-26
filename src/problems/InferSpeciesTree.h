@@ -93,8 +93,12 @@ private:
     int timestamp_;
     int threadId_;
     string varFile_;
+<<<<<<< HEAD
     vector <int> selectedObjectives;
     //enum Objective { MAX_ASTRAL=0, MIN_PHYLONET, MAX_STELAR, MAX_MPEST };
+=======
+    enum Objective { MAX_ASTRAL, MIN_PHYLONET, MAX_STELAR, MAX_MPEST };
+>>>>>>> Nayeem18May
     int objNegIfMax[4] = {-1, 1, -1, -1};
     static string GetStdoutFromCommand(string cmd);
     string getAstralScoreList(string varFile, int popSize);

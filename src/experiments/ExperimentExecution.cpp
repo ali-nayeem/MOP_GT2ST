@@ -217,6 +217,10 @@ void ExperimentExecution::calculateCheckpointTreePerf(){
                    r = GetStdoutFromCommand(cmd);
                    cout << r << endl;
                    //cout << r << endl;
+                   cmd = "python3  lib/PyTreePerf/drawTreePerfDistrib.py -f " + treePerfPath;
+                   r = GetStdoutFromCommand(cmd);
+                   cout << r << endl;
+
                 }
             }
         }
