@@ -1,4 +1,4 @@
-//  NSGAII_Settings.h
+//  MOEAD_Settings.h
 //
 //  Author:
 //       Antonio J. Nebro <antonio@lcc.uma.es>
@@ -19,11 +19,11 @@
 //  You should have received a copy of the GNU Lesser General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef __NSGAII_SETTINGS__
-#define __NSGAII_SETTINGS__
+#ifndef __MOEAD_SETTINGS__
+#define __MOEAD_SETTINGS__
 
 #include <Settings.h>
-#include <NSGAII_ST.h>
+#include <MOEAD_ST.h>
 #include <SBXCrossover.h>
 #include <TreeCrossover.h>
 #include <PhylogeneticMutation.h>
@@ -33,7 +33,7 @@
 #include "MultipleRandomMutation.h"
 #include "Checkpoint.h"
 
-class NSGAII_Settings : public Settings{
+class MOEAD_Settings : public Settings{
 private:
 	int populationSize_                 ;
 	int maxEvaluations_                 ;
@@ -48,11 +48,11 @@ private:
   Checkpoint * checkpoint_;
 
 public:
-	NSGAII_Settings() ;
-	NSGAII_Settings(string problemName, Checkpoint * checkpoint ) ;
-	~NSGAII_Settings() ;
+	MOEAD_Settings() ;
+	MOEAD_Settings(string problemName, Checkpoint * checkpoint ) ;
+	~MOEAD_Settings() ;
 
   Algorithm * configure() ;
-}; // NSGAII_Settings
+}; // MOEAD_Settings
 
-#endif // __NSGAII_SETTINGS__
+#endif // __MOEAD_SETTINGS__

@@ -1,4 +1,4 @@
-//  NSGAII_Settings.cpp
+//  MOEAD_Settings.cpp
 //
 //  Author:
 //       Antonio J. Nebro <antonio@lcc.uma.es>
@@ -19,33 +19,34 @@
 //  You should have received a copy of the GNU Lesser General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#include <NSGAII_Settings.h>
+#include <MOEAD_Settings.h>
 
 #include "RandomSelection.h"
+#include "MOEAD_ST.h"
 
 
 /**
  * Default constructor
  */
-NSGAII_Settings::NSGAII_Settings() : Settings()
+MOEAD_Settings::MOEAD_Settings() : Settings()
 {
-} // NSGAII_Settings
+} // MOEAD_Settings
 
 /**
  * Destructor
  */
-NSGAII_Settings::~NSGAII_Settings()
+MOEAD_Settings::~MOEAD_Settings()
 {
     delete algorithm;
     delete crossover; // Crossover operator
     delete mutation; // Mutation operator
     delete selection; // Selection operator
-} // ~NSGAII_Settings
+} // ~MOEAD_Settings
 
 /**
  * Constructor
  */
-NSGAII_Settings::NSGAII_Settings(string problemName, Checkpoint * checkpoint)
+MOEAD_Settings::MOEAD_Settings(string problemName, Checkpoint * checkpoint)
 {
     problemName_ = problemName;
     string path(problemName_);
@@ -61,20 +62,22 @@ NSGAII_Settings::NSGAII_Settings(string problemName, Checkpoint * checkpoint)
     maxEvaluations_ = 2600;
     maxGen_ = 44;
     mutationProbability_ = 0.8;
-    crossoverProbability_ = 0.2;
+    crossoverProbability_ = 0.4;
     checkpoint_ = checkpoint;
 
-} // NSGAII_Settings
+} // MOEAD_Settings
 
 /**
  * Configure method
  */
-Algorithm * NSGAII_Settings::configure()
+Algorithm * MOEAD_Settings::configure()
 {
 
-    algorithm = new NSGAII_ST(problem_, checkpoint_);
+    algorithm = new MOEAD_ST(problem_, checkpoint_);//new MOEAD_ST(problem_, checkpoint_);
     algorithm->setInputParameter("populationSize", &populationSize_);
     algorithm->setInputParameter("maxEvaluations", &maxEvaluations_);
+    string dataDirectory = "data/Weight";
+    algorithm->setInputParameter("dataDirectory",&dataDirectory);
     //algorithm->setInputParameter("maxGenerations", &maxGen_);
 
     // Mutation and Crossover for Real codification
@@ -98,9 +101,9 @@ Algorithm * NSGAII_Settings::configure()
     parameters["metodo"] = &method[2];
     Mutation * TBR = new PhylogeneticMutation(parameters);
 
-    mutList1.push_back(NNI);
+    //mutList1.push_back(NNI);
     mutList1.push_back(SPR);
-    mutList1.push_back(TBR);
+    //mutList1.push_back(TBR);
     parameters.clear();
     mutationProbability = mutationProbability_;
     parameters["probability"] = &mutationProbability;

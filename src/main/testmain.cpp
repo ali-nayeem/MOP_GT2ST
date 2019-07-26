@@ -44,7 +44,8 @@ string GetStdoutFromCommand(string cmd) {
 
 int main(int argc, char** argv) {
     string data = "37-taxon/noscale_200g_500b/estimated-genetrees/R2";
-    InferSpeciesTree * problem = new InferSpeciesTree(data, 3);
+    vector<int> obj{ InferSpeciesTree::MAX_ASTRAL, InferSpeciesTree::MAX_STELAR}; 
+    InferSpeciesTree * problem = new InferSpeciesTree(data, obj);
     //    for (int i = 0; i < 3; i++) {
     //        SolutionSet * pop = problem->createInitialPopulation(20);
     //        problem->evaluate(pop, 0);

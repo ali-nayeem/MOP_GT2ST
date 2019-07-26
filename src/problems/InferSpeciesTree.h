@@ -93,14 +93,17 @@ private:
     int timestamp_;
     int threadId_;
     string varFile_;
-    enum Objective { MAX_ASTRAL, MIN_PHYLONET, MAX_MPEST };
-    int objNegIfMax[3] = {-1, 1, -1};
+    vector <int> selectedObjectives;
+    //enum Objective { MAX_ASTRAL=0, MIN_PHYLONET, MAX_STELAR, MAX_MPEST };
+    int objNegIfMax[4] = {-1, 1, -1, -1};
     static string GetStdoutFromCommand(string cmd);
     string getAstralScoreList(string varFile, int popSize);
     string getPhylonetScoreList(string varFile, int popSize);
     string getMpestScoreList(string varFile, int popSize);
-    GetScoreFuncPointer getScoreFunctions[3] = {&InferSpeciesTree::getAstralScoreList, 
+    string getStelarScoreList(string varFile, int popSize);
+    GetScoreFuncPointer getScoreFunctions[4] = {&InferSpeciesTree::getAstralScoreList, 
                                                 &InferSpeciesTree::getPhylonetScoreList, 
+                                                &InferSpeciesTree::getStelarScoreList, 
                                                 &InferSpeciesTree::getMpestScoreList};
     string os;
 public:
@@ -108,8 +111,10 @@ public:
   /*Phylogeny(string SequenceFile, double  kappa_, double alpha_, double beta_, int NumCat_ ,
                     double piA_, double piC_, double piG_, double piT_,
                     int bootstrapSize_,string BootStrapFilename_);*/
-  
-  InferSpeciesTree(string & _datapath, int _numOfObj);
+  //static Objective objectives;
+  enum Objective { MAX_ASTRAL=0, MIN_PHYLONET, MAX_STELAR, MAX_MPEST };
+  //InferSpeciesTree(string & _datapath);
+  InferSpeciesTree(string & _datapath, vector <int> & _selectedObjectives);
   ~InferSpeciesTree();
   void setThreadId(int id);
   vector<string> getLeavesName();
@@ -142,7 +147,9 @@ public:
   
   void readPrecomputedSpeciesTree();
   SolutionSet *createInitialPopulation(int size);
-
+  SolutionSet * createInitialPopulationGeneTrees(int size); 
+  SolutionSet * getSolutionSetFromVarFile(string varFileName);
+  void fillupNewPopulationUsingOld(SolutionSet * newPop, SolutionSet * oldPop);
   vector<Tree*> treesin;
   vector<Tree*> trees;
   int bootstrapSize;

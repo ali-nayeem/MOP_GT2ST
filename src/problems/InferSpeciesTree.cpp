@@ -13,13 +13,14 @@
 
 #include <InferSpeciesTree.h>
 #include <unordered_set>
+#include <iterator>
 
-
-InferSpeciesTree::InferSpeciesTree(string & _datapath, int _numOfObj) {
+InferSpeciesTree::InferSpeciesTree(string & _datapath, vector <int> & _selectedObjectives) {
 
     this->datapath =  "data/" +  _datapath + "/";
     numberOfVariables_ = 1;
-    numberOfObjectives_ = _numOfObj;
+    selectedObjectives = _selectedObjectives;
+    numberOfObjectives_ = selectedObjectives.size();
     numberOfConstraints_ = 0;
     problemName_ = "Infer Species Tree: " + _datapath;
     solutionType_ = new PhyloTreeSolutionType(this);
@@ -49,6 +50,7 @@ InferSpeciesTree::InferSpeciesTree(string & _datapath, int _numOfObj) {
 
 
 } // InferSpeciesTree
+
 
 void InferSpeciesTree::readPrecomputedSpeciesTree() {
     for (int i = 0; i < treeFiles.size(); i++) {
@@ -81,17 +83,40 @@ int InferSpeciesTree::getNumberOfTaxa()
 {
     return numberOfTaxa_;
 }
-SolutionSet * InferSpeciesTree::createInitialPopulation(int size) {
-    SolutionSet * pop = new SolutionSet(size);
-    //unordered_set<string> uniqueSolutions;
-for (int i = 0; i < precomputedTrees.size(); i++) {
+SolutionSet * InferSpeciesTree::getSolutionSetFromVarFile(string varFileName)
+{
+    ifstream varFile(varFileName);
+    // new lines will be skipped unless we stop it from happening:    
+    varFile.unsetf(std::ios_base::skipws);
+
+    // count the newlines with an algorithm specialized for counting:
+    unsigned lineCount = std::count(
+        std::istream_iterator<char>(varFile),
+        std::istream_iterator<char>(), 
+        '\n');
+    varFile.clear();
+    varFile.seekg(0, ios::beg);
+
+    SolutionSet * pop = new SolutionSet(lineCount);
+    string aTree;
+    while(std::getline(varFile, aTree))
+    {
+        TreeTemplate<Node> * tree = TreeTemplateTools::parenthesisToTree(aTree);
         Variable **variables = new Variable*[this->getNumberOfVariables()];
-        variables[0] = new PhyloTree(precomputedTrees[i]);
+        variables[0] = new PhyloTree();
+        ((PhyloTree *) variables[0])->setTree(tree);
         Solution * newSolution = new Solution(this, variables);
         pop->add(newSolution);
     }
+    //cout<<pop->size();
+    varFile.close();
+    return pop;
+}
+void  InferSpeciesTree::fillupNewPopulationUsingOld(SolutionSet * newPop, SolutionSet * oldPop)
+{
+    //newPop = new SolutionSet(size);
     map<string, void *> parameters;
-    double prob = 1.0; int numDes = 1.0;
+    double prob = 0.8; int numDes = 1.0;
     parameters["probability"] = &prob;
     parameters["numDescendientes"] = &numDes;
     TreeCrossover * crossover = new TreeCrossover(parameters);
@@ -124,7 +149,7 @@ for (int i = 0; i < precomputedTrees.size(); i++) {
     mutList2.push_back(TBR);
     //mutList2.push_back(ShufMut);
     parameters.clear();
-    prob = 0.6;
+    prob = 0.4;
     parameters["probability"] = &prob;
     parameters["mutationList"] = &mutList2;
     Mutation * mulMut = new MultipleRandomMutation(parameters);
@@ -132,15 +157,15 @@ for (int i = 0; i < precomputedTrees.size(); i++) {
     Solution ** parents = new Solution*[2];
     int parent1, parent2;
     //vector<Solution> children, parents;
-    while (pop->size() < size) {
+    while (newPop->size() < newPop->getMaxSize()) {
 
-        parent1 = PseudoRandom::randInt(0, pop->size() - 1);
+        parent1 = PseudoRandom::randInt(0, oldPop->size() - 1);
         do {
-            parent2 = PseudoRandom::randInt(0, pop->size() - 1);
+            parent2 = PseudoRandom::randInt(0, oldPop->size() - 1);
         } while (parent1 == parent2);
         
-        parents[0] = pop->get(parent1);
-        parents[1] = pop->get(parent2);
+        parents[0] = oldPop->get(parent1);
+        parents[1] = oldPop->get(parent2);
         
         //Solution * sol = new Solution(parents[0]);
         
@@ -155,24 +180,181 @@ for (int i = 0; i < precomputedTrees.size(); i++) {
             #endif
             continue;
         }
-        pop->add(offSpring);
-        
-        //delete[] offSpring;
-    }
-     for (int i = 0; i < precomputedTrees.size(); ) {
-        //Solution * sol = new Solution(pop->get(pop->size() - i - 1));
-        parents[0] = pop->get(i);
-        parents[1] = pop->get(pop->size() - i - 1);
-        Solution * offSpring = (Solution *) (crossover->execute(parents));
-        if(isMultifurcating(offSpring))
-        {
-            continue;
-        }
-        //mulMut->execute(sol);
-        pop->replace(i, offSpring);
-        i++;
+        newPop->add(offSpring);
     }
     delete[] parents;
+    //return newPop;
+}
+SolutionSet * InferSpeciesTree::createInitialPopulationGeneTrees(int size) 
+{
+    SolutionSet * genePop = getSolutionSetFromVarFile(datapath + "gene.tre");
+    SolutionSet * outPop = new SolutionSet(size);
+    fillupNewPopulationUsingOld(outPop, genePop);
+    
+//    map<string, void *> parameters;
+//    double prob = 0.8; int numDes = 1.0;
+//    parameters["probability"] = &prob;
+//    parameters["numDescendientes"] = &numDes;
+//    TreeCrossover * crossover = new TreeCrossover(parameters);
+//
+//    prob = 1.0;
+//    parameters.clear();
+//    parameters["probability"] = &prob;
+//
+//    string method[] = {"NNI", "SPR", "TBR"};
+//    vector<Mutation *> mutList1, mutList2;
+//
+//    parameters["metodo"] = &method[0];
+//    Mutation * NNI = new PhylogeneticMutation(parameters);
+//    parameters["metodo"] = &method[1];
+//    Mutation * SPR = new PhylogeneticMutation(parameters);
+//    parameters["metodo"] = &method[2];
+//    Mutation * TBR = new PhylogeneticMutation(parameters);
+//
+//
+//    mutList1.push_back(NNI);
+//    mutList1.push_back(SPR);
+//    mutList1.push_back(TBR);
+//    parameters.clear();
+//    parameters["probability"] = &prob;
+//    parameters["mutationList"] = &mutList1;
+//    Mutation * ShufMut = new ShuffledMutation(parameters);
+//
+//    mutList2.push_back(NNI);
+//    mutList2.push_back(SPR);
+//    mutList2.push_back(TBR);
+//    //mutList2.push_back(ShufMut);
+//    parameters.clear();
+//    prob = 0.4;
+//    parameters["probability"] = &prob;
+//    parameters["mutationList"] = &mutList2;
+//    Mutation * mulMut = new MultipleRandomMutation(parameters);
+//    
+//    Solution ** parents = new Solution*[2];
+//    int parent1, parent2;
+//    //vector<Solution> children, parents;
+//    while (outPop->size() < size) {
+//
+//        parent1 = PseudoRandom::randInt(0, pop->size() - 1);
+//        do {
+//            parent2 = PseudoRandom::randInt(0, pop->size() - 1);
+//        } while (parent1 == parent2);
+//        
+//        parents[0] = pop->get(parent1);
+//        parents[1] = pop->get(parent2);
+//        
+//        //Solution * sol = new Solution(parents[0]);
+//        
+//        Solution * offSpring = (Solution *) (crossover->execute(parents));
+//        if(isMultifurcating(offSpring))
+//            continue;
+//        mulMut->execute(offSpring);   
+//        if( getNumberOfLeaves(offSpring) != this->numberOfTaxa_ || isMultifurcating(offSpring))
+//        {   
+//            #ifdef MAN_DEBUG
+//            cout<<"When less taxa, then pllvalidator: "<<PLLisTreeValidate(offSpring)<<endl;
+//            #endif
+//            continue;
+//        }
+//        outPop->add(offSpring);
+//    }
+//    delete[] parents;
+    return outPop;
+}
+SolutionSet * InferSpeciesTree::createInitialPopulation(int size) {
+    SolutionSet * pop = new SolutionSet(size);
+    //unordered_set<string> uniqueSolutions;
+for (int i = 0; i < precomputedTrees.size(); i++) {
+        Variable **variables = new Variable*[this->getNumberOfVariables()];
+        variables[0] = new PhyloTree(precomputedTrees[i]);
+        Solution * newSolution = new Solution(this, variables);
+        pop->add(newSolution);
+    }
+    fillupNewPopulationUsingOld(pop, pop);
+    
+//    map<string, void *> parameters;
+//    double prob = 1.0; int numDes = 1.0;
+//    parameters["probability"] = &prob;
+//    parameters["numDescendientes"] = &numDes;
+//    TreeCrossover * crossover = new TreeCrossover(parameters);
+//
+//    prob = 1.0;
+//    parameters.clear();
+//    parameters["probability"] = &prob;
+//
+//    string method[] = {"NNI", "SPR", "TBR"};
+//    vector<Mutation *> mutList1, mutList2;
+//
+//    parameters["metodo"] = &method[0];
+//    Mutation * NNI = new PhylogeneticMutation(parameters);
+//    parameters["metodo"] = &method[1];
+//    Mutation * SPR = new PhylogeneticMutation(parameters);
+//    parameters["metodo"] = &method[2];
+//    Mutation * TBR = new PhylogeneticMutation(parameters);
+//
+//
+//    mutList1.push_back(NNI);
+//    mutList1.push_back(SPR);
+//    mutList1.push_back(TBR);
+//    parameters.clear();
+//    parameters["probability"] = &prob;
+//    parameters["mutationList"] = &mutList1;
+//    Mutation * ShufMut = new ShuffledMutation(parameters);
+//
+//    mutList2.push_back(NNI);
+//    mutList2.push_back(SPR);
+//    mutList2.push_back(TBR);
+//    //mutList2.push_back(ShufMut);
+//    parameters.clear();
+//    prob = 0.6;
+//    parameters["probability"] = &prob;
+//    parameters["mutationList"] = &mutList2;
+//    Mutation * mulMut = new MultipleRandomMutation(parameters);
+//    
+//    Solution ** parents = new Solution*[2];
+//    int parent1, parent2;
+//    //vector<Solution> children, parents;
+//    while (pop->size() < size) {
+//
+//        parent1 = PseudoRandom::randInt(0, pop->size() - 1);
+//        do {
+//            parent2 = PseudoRandom::randInt(0, pop->size() - 1);
+//        } while (parent1 == parent2);
+//        
+//        parents[0] = pop->get(parent1);
+//        parents[1] = pop->get(parent2);
+//        
+//        //Solution * sol = new Solution(parents[0]);
+//        
+//        Solution * offSpring = (Solution *) (crossover->execute(parents));
+//        if(isMultifurcating(offSpring))
+//            continue;
+//        mulMut->execute(offSpring);   
+//        if( getNumberOfLeaves(offSpring) != this->numberOfTaxa_ || isMultifurcating(offSpring))
+//        {   
+//            #ifdef MAN_DEBUG
+//            cout<<"When less taxa, then pllvalidator: "<<PLLisTreeValidate(offSpring)<<endl;
+//            #endif
+//            continue;
+//        }
+//        pop->add(offSpring);
+//        
+//        //delete[] offSpring;
+//    }
+//     for (int i = 0; i < precomputedTrees.size(); ) {
+//        //Solution * sol = new Solution(pop->get(pop->size() - i - 1));
+//        parents[0] = pop->get(i);
+//        parents[1] = pop->get(pop->size() - i - 1);
+//        Solution * offSpring = (Solution *) (crossover->execute(parents));
+//        if(isMultifurcating(offSpring))
+//        {
+//            continue;
+//        }
+//        //mulMut->execute(sol);
+//        pop->replace(i, offSpring);
+//        i++;
+//    }
+//    delete[] parents;
     return pop;
 }
 
@@ -214,7 +396,30 @@ bool InferSpeciesTree::isMultifurcating(Solution * solution)
     return tree->isMultifurcating();
 } 
 void InferSpeciesTree::evaluate(Solution *solution) {
-
+    varFile_ = datapath + "tmp";
+    if(!fileExistsTest(varFile_))
+    {
+        GetStdoutFromCommand("mkdir " + varFile_);
+    }
+    varFile_ += "/"+ to_string(timestamp_) + to_string(threadId_);
+    std::ofstream out(varFile_);
+    //solution-> ->printVariablesToFile(varFile_);
+    out << solution->toString();
+    out.close();
+    for(int i=0; i<selectedObjectives.size(); i++)
+    {
+        int objId = selectedObjectives[i];
+        string scoreList = (this->*(getScoreFunctions[objId]))(varFile_, 1);
+        stringstream ss(scoreList);
+        string to;
+        //int solId=0;
+        while(std::getline(ss,to,'\n')){
+          double value = atof(to.c_str());
+          solution->setObjective(i, value * objNegIfMax[objId]);
+          //cout << pop->get(solId)->getObjective(objId) << endl;
+          //solId++;
+        }
+    }
 }
 void InferSpeciesTree::setThreadId(int id)
 {
@@ -265,6 +470,14 @@ string InferSpeciesTree::getMpestScoreList(string varFile, int popSize)
     }
     return ls;
 }
+string InferSpeciesTree::getStelarScoreList(string varFile, int popSize)
+{
+    //cout << "Getting Astral Score"<< endl;
+    string ls = GetStdoutFromCommand("java -cp lib/STELAR/main.jar:lib/STELAR/STELAR_MAN.jar phylonet.coalescent.MGDInference_DP -st " + varFile 
+                                    + " -i " + datapath +  "gene.tre");
+    //cout << ls << endl;
+    return ls;
+}
 
 void InferSpeciesTree::evaluate(SolutionSet *pop, int gen)
 {
@@ -275,16 +488,17 @@ void InferSpeciesTree::evaluate(SolutionSet *pop, int gen)
     }
     varFile_ += "/"+ to_string(timestamp_) + to_string(threadId_);
     pop->printVariablesToFile(varFile_);
-    for(int objId=0; objId<numberOfObjectives_; objId++)
+    for(int i=0; i<selectedObjectives.size(); i++)
     {
+        int objId = selectedObjectives[i];
         string scoreList = (this->*(getScoreFunctions[objId]))(varFile_, pop->size());
         stringstream ss(scoreList);
         string to;
         int solId=0;
         while(std::getline(ss,to,'\n')){
           double value = atof(to.c_str());
-          pop->get(solId)->setObjective(objId, value * objNegIfMax[objId]);
-          //cout << pop->get(solId)->getObjective(objId) << endl;
+          pop->get(solId)->setObjective(i, value * objNegIfMax[objId]);
+          //cout << pop->get(solId)->getObjective(i) << endl;
           solId++;
         }
     }

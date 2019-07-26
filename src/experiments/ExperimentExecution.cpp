@@ -202,8 +202,8 @@ void ExperimentExecution::calculateCheckpointTreePerf(){
             for (int k=0; k<independentRuns_; k++) {
                 string trueStPath = path + "/true_st.tre";
                 string varPath3 = varPath2 + "run" +to_string(k) + "/";
-                GetStdoutFromCommand("rm " + varPath3 + "pop*");
-                string ls = GetStdoutFromCommand("ls " + varPath3 + "pop*");
+                //GetStdoutFromCommand("rm " + varPath3 + "pop*");
+                string ls = GetStdoutFromCommand("ls " + varPath3 + "pop.*");
                 stringstream ss(ls);
                 string to;
                 //int solId=0;

@@ -23,6 +23,7 @@
 
 #include <ExperimentExecution.h>
 #include <NSGAII_Settings.h>
+#include <MOEAD_Settings.h>
 #include <string>
 
 /**

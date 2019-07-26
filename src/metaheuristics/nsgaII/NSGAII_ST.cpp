@@ -13,6 +13,8 @@
 
 #include "NSGAII_ST.h"
 #include "Checkpoint.h"
+#include "RandomSelection.h"
+#include "BinaryTournament2.h"
 #include <InferSpeciesTree.h>
 
 using namespace bpp;
@@ -38,7 +40,9 @@ SolutionSet * NSGAII_ST::execute() {
     Operator * mutationOperator;
     Operator * crossoverOperator;
     Operator * selectionOperator;
-
+    map<string, void *> parameters;
+    Selection * randSel = new RandomSelection(parameters);
+    Selection * binTourSel = new BinaryTournament2(parameters);
     Distance * distance = new Distance();
 
     //Read the parameters
@@ -66,7 +70,7 @@ SolutionSet * NSGAII_ST::execute() {
 
     InferSpeciesTree * p = (InferSpeciesTree *) problem_;
     // Create the initial solutionSet
-    population = p->createInitialPopulation(populationSize);
+    population = p->createInitialPopulationGeneTrees(populationSize);
     p->evaluate(population);
     evaluations += populationSize;
 
@@ -82,12 +86,12 @@ SolutionSet * NSGAII_ST::execute() {
 
         //cout << "Evaluating  " << evaluations << endl;
 
-        for (int i = 0; i < (populationSize); i++) {
+        for (int i = 0; i < (populationSize); ) {
 
             if (evaluations < maxEvaluations) {
                 //obtain parents
-                parents[0] = (Solution *) (selectionOperator->execute(population));
-                parents[1] = (Solution *) (selectionOperator->execute(population));
+                parents[0] = ((Solution **) (randSel->execute(population)))[0];
+                parents[1] = (Solution *) (binTourSel->execute(population));
 
                 Solution * offSpring = (Solution *) (crossoverOperator->execute(parents));
                 if(p->isMultifurcating(offSpring))
@@ -101,6 +105,7 @@ SolutionSet * NSGAII_ST::execute() {
                     continue;
 
                 offspringPopulation->add(copy);
+                i++;
                 //offspringPopulation->add(offSpring[1]);
                 //cout << "Next " << evaluations << endl;
                 delete offSpring;

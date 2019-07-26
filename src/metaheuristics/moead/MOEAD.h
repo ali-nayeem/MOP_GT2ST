@@ -36,7 +36,7 @@
 
 class MOEAD : public Algorithm {
     
-private:
+protected:
 
   /**
    * Stores the population size
