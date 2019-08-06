@@ -54,31 +54,22 @@ def phylonet(path, subpath, i):
 def check(path, subpath, i, pwd):
 	estimateTree1 = pwd + "/"+ path+ "/"+subpath+"/R"+str(i)+"/species.tre_astral"
 	estimateTree2 = pwd + "/"+ path+ "/"+subpath+"/R"+str(i)+"/species.tre_phylonet"
-	#estimateTree3 = pwd + "/"+ path+ "/"+subpath+"/R"+str(i)+"/species.tre_mpest"
-	trueTree = pwd + "/"+path+ "/true-speciestrees/" + "R"+str(i) + ".label.true.tre"
+	estimateTree3 = pwd + "/"+ path+ "/"+subpath+"/R"+str(i)+"/species.tre_mpest"
+	trueTree = pwd + "/"+path+"/"+ subpath + "/R"+str(i) + "/true_st.tre"
 	cmd1 = "python ./getFpFn.py -t " + trueTree + " -e " + estimateTree1
 	cmd2 = "python ./getFpFn.py -t " + trueTree + " -e " + estimateTree2
-	#cmd3 = "python ./getFpFn.py -t " + trueTree + " -e " + estimateTree3
-	flag = 0
-	if (((subpath == "estimated-genetrees") and (i ==6)) or ((subpath == "true-genetrees") and (i in [1,2,6]))):
-		result1 = "none"
-		flag = 1
-	else:
-		result1 = run(cmd1)
-	if (subpath == "true-genetrees" and i in [1,2]):
-		result2 = "none"
-		flag = 1
-	else:
-		result2 = run(cmd2)
-	#result3 = run(cmd3)
+	cmd3 = "python ./getFpFn.py -t " + trueTree + " -e " + estimateTree3
+	#flag = 0
+	result1 = run(cmd1)
+	result2 = run(cmd2)
+	result3 = run(cmd3)
 	#if result != "0.0, 0.0, 0.0":
 	#fnResult = "R"+str(i)+ ": astral-> "+ result1 + ": phylonet-> "+ result2
-	if flag == 0:
-		fnResult = "R"+str(i)+ ": astral-> "+ result1[1:-1].split(',')[1] + ": phylonet-> "+ result2[1:-1].split(',')[1] + "\n"
-		print fnResult
-		f = open(subpath+"_FN_score_37-taxon.txt", "a+")
-		f.write(fnResult)
-		f.close()
+	fnResult = "R"+str(i)+ ": astral-> "+ result1[1:-1].split(',')[1] + ": phylonet-> "+ result2[1:-1].split(',')[1] + ": mpest-> "+ result3[1:-1].split(',')[1] + "\n"
+	print fnResult
+	f = open(subpath+"_FN_score_15-taxon.txt", "a+")
+	f.write(fnResult)
+	f.close()
 
 
 
@@ -91,12 +82,12 @@ def main():
 	for  path in paths:
 		  print path
 		  for subpath in subpaths:
-				for i in range(10,11):
+				for i in range(1,11):
 					#copy(path, subpath, i)
 					#copy_true_species_tree(path, subpath, i)
 					#astral(path, subpath, i)
-					phylonet(path, subpath, i)
-					#check(path, subpath, i, pwd)
+					#phylonet(path, subpath, i)
+					check(path, subpath, i, pwd)
 					#return
 					#sys.exit(0)
 					#print(run ("diff "+old+" "+new))
