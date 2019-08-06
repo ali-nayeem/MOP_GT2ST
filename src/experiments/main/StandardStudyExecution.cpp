@@ -59,11 +59,9 @@ int main(int argc, char ** argv) {
   StandardStudyExecution * exp = new StandardStudyExecution() ;
   
   // Name of the experiment:
-<<<<<<< HEAD
+//<<<<<<< HEAD
   exp->experimentName_ = "Nayeem5JuneMOEAD";
-=======
-  exp->experimentName_ = "10-taxonStudy2JuneStelar";
->>>>>>> Nayeem18May
+
   exp->keepCheckpoint_ = true;
 
   // List of algorithm names to be used in the experiment
@@ -74,12 +72,9 @@ int main(int argc, char ** argv) {
   // List of problem names to be used in the experiment
   // (please, refer to the README to check the possible values):
   vector<string> problemList_ {
-<<<<<<< HEAD
+//<<<<<<< HEAD
       "10-taxon.higher-ILS.estimated-genetrees.R3"};//, "10-taxon.higher-ILS.estimated-genetrees.R2", 
-=======
-      "10-taxon.higher-ILS.estimated-genetrees.R14"};//, "10-taxon.higher-ILS.estimated-genetrees.R2", 
->>>>>>> Nayeem18May
-      //"10-taxon.higher-ILS.estimated-genetrees.R4", "10-taxon.higher-ILS.estimated-genetrees.R20"}; //, "37-taxon.noscale_200g_500b.estimated-genetrees.R5", "10-taxon.higher-ILS.estimated-genetrees.R2"
+ //, "37-taxon.noscale_200g_500b.estimated-genetrees.R5", "10-taxon.higher-ILS.estimated-genetrees.R2"
 
   // Directory where the execution results will be stored:
   //exp->experimentBaseDirectory_ = "C:/jMetal/pruebas/jmetal-cpp/" +

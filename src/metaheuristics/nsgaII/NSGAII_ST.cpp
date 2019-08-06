@@ -78,7 +78,10 @@ SolutionSet * NSGAII_ST::execute() {
     //ApplicationTools::displayTask("Generations", true);
     int gen = 0;
     while (evaluations < maxEvaluations) {
-        checkpoint_->logVAR(population, gen);
+        if (checkpoint_ != NULL)
+        {
+            checkpoint_->logVAR(population, gen);
+        }
         cout<<"Generation: "<<gen++ << endl;
         // Create the offSpring solutionSet
         offspringPopulation = new SolutionSet(populationSize);
@@ -187,7 +190,10 @@ SolutionSet * NSGAII_ST::execute() {
     for (int i = 0; i < ranking->getSubfront(0)->size(); i++) {
         result->add(new Solution(ranking->getSubfront(0)->get(i)));
     }
-    checkpoint_->logVARforce(population, gen);
+    if (checkpoint_ != NULL)
+    {
+        checkpoint_->logVARforce(population, gen);
+    }
     delete ranking;
     //delete population;
 

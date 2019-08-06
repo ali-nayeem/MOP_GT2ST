@@ -34,7 +34,7 @@ public:
 private:
     string dataStorePath_;
     int runNumber_;
-    bool keepCheckpoint_;
+    bool keepCheckpoint_ = false;
     
     //int maxGen;
 };

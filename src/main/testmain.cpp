@@ -43,7 +43,8 @@ string GetStdoutFromCommand(string cmd) {
 }
 
 int main(int argc, char** argv) {
-    string data = "37-taxon/noscale_200g_500b/estimated-genetrees/R2";
+    string data = "10-taxon.higher-ILS.estimated-genetrees.R3";
+    std::replace( data.begin(), data.end(), '.', '/');
     vector<int> obj{ InferSpeciesTree::MAX_ASTRAL, InferSpeciesTree::MAX_STELAR}; 
     InferSpeciesTree * problem = new InferSpeciesTree(data, obj);
     //    for (int i = 0; i < 3; i++) {
