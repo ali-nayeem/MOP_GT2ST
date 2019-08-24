@@ -16,9 +16,10 @@
 #include <InferSpeciesTree.h>
 
 #include "NSGAII_ST.h"
+#include "TreeInitializer.h"
 #include <BinaryTournament2.h>
 
-#define MAN_DEBUG 1
+//#define MAN_DEBUG 1
 
 using namespace std;
 
@@ -43,7 +44,7 @@ string GetStdoutFromCommand(string cmd) {
 }
 
 int main(int argc, char** argv) {
-    string data = "10-taxon.higher-ILS.estimated-genetrees.R3";
+    string data = "37-taxon.noscale_200g_500b.estimated-genetrees.R5";  //"10-taxon.higher-ILS.estimated-genetrees.R3"; "15-taxon.100gene-100bp.estimated-genetrees.R3"
     std::replace( data.begin(), data.end(), '.', '/');
     vector<int> obj{ InferSpeciesTree::MAX_ASTRAL, InferSpeciesTree::MAX_STELAR}; 
     InferSpeciesTree * problem = new InferSpeciesTree(data, obj);
@@ -51,16 +52,17 @@ int main(int argc, char** argv) {
     //        SolutionSet * pop = problem->createInitialPopulation(20);
     //        problem->evaluate(pop, 0);
     //    }
-    int populationSize = 10, maxEvaluations = 20;
+    int populationSize = 500, maxEvaluations = 40;
     Problem * prob = problem; // The problem to solve
-    Algorithm * algorithm = new NSGAII_ST(prob, NULL); // The algorithm to use
+    Algorithm * algorithm = new NSGAII_ST(prob); // The algorithm to use
     Operator * crossover; // Crossover operator
     Operator * mutation; // Mutation operator
     Operator * selection; // Selection operator
+    Operator * initializer;
 
     map<string, void *> parameters;
-    double pb = 6.0;
-    int numDes = 1.0;
+    double pb = 1.0;
+    int numDes = 1;
     parameters["probability"] = &pb;
     parameters["numDescendientes"] = &numDes;
     crossover = new TreeCrossover(parameters);
@@ -68,8 +70,36 @@ int main(int argc, char** argv) {
     parameters.clear();
     pb = 0.8;
     parameters["probability"] = &pb;
-    //parameters["metodo"] = "NNI";
+    string method = "SPR";
+    parameters["metodo"] = &method;
     mutation = new PhylogeneticMutation(parameters);
+    
+    parameters.clear();
+    pb = 1.0;
+    parameters["probability"] = &pb;
+    string methods[] = {"NNI", "SPR", "TBR"};
+    parameters["metodo"] = &methods[0];
+    Mutation * NNI = new PhylogeneticMutation(parameters);
+    parameters["metodo"] = &methods[1];
+    Mutation * SPR = new PhylogeneticMutation(parameters);
+    parameters["metodo"] = &methods[2];
+    Mutation * TBR = new PhylogeneticMutation(parameters);
+    vector<Mutation *> mutList1;
+    mutList1.push_back(NNI);
+    mutList1.push_back(SPR);
+    mutList1.push_back(TBR);
+    pb = 1.0;
+    parameters["probability"] = &pb;
+    parameters["mutationList"] = &mutList1;
+    Mutation * mulMut = new MultipleRandomMutation(parameters);
+    bool unique = true;
+    method = "from_true_tree";
+    parameters["problem"] = problem;
+    //parameters["crossover"] = crossover;
+    parameters["mutation"] = mulMut;
+    parameters["method"] = &method;
+    parameters["unique"] = &unique;
+    initializer = new TreeInitializer(parameters);
 
     selection = new BinaryTournament2(parameters);
 
@@ -78,12 +108,23 @@ int main(int argc, char** argv) {
     algorithm->addOperator("crossover", crossover);
     algorithm->addOperator("mutation", mutation);
     algorithm->addOperator("selection", selection);
+    algorithm->addOperator("initializer", initializer);
 
     //for(int i=0; i<1; i++)
     SolutionSet * result = algorithm->execute();
     
     result->printVariablesToFile("experiment/VAR.br");
     result->printObjectivesToFile("experiment/FUN.br");
+
+
+    delete crossover;
+    delete mutation;
+    delete selection;
+    //delete problem;
+    delete algorithm;
+
+    return 0;
+}
 
     //pop->printVariablesToFile(data+"/VAR");
     //    map<string, void *> parameters;
@@ -99,12 +140,3 @@ int main(int argc, char** argv) {
     //    parents[0] = pop->get(4);
     //    parents[1] = pop->get(5);
     //    Solution * offSpring = (Solution *) (crossover.execute(parents));
-    delete crossover;
-    delete mutation;
-    delete selection;
-    //delete problem;
-    delete algorithm;
-
-    return 0;
-}
-

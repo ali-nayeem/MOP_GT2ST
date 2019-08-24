@@ -970,110 +970,110 @@ pair<double,boolean>  Phylogeny::PPNSearch(Solution * solution, int NumMaxMovs){
     
     //DRTreeParsimony usado para denotar los posibles buenos moviemitos basads en Parsimonia
     DRTreeParsimonyScore * Par =	new DRTreeParsimonyScore(*tree, *problem_->getSites() ,false,true);
-    TreeTemplate<Node> * treeP = Par->getTreeP_();
-    vector<Node*> nodes = treeP->getNodes();
-    int NextNodeIDPar = treeP->getNextId();
-    
-    int ParsimonyScore;
-    int MenorParsimonia, Par1;
-    MenorParsimonia = Par1 = R.first =  Par->getScore();
-    R.second = false;
-    
-    Node * Root;
-    Node* Nodo1;
-    Node* Nodo2;
-
-  int MaxNivel, dmax,d,up,down,u, Iteracion;
-  bool b;
-  
-  pair< pair<double *, int *>, Node *> pPar;
-  pair<double *, int *> pnPar;
-  
-  Root=treeP->getRootNode();
-  MaxNivel=0;
-  for(int k=0;k<Root->getNumberOfSons();k++){      MaxNivel+= getNivel(Root->getSon(k));   }
-
-  dmax =MaxNivel; 
-  for(Iteracion=0; Iteracion<PPN_NumIteraciones;Iteracion++){
-      
-        if (Iteracion%(PPN_NumIteraciones/MaxNivel+1)==0) dmax--;
-      
-        if(dmax < 3) dmax=3;
-        else if(dmax > MaxNivel) dmax=MaxNivel;
-
-        do{
-              b=true;
-              do {
-                  Nodo1 =  nodes[rand()%nodes.size()];
-                  if(Nodo1->hasFather()){
-                      if(Nodo1->getFather()->hasFather()) b=false;
-                  }
-              }while(b);
-
-              d=rand()%dmax+1; //Distancia entre 1 y DMax
-              u=up=rand()%d+2; //Subir desde 2 a D
-
-              Nodo2=Nodo1;
-              Node* prev;
-              while(Nodo2->hasFather() && (u>0)) {
-                 prev=Nodo2;
-                 Nodo2=Nodo2->getFather();
-                 u--;
-              }
-
-              down=d+2-up-u;
-
-            while(Nodo2->getNumberOfSons()>1 && (down>0)) {
-                  Nodo2 = Nodo2->getSon(rand()% Nodo2->getNumberOfSons());
-                  if(Nodo1==Nodo2) {
-                      Nodo2=Nodo2->getFather();
-                  }else  down --;
-            }
-         }while(!SPRvalide (Nodo1,Nodo2));
-         
-         
-         
-         if(!isMov(MovSPRPar,Nodo1->getId() , Nodo2->getId())){
-      
-             IDs.first=Nodo1->getId();         IDs.second=Nodo2->getId();
-             MovSPRPar.push_back(IDs);
-             
-            pPar=SPR(Nodo1, Nodo2, NextNodeIDPar); //Sobrr TreeParsimonia
-            pnPar = pPar.first;
-
-            Par->topologyChangeTested(*new TopologyChangeEvent());
-
-            ParsimonyScore = Par->getScore();
-            if( ParsimonyScore < MenorParsimonia){
-
-                SPR(tree->getNode(Nodo1->getId()),tree->getNode(Nodo2->getId()), NextNodeID);
-
-                MenorParsimonia = ParsimonyScore;
-                R.second = true;
-                
-                if(++NumApliedMovSPR>NumMaxMovs) Iteracion=PPN_NumIteraciones+1; //exit For Iteraciones
-
-            }else {            
-                 double *b = pnPar.first;
-                if(b[0]==1)
-                   SPR(Nodo1,pPar.second,b);
-                else
-                   SPRreverse(Nodo1,pPar.second,b,NextNodeIDPar);
-            }
-            delete[] pnPar.first;       delete[] pnPar.second;
-       }
-  }
-  
-  delete Par;
-  
- 
- if(printtrace){
-        ComportamientoTimePar <<  ((double) (clock() - t_ini))/ CLOCKS_PER_SEC << endl; 
-        ComportamientoMP << Par1 - MenorParsimonia   << endl; 
- }
-  
- R.first = (double) MenorParsimonia;
- return R; 
+//    TreeTemplate<Node> * treeP = Par->getTreeP_();
+//    vector<Node*> nodes = treeP->getNodes();
+//    int NextNodeIDPar = treeP->getNextId();
+//    
+//    int ParsimonyScore;
+//    int MenorParsimonia, Par1;
+//    MenorParsimonia = Par1 = R.first =  Par->getScore();
+//    R.second = false;
+//    
+//    Node * Root;
+//    Node* Nodo1;
+//    Node* Nodo2;
+//
+//  int MaxNivel, dmax,d,up,down,u, Iteracion;
+//  bool b;
+//  
+//  pair< pair<double *, int *>, Node *> pPar;
+//  pair<double *, int *> pnPar;
+//  
+//  Root=treeP->getRootNode();
+//  MaxNivel=0;
+//  for(int k=0;k<Root->getNumberOfSons();k++){      MaxNivel+= getNivel(Root->getSon(k));   }
+//
+//  dmax =MaxNivel; 
+//  for(Iteracion=0; Iteracion<PPN_NumIteraciones;Iteracion++){
+//      
+//        if (Iteracion%(PPN_NumIteraciones/MaxNivel+1)==0) dmax--;
+//      
+//        if(dmax < 3) dmax=3;
+//        else if(dmax > MaxNivel) dmax=MaxNivel;
+//
+//        do{
+//              b=true;
+//              do {
+//                  Nodo1 =  nodes[rand()%nodes.size()];
+//                  if(Nodo1->hasFather()){
+//                      if(Nodo1->getFather()->hasFather()) b=false;
+//                  }
+//              }while(b);
+//
+//              d=rand()%dmax+1; //Distancia entre 1 y DMax
+//              u=up=rand()%d+2; //Subir desde 2 a D
+//
+//              Nodo2=Nodo1;
+//              Node* prev;
+//              while(Nodo2->hasFather() && (u>0)) {
+//                 prev=Nodo2;
+//                 Nodo2=Nodo2->getFather();
+//                 u--;
+//              }
+//
+//              down=d+2-up-u;
+//
+//            while(Nodo2->getNumberOfSons()>1 && (down>0)) {
+//                  Nodo2 = Nodo2->getSon(rand()% Nodo2->getNumberOfSons());
+//                  if(Nodo1==Nodo2) {
+//                      Nodo2=Nodo2->getFather();
+//                  }else  down --;
+//            }
+//         }while(!SPRvalide (Nodo1,Nodo2));
+//         
+//         
+//         
+//         if(!isMov(MovSPRPar,Nodo1->getId() , Nodo2->getId())){
+//      
+//             IDs.first=Nodo1->getId();         IDs.second=Nodo2->getId();
+//             MovSPRPar.push_back(IDs);
+//             
+//            pPar=SPR(Nodo1, Nodo2, NextNodeIDPar); //Sobrr TreeParsimonia
+//            pnPar = pPar.first;
+//
+//            Par->topologyChangeTested(*new TopologyChangeEvent());
+//
+//            ParsimonyScore = Par->getScore();
+//            if( ParsimonyScore < MenorParsimonia){
+//
+//                SPR(tree->getNode(Nodo1->getId()),tree->getNode(Nodo2->getId()), NextNodeID);
+//
+//                MenorParsimonia = ParsimonyScore;
+//                R.second = true;
+//                
+//                if(++NumApliedMovSPR>NumMaxMovs) Iteracion=PPN_NumIteraciones+1; //exit For Iteraciones
+//
+//            }else {            
+//                 double *b = pnPar.first;
+//                if(b[0]==1)
+//                   SPR(Nodo1,pPar.second,b);
+//                else
+//                   SPRreverse(Nodo1,pPar.second,b,NextNodeIDPar);
+//            }
+//            delete[] pnPar.first;       delete[] pnPar.second;
+//       }
+//  }
+//  
+//  delete Par;
+//  
+// 
+// if(printtrace){
+//        ComportamientoTimePar <<  ((double) (clock() - t_ini))/ CLOCKS_PER_SEC << endl; 
+//        ComportamientoMP << Par1 - MenorParsimonia   << endl; 
+// }
+//  
+// R.first = (double) MenorParsimonia;
+// return R; 
 }
 
 
@@ -1323,45 +1323,45 @@ double Phylogeny::BppGradientBLOptimization(Solution *  solution, int NumEvals ,
    optimizer->init(pl);
    double lk= optimizer->optimize();
    
-   TreeTemplate<Node>*  tLik = tl1->getTreeP_();
-   vector<Node *> nodos= tree->getNodes();
-   vector<Node *> nodos2= tLik->getNodes();
-   Node * nodo; 
-   Node * nodo2;
-  
-   if(nodos.size()!=nodos2.size()) { 
-       cout << "Warning: Number of Nodes are different: " << nodos.size() << " TLik " << nodos2.size() << endl;
-       
-       delete tree;
-       tree = new TreeTemplate<Node>();
-       tree ->setRootNode(TreeTemplateTools::cloneSubtree<Node>(*tLik->getRootNode()));
-            
-       //Newick * newickprinttree = new Newick;
-       //newickprinttree->write(*tree,"tree");
-       //newickprinttree->write(*tLik,"tlik");
-      //delete newickprinttree;
-       
-   }else{
-       
-        for(int i=0;i<nodos.size();i++){
-           nodo=nodos[i]; nodo2=nodos2[i];
-           if(nodo2->hasDistanceToFather())
-                nodo->setDistanceToFather(nodo2->getDistanceToFather());
-           else
-             nodo->deleteDistanceToFather();
-        }
-   }
-   
-   //ComportamientoTime <<  ((double) (clock() - t_ini))/ CLOCKS_PER_SEC << endl; 
-   //ComportamientoML << lk1 - lk   << endl; 
-   //cout <<"Tiempo " << ((double) (clock() - t_ini))/ CLOCKS_PER_SEC  << " DifereML " << lk1-lk << endl;
-   
-   delete optimizer;
-   delete tl1;
-   delete Model;
-   delete RateDist;
-
-   return lk;
+//   TreeTemplate<Node>*  tLik = tl1->getTreeP();
+//   vector<Node *> nodos= tree->getNodes();
+//   vector<Node *> nodos2= tLik->getNodes();
+//   Node * nodo; 
+//   Node * nodo2;
+//  
+//   if(nodos.size()!=nodos2.size()) { 
+//       cout << "Warning: Number of Nodes are different: " << nodos.size() << " TLik " << nodos2.size() << endl;
+//       
+//       delete tree;
+//       tree = new TreeTemplate<Node>();
+//       tree ->setRootNode(TreeTemplateTools::cloneSubtree<Node>(*tLik->getRootNode()));
+//            
+//       //Newick * newickprinttree = new Newick;
+//       //newickprinttree->write(*tree,"tree");
+//       //newickprinttree->write(*tLik,"tlik");
+//      //delete newickprinttree;
+//       
+//   }else{
+//       
+//        for(int i=0;i<nodos.size();i++){
+//           nodo=nodos[i]; nodo2=nodos2[i];
+//           if(nodo2->hasDistanceToFather())
+//                nodo->setDistanceToFather(nodo2->getDistanceToFather());
+//           else
+//             nodo->deleteDistanceToFather();
+//        }
+//   }
+//   
+//   //ComportamientoTime <<  ((double) (clock() - t_ini))/ CLOCKS_PER_SEC << endl; 
+//   //ComportamientoML << lk1 - lk   << endl; 
+//   //cout <<"Tiempo " << ((double) (clock() - t_ini))/ CLOCKS_PER_SEC  << " DifereML " << lk1-lk << endl;
+//   
+//   delete optimizer;
+//   delete tl1;
+//   delete Model;
+//   delete RateDist;
+//
+//   return lk;
 }
 
 

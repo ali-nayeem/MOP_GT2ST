@@ -163,8 +163,13 @@ void PhylogeneticMutation::NNI(Solution * solution){
     do{
           NodoSel =  nodes[PseudoRandom::randInt(0, nodes.size() - 1)];
           count++;
-          if(count > 3)
+          if(count > 5)
+          {
+              #ifdef MAN_DEBUG
+              cout << "NNI Failed !" << endl ;
+              #endif              
               return;
+          }
     }while(!NNIValidate(NodoSel));
     
     Node * Nodo1;
@@ -223,13 +228,13 @@ void PhylogeneticMutation::SPR(Solution * solution){
      do{
         b=true;
         do {
-               Nodo1 =  nodes[rand()%nodes.size()];
+               Nodo1 =  nodes[PseudoRandom::randInt(0, nodes.size()-1)] ; //old: rand()%nodes.size()
                if(Nodo1->hasFather()){
                    if(Nodo1->getFather()->hasFather()) b=false;
                 }
         }while(b);
      
-        Nodo2 =  nodes[rand()%nodes.size()];
+        Nodo2 =  nodes[PseudoRandom::randInt(0, nodes.size()-1)]; //old: rand()%nodes.size()
         
     }while(!SPRvalide (Nodo1,Nodo2));     
     

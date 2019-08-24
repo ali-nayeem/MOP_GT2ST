@@ -165,7 +165,7 @@ void MOEAD_ST::initPopulation() {
     
   InferSpeciesTree * p = (InferSpeciesTree *) problem_;
     
-  population_ = p->createInitialPopulationGeneTrees(populationSize_);
+  //population_ = p->createInitialPopulationGeneTrees(populationSize_);
     
   p->evaluate(population_);
   evaluations_ += populationSize_;

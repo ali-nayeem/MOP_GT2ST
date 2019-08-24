@@ -19,8 +19,8 @@
 
 using namespace bpp;
 
-NSGAII_ST::NSGAII_ST(Problem *problem, Checkpoint *checkpoint) : Algorithm(problem) {
-    checkpoint_ = checkpoint;
+NSGAII_ST::NSGAII_ST(Problem *problem) : Algorithm(problem) {
+    checkpoint_ = NULL;
 }
 
 SolutionSet * NSGAII_ST::execute() {
@@ -40,6 +40,7 @@ SolutionSet * NSGAII_ST::execute() {
     Operator * mutationOperator;
     Operator * crossoverOperator;
     Operator * selectionOperator;
+    Operator * initializerOperator;
     map<string, void *> parameters;
     Selection * randSel = new RandomSelection(parameters);
     Selection * binTourSel = new BinaryTournament2(parameters);
@@ -48,6 +49,7 @@ SolutionSet * NSGAII_ST::execute() {
     //Read the parameters
     populationSize = *(int *) getInputParameter("populationSize");
     maxEvaluations = *(int *) getInputParameter("maxEvaluations");
+    checkpoint_ = (Checkpoint *) getInputParameter("checkpoint");
     //IntervalOptSubsModel = *(int *) getInputParameter("intervalupdateparameters");
     //  indicators = (QualityIndicator *) getInputParameter("indicators");
 
@@ -61,6 +63,7 @@ SolutionSet * NSGAII_ST::execute() {
     mutationOperator = operators_["mutation"];
     crossoverOperator = operators_["crossover"];
     selectionOperator = operators_["selection"];
+    initializerOperator = operators_["initializer"];
 
     //ApplicationTools::displayTask("Initial Population", true);
     // Create the initial solutionSet
@@ -70,7 +73,7 @@ SolutionSet * NSGAII_ST::execute() {
 
     InferSpeciesTree * p = (InferSpeciesTree *) problem_;
     // Create the initial solutionSet
-    population = p->createInitialPopulationGeneTrees(populationSize);
+    population = (SolutionSet*) initializerOperator->execute(&populationSize);//p->createInitialPopulationGeneTrees(populationSize);
     p->evaluate(population);
     evaluations += populationSize;
 

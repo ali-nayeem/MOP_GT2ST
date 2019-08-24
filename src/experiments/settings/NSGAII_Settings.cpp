@@ -72,9 +72,10 @@ NSGAII_Settings::NSGAII_Settings(string problemName, Checkpoint * checkpoint)
 Algorithm * NSGAII_Settings::configure()
 {
 
-    algorithm = new NSGAII_ST(problem_, checkpoint_);
+    algorithm = new NSGAII_ST(problem_);
     algorithm->setInputParameter("populationSize", &populationSize_);
     algorithm->setInputParameter("maxEvaluations", &maxEvaluations_);
+    algorithm->setInputParameter("checkpoint", checkpoint_);
     //algorithm->setInputParameter("maxGenerations", &maxGen_);
 
     // Mutation and Crossover for Real codification

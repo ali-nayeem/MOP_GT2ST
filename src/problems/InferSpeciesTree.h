@@ -15,54 +15,22 @@
 #define INFERSPECIESTREE_H
 
 #include <Problem.h>
-#include <PhyloTreeSolutionType.h>
+//#include <PhyloTreeSolutionType.h>
 #include <Solution.h>
 //#include <SolutionSet.h>
 
 #include <time.h>
 
-//#include <Bpp/Seq/Alphabet/DNA.h>
-//#include <Bpp/Seq/Alphabet/Alphabet.h>
-//#include <Bpp/Seq/Container/SiteContainer.h>
-//#include <Bpp/Seq/Container/SequenceContainer.h>
-//#include <Bpp/Seq/Container/SiteContainerTools.h>
-//#include <Bpp/Seq/Io/Phylip.h>
-//#include <Bpp/Seq/Io/Fasta.h>
-
 #include <Bpp/Phyl/TreeTemplate.h>
 #include <Bpp/Phyl/TreeTemplateTools.h>
 
-//#include <Bpp/Phyl/Model/Nucleotide/HKY85.h>
-//#include <Bpp/Phyl/Model/Nucleotide/GTR.h>
 
 //#include <Bpp/Phyl/Model/RateDistribution/GammaDiscreteRateDistribution.h>
-#include <Bpp/Phyl/Io/Newick.h>
+//#include <Bpp/Phyl/Io/Newick.h>
 #include <Bpp/Phyl/Node.h>
 
-//#include <Bpp/Phyl/Parsimony/DRTreeParsimonyScore.h>
-//#include <Bpp/Phyl/Likelihood/RHomogeneousTreeLikelihood.h>
-//#include <Bpp/Phyl/Likelihood/NNIHomogeneousTreeLikelihood.h>
-
-
-//#include <Bpp/Phyl/OptimizationTools.h>
-
-//#include <Bpp/Io/FileTools.h>
-
-//#include <Bpp/Seq/App/SequenceApplicationTools.h>
-//#include <Bpp/App/BppApplication.h>
-
-
-//#include <Bpp/Numeric/ParameterList.h>
-//#include <Bpp/Phyl/Likelihood/PseudoNewtonOptimizer.h>
-//#include <Bpp/Numeric/Function/BfgsMultiDimensions.h>
-//#include <Bpp/Numeric/Function/ThreePointsNumericalDerivative.h>
-//#include <Bpp/Numeric/Function/ConjugateGradientMultiDimensions.h>
-//#include <Bpp/Numeric/Function/TwoPointsNumericalDerivative.h>
-//#include <Bpp/Numeric/Function/MetaOptimizer.h>
-//#include <Bpp/Phyl/OptimizationTools.h>
-
 #include <pll/pll.h>
-
+//#include<libpll/pll.h>
 //#include <Bpp/Text/KeyvalTools.h>
 #include <sys/stat.h>
 //#include <SpeciesTree.h>
@@ -74,7 +42,7 @@
 #include "SpeciesTreeSolutionType.h"
 #include "ShuffledMutation.h"
 #include "MultipleRandomMutation.h"
-//#define MAN_DEBUG 1
+#define MAN_DEBUG 1
 
 class InferSpeciesTree;
 typedef string(InferSpeciesTree::*GetScoreFuncPointer)(string, int);
@@ -97,8 +65,7 @@ private:
     vector <int> selectedObjectives;
     //enum Objective { MAX_ASTRAL=0, MIN_PHYLONET, MAX_STELAR, MAX_MPEST };
 //=======
-    //enum Objective { MAX_ASTRAL, MIN_PHYLONET, MAX_STELAR, MAX_MPEST };
-//>>>>>>> Nayeem18May
+   //enum Objective { MAX_ASTRAL, MIN_PHYLONET, MAX_STELAR, MAX_MPEST };
     int objNegIfMax[4] = {-1, 1, -1, -1};
     static string GetStdoutFromCommand(string cmd);
     string getAstralScoreList(string varFile, int popSize);
@@ -111,11 +78,6 @@ private:
                                                 &InferSpeciesTree::getMpestScoreList};
     string os;
 public:
-  //Phylogeny(string solutionType);
-  /*Phylogeny(string SequenceFile, double  kappa_, double alpha_, double beta_, int NumCat_ ,
-                    double piA_, double piC_, double piG_, double piT_,
-                    int bootstrapSize_,string BootStrapFilename_);*/
-  //static Objective objectives;
   enum Objective { MAX_ASTRAL=0, MIN_PHYLONET, MAX_STELAR, MAX_MPEST };
   //InferSpeciesTree(string & _datapath);
   InferSpeciesTree(string & _datapath, vector <int> & _selectedObjectives);
@@ -130,51 +92,27 @@ public:
   //void evaluate(Solution *solution,float p, float l);
   void evaluate(SolutionSet *pop, int gen=-1);
   bool isMultifurcating(Solution * solution);
-  
-  //void evaluate(Solution *solution, DRTreeParsimonyScore* ParsimonyEvaluator); 
-  //void evaluate(Solution *solution, DRTreeParsimonyScore* ParsimonyEvaluator, NNIHomogeneousTreeLikelihood * LikelihoodEvaluator );
-  
-      
-
   void printParameters();
 //  void readParameters(BppApplication *objApp);
-//  void GenerateInitialTrees();
-//  void GenerateRandomTrees();
-//  void LoadUserTrees();
 
-  Newick * newick;
+ SolutionSet * getSolutionSetFromVarFile(string varFileName);
+ vector< PhyloTree* > getPrecomputedTrees(){return precomputedTrees;}
+ string getGeneTreePath(){return datapath + geneTreeFileName;}
+ vector< PhyloTree* > readPrecomputedSpeciesTree();
+ bool matchObjectiveValues(Solution * one, Solution * two );
+ Solution * getTrueTree(){return trueTree;}
+private:
+  //Newick * newick;
   string datapath;
   vector<string> treeFiles;
   string speciesTreeFileName = "species.tre";
-  //string trueTreeName = "true_st.tre";
+  string trueTreeFileName = "true_st.tre";
+  string geneTreeFileName = "gene.tre";
+  Solution * trueTree;
   vector< PhyloTree* > precomputedTrees;
-  
-  void readPrecomputedSpeciesTree();
-  SolutionSet *createInitialPopulation(int size);
-  SolutionSet * createInitialPopulationGeneTrees(int size); 
-  SolutionSet * getSolutionSetFromVarFile(string varFileName);
-  void fillupNewPopulationUsingOld(SolutionSet * newPop, SolutionSet * oldPop);
-  vector<Tree*> treesin;
-  vector<Tree*> trees;
-  int bootstrapSize;
-  string bootstrapFilename;
-  string initialTrees;
-  string FilenameIntree;
-  double mp;
-  double ml;
-  string PartitionModelFilePLL;
-
-  
-  size_t NumCat;
-  
-  int NumEvaluaciones;
-  
-  
-  void OpenScores();
-  void CloseScores();
-  ofstream ComportamientoML,ComportamientoTime, ComportamientoMP , ComportamientoTimePar, ScoresML, ScoresMP;
-  
-  bool printtrace, printbestscores;
+  //SolutionSet *createInitialPopulation(int size);
+  //SolutionSet * createInitialPopulationGeneTrees(int size); 
+  //void fillupNewPopulationUsingOld(SolutionSet * newPop, SolutionSet * oldPop);
 
   inline bool fileExistsTest (const string& name) {
     struct stat buffer;   

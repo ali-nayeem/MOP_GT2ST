@@ -25,7 +25,7 @@
 class NSGAII_ST : public Algorithm {
 
 public:
-  NSGAII_ST(Problem * problem, Checkpoint *checkpoint);
+  NSGAII_ST(Problem * problem);
   SolutionSet * execute();
 private:
   Checkpoint *checkpoint_;    

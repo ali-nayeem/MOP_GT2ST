@@ -14,9 +14,9 @@
 #ifndef SPECIESTREESOLUTIONTYPE_H
 #define SPECIESTREESOLUTIONTYPE_H
 
-#include "PhyloTreeSolutionType.h"
+#include <SolutionType.h>
 
-class SpeciesTreeSolutionType : public PhyloTreeSolutionType {
+class SpeciesTreeSolutionType : public SolutionType {
 public:
     SpeciesTreeSolutionType(Problem *problem);
     Variable **createVariables();

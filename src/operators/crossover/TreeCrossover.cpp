@@ -113,7 +113,7 @@ Solution * TreeCrossover::doCrossover(double probability, Solution *parent1, Sol
                  if(!Problem->PLLisTreeValidate(tree)){
                      delete offspringTree;
                      #ifdef MAN_DEBUG
-                        cout << "Invalited Crossed Tree " << endl ;
+                        cout << "Invalid Crossed Tree " << endl ;
                      #endif
                      count++;
                  }else { 
@@ -122,7 +122,9 @@ Solution * TreeCrossover::doCrossover(double probability, Solution *parent1, Sol
                  if(count > 3)
                  {
                      offspringTree = new PhyloTree(copyPT2);
+                     //#ifdef MAN_DEBUG
                      cout << "Crossover Failed !" << endl ;
+                     //#endif
                      break;
                  }
              }while(b);

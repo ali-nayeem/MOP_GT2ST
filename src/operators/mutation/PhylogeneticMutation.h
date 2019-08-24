@@ -40,6 +40,7 @@
 #include <Bpp/Phyl/Node.h>
 #include <Bpp/Phyl/TreeTemplate.h>
 #include <Bpp/Phyl/TreeTemplateTools.h>
+#include <InferSpeciesTree.h>
 
 //#include <gsl/gsl_rng.h>
 //#include <gsl/gsl_randist.h>

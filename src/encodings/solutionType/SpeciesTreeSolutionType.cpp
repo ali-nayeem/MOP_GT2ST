@@ -14,7 +14,7 @@
 #include "SpeciesTreeSolutionType.h"
 
 SpeciesTreeSolutionType::SpeciesTreeSolutionType(Problem *problem)
-: PhyloTreeSolutionType(problem) { } 
+: SolutionType(problem) { } 
 
 Variable **SpeciesTreeSolutionType::createVariables(){
     
