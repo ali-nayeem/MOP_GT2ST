@@ -79,8 +79,9 @@ private:
   
   void * doMutation(double mutationProbability_, Solution * solution);
   
-  void NNI(Solution * solution);
+  bool NNI(Solution * solution);
   bool NNIValidate(Node * Nodo);
+  bool modifiedNNI(Solution * solution);
   
   void SPR(Solution * solution);
   int SPRvalide (Node* N1, Node* N2);

@@ -44,7 +44,8 @@ string GetStdoutFromCommand(string cmd) {
 }
 
 int main(int argc, char** argv) {
-    string data = "37-taxon.noscale_200g_500b.estimated-genetrees.R5";  //"10-taxon.higher-ILS.estimated-genetrees.R3"; "15-taxon.100gene-100bp.estimated-genetrees.R3"
+    PseudoRandom::bppRand_->setSeed(01234567);
+    string data = "10-taxon.higher-ILS.estimated-genetrees.R3";  //"10-taxon.higher-ILS.estimated-genetrees.R3"; "15-taxon.100gene-100bp.estimated-genetrees.R3" "37-taxon.noscale_200g_500b.estimated-genetrees.R5"
     std::replace( data.begin(), data.end(), '.', '/');
     vector<int> obj{ InferSpeciesTree::MAX_ASTRAL, InferSpeciesTree::MAX_STELAR}; 
     InferSpeciesTree * problem = new InferSpeciesTree(data, obj);
@@ -52,7 +53,7 @@ int main(int argc, char** argv) {
     //        SolutionSet * pop = problem->createInitialPopulation(20);
     //        problem->evaluate(pop, 0);
     //    }
-    int populationSize = 500, maxEvaluations = 40;
+    int populationSize = 50, maxEvaluations = 10;
     Problem * prob = problem; // The problem to solve
     Algorithm * algorithm = new NSGAII_ST(prob); // The algorithm to use
     Operator * crossover; // Crossover operator
@@ -85,9 +86,9 @@ int main(int argc, char** argv) {
     parameters["metodo"] = &methods[2];
     Mutation * TBR = new PhylogeneticMutation(parameters);
     vector<Mutation *> mutList1;
-    mutList1.push_back(NNI);
+    //mutList1.push_back(NNI);
     mutList1.push_back(SPR);
-    mutList1.push_back(TBR);
+    //mutList1.push_back(TBR);
     pb = 1.0;
     parameters["probability"] = &pb;
     parameters["mutationList"] = &mutList1;

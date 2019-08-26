@@ -28,6 +28,8 @@
 
 #include <PhylogeneticMutation.h>
 
+//#include <Bpp/Numeric/Random/RandomTools.h>
+
 
 /**
  * Constructor
@@ -80,7 +82,12 @@ void * PhylogeneticMutation::doMutation(double mutationProbability_, Solution *s
                 else if(Metodo=="TBR") 
                     TBR(solution);
                 else
-                     NNI(solution); 
+                {
+                    if(!NNI(solution))
+                    {
+                        modifiedNNI(solution);
+                    }
+                }
                 
     }
 
@@ -152,24 +159,41 @@ bool PhylogeneticMutation::NNIValidate(Node * Nodo){
 
 }
 
-void PhylogeneticMutation::NNI(Solution * solution){
+bool PhylogeneticMutation::NNI(Solution * solution){
     
+    //cout << solution->toString();
     PhyloTree * Pt = (PhyloTree*) solution->getDecisionVariables()[0];
     TreeTemplate<Node> * tree = Pt->getTree();
-
+    
     Node * NodoSel;
-    vector<Node *> nodes = tree->getNodes();
+    vector<Node *> nodes = tree->getInnerNodes();
+    for(int i=0; i<nodes.size(); i++)
+    {
+        if(nodes[i]->getSon(0)->isLeaf() || nodes[i]->getSon(1)->isLeaf())
+        {
+            nodes.erase(nodes.begin() + i);
+            i--;
+        }
+    }
+    if(nodes.size() == 0)
+    {
+        #ifdef MAN_DEBUG
+        cout << "NNI Failed !" << endl ;
+        #endif              
+        return false;
+    }
+    int maxCount = nodes.size();
     int count = 0;
     do{
-          NodoSel =  nodes[PseudoRandom::randInt(0, nodes.size() - 1)];
           count++;
-          if(count > 5)
+          if(count > maxCount)
           {
               #ifdef MAN_DEBUG
               cout << "NNI Failed !" << endl ;
               #endif              
-              return;
+              return false;
           }
+          NodoSel = RandomTools::pickOne(nodes, false);    //nodes[PseudoRandom::randInt(0, nodes.size() - 1)];
     }while(!NNIValidate(NodoSel));
     
     Node * Nodo1;
@@ -184,6 +208,7 @@ void PhylogeneticMutation::NNI(Solution * solution){
 
     NodoSel->getSon(0)->setSon(Pos1,Nodo2);
     NodoSel->getSon(1)->setSon(Pos2,Nodo1);
+    return true;
 
 }
 
@@ -219,7 +244,20 @@ void PhylogeneticMutation::SPR(Solution * solution){
     PhyloTree * Pt = (PhyloTree*) solution->getDecisionVariables()[0];
     TreeTemplate<Node> * tree = Pt->getTree();
     int NextIDNode = tree->getNextId();
-   
+//    vector<Node*> nodes1 = tree->getNodes();
+//    for(int i=0; i<nodes1.size(); i++)
+//    {
+//        if(nodes1[i]->isLeaf())
+//             cout<< "Leaf Node:" << nodes1[i]->getId()<< ", Name:"<<nodes1[i]->getName()<< endl;
+//        else
+//        cout<< "Node:" << nodes1[i]->getId()<< ", left child:"<<nodes1[i]->getSon(0)->getId()<< ", right child:"<<nodes1[i]->getSon(1)->getId()<<endl;
+//    }
+//    exit(0);
+//    Node* rs = tree->getNode(18)->getSon(1);
+//    tree->getNode(18)->removeSon(1);
+//    vector<Node*> nodes1 = tree->getNodes();
+//    tree->getNode(18)->addSon(1,rs);
+//    nodes1 = tree->getNodes();
     bool b;
     Node* Nodo1;
     Node* Nodo2;
@@ -230,71 +268,77 @@ void PhylogeneticMutation::SPR(Solution * solution){
         do {
                Nodo1 =  nodes[PseudoRandom::randInt(0, nodes.size()-1)] ; //old: rand()%nodes.size()
                if(Nodo1->hasFather()){
-                   if(Nodo1->getFather()->hasFather()) b=false;
+                   if(Nodo1->getFather()->hasFather()) b=false; //ensure Node1 is not root
                 }
         }while(b);
      
-        Nodo2 =  nodes[PseudoRandom::randInt(0, nodes.size()-1)]; //old: rand()%nodes.size()
+        Node * Father = Nodo1->getFather();
+        int sonPos = Father->getSonPosition(Nodo1);
+        Father->removeSon(sonPos);
+        vector<Node*> nodes2 = tree->getNodes();
+        Nodo2 =  nodes2[PseudoRandom::randInt(0, nodes2.size()-1)]; //old: rand()%nodes.size()
+        Father->addSon(sonPos, Nodo1);
         
     }while(!SPRvalide (Nodo1,Nodo2));     
-    
-    
+    #ifdef MAN_DEBUG
+        cout<<"Node1:" <<Nodo1->getId()<< ", Node2:"<<Nodo2->getId()<<endl;
+    #endif
     int PosNodo;
     double distancetofather=0;
-    Node * Padre;
-    Node * Padre2;
+    Node * Father;
+    Node * Father2;
     Node * GP;
-    Node * Hermano;
+    Node * Brother;
   
-    Padre=Nodo1->getFather();
-    if(Padre->getNumberOfSons()==2){ //Si tiene 2 hijos Collapse Brother por Father
-       PosNodo= Padre->getSonPosition(Nodo1);
-       Hermano = Padre->getSon(PosNodo==0?1:0);
+    Father=Nodo1->getFather();
+    if(Father->getNumberOfSons()==2){ //If you have 2 children Collapse Brother by Father
+       PosNodo= Father->getSonPosition(Nodo1);
+       Brother = Father->getSon(PosNodo==0?1:0);
 
-       if (Hermano->hasDistanceToFather()) {
-           distancetofather = Hermano->getDistanceToFather();
+       if (Brother->hasDistanceToFather()) {
+           distancetofather = Brother->getDistanceToFather();
        }
        
-       //Quito al Padre sin el hermano, y ubico al hermano en vez del Padre
-       Padre->removeSon(Hermano);
-       GP = Padre->getFather();
-       GP->setSon(GP->getSonPosition(Padre),Hermano);
+       //Quito the Father without the brother, and place the brother instead of the Father
+       Father->removeSon(Brother);
+       GP = Father->getFather();
+       GP->setSon(GP->getSonPosition(Father),Brother);
        
-       if(Padre->hasDistanceToFather()) {
-               distancetofather+=Padre->getDistanceToFather();
+       if(Father->hasDistanceToFather()) {
+               distancetofather+=Father->getDistanceToFather();
        }
-      if (Hermano->hasDistanceToFather()) {     
-        Hermano->setDistanceToFather(distancetofather);
+      if (Brother->hasDistanceToFather()) {     
+        Brother->setDistanceToFather(distancetofather);
       }
 
-     }else{ //Si tiene mas de un hermano, no se hace Collapse
+     }else{ //If you have more than one brother, Collapse is not done
 
-       PosNodo= Padre->getSonPosition(Nodo1);
-       Hermano = Padre->getSon(PosNodo==0?1:0);
+       PosNodo= Father->getSonPosition(Nodo1);
+       Brother = Father->getSon(PosNodo==0?1:0);
 
-       Padre->removeSon(Nodo1); //NO Elimina el NODO solo lo eliminar dle Vector de Sons
+       Father->removeSon(Nodo1); //DO NOT remove the NODE just remove it from the Vector of Sons
 
-       Padre = new Node(NextIDNode++);
-       Padre->addSon(Nodo1);
+       Father = new Node(NextIDNode++);
+       Father->addSon(Nodo1);
        
      }
 
      distancetofather=0;
      
-     Padre2 = Nodo2->getFather();
+     Father2 = Nodo2->getFather();
      
      if(Nodo2->hasDistanceToFather()) {
          distancetofather = Nodo2->getDistanceToFather();
      }
 
-     Padre2->setSon(Padre2->getSonPosition(Nodo2),Padre);
-     if(Padre->hasDistanceToFather())
+     Father2->setSon(Father2->getSonPosition(Nodo2),Father);
+     if(Father->hasDistanceToFather())
      {
-         Padre->setDistanceToFather(distancetofather/2);
+         Father->setDistanceToFather(distancetofather/2);
      }
      
-     //Agrego al Nodo2 como hijo del Padre
-     Padre->addSon(Nodo2);
+     //I add to Node2 as the son of the Father
+     Father->addSon(Nodo2);
      if(Nodo2->hasDistanceToFather())
      {
          Nodo2->setDistanceToFather(distancetofather/2);
@@ -308,14 +352,58 @@ void PhylogeneticMutation::SPR(Solution * solution){
 
 
 int  PhylogeneticMutation::SPRvalide (Node* N1, Node* N2) {
-    if (!N2->hasFather()) return 0;
-    if (N1->getFather()==N2->getFather()) return 0;
+    if (!N2->hasFather()) return 0; //N2 is root
+    if (N1->getFather()==N2->getFather()) return 0; //N1 and N2 brother
     if (N1->getFather()==N2) return 0;
     if (N1 == N2) return 0;
     
     return 1;
 }
 
+bool PhylogeneticMutation::modifiedNNI(Solution * solution){
+    PhyloTree * Pt = (PhyloTree*) solution->getDecisionVariables()[0];
+    TreeTemplate<Node> * tree = Pt->getTree();
+    
+    Node * NodoSel;
+    vector<Node *> nodes = tree->getInnerNodes();
+    int maxCount = nodes.size();
+    int count = 0, leaf, non_leaf;
+    do{
+          count++;
+          if(count > maxCount)
+          {
+              #ifdef MAN_DEBUG
+              cout << "modifiedNNI Failed !" << endl ;
+              #endif              
+              return false;
+          }
+          NodoSel = RandomTools::pickOne(nodes, false);    //nodes[PseudoRandom::randInt(0, nodes.size() - 1)];
+          if(!NodoSel->getSon(0)->isLeaf() || !NodoSel->getSon(1)->isLeaf())
+          {
+              if(NodoSel->getSon(0)->isLeaf() || NodoSel->getSon(1)->isLeaf())
+              {
+                  leaf = (NodoSel->getSon(0)->isLeaf())? 0 : 1;
+                  non_leaf = (leaf + 1)%2;
+                  break;
+              }
+          }
+          
+    }while(true);
+    
+    Node * Nodo1;
+    Node * Nodo2;
+    int Pos1, Pos2;
+
+    Pos1 = PseudoRandom::randInt(0, NodoSel->getSon(non_leaf)->getNumberOfSons()-1);
+    //Pos2 = PseudoRandom::randInt(0, NodoSel->getSon(1)->getNumberOfSons()-1);
+
+    Nodo1=  NodoSel->getSon(non_leaf)->getSon(Pos1);
+    Nodo2=  NodoSel->getSon(leaf);
+
+    NodoSel->getSon(non_leaf)->setSon(Pos1,Nodo2);
+    NodoSel->setSon(leaf, Nodo1);
+    return true;
+}
 
 void * PhylogeneticMutation::execute(void *object) {
   Solution *solution = (Solution *)object;
