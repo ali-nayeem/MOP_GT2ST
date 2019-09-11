@@ -59,10 +59,9 @@ int main(int argc, char ** argv) {
   StudyNSGAII * exp = new StudyNSGAII() ;
   
   // Name of the experiment:
-//<<<<<<< HEAD
-  exp->experimentName_ = "Nayeem26AugNSGA";
+  exp->experimentName_ = "Nayeem11SepInitialFromGeneTrees";
 
-  exp->keepCheckpoint_ = true;
+ //exp->keepCheckpoint_ = true;
 
   // List of algorithm names to be used in the experiment
   // (please, refer to the README to check the possible values):
@@ -72,7 +71,19 @@ int main(int argc, char ** argv) {
   // List of problem names to be used in the experiment
   // (please, refer to the README to check the possible values):
   vector<string> problemList_ {
-      "10-taxon.higher-ILS.estimated-genetrees.R14", "10-taxon.higher-ILS.estimated-genetrees.R2"};//, 
+      "10-taxon.higher-ILS.estimated-genetrees.R1", "10-taxon.higher-ILS.estimated-genetrees.R2",
+      "10-taxon.higher-ILS.estimated-genetrees.R3", "10-taxon.higher-ILS.estimated-genetrees.R4",
+      "10-taxon.higher-ILS.estimated-genetrees.R5", "10-taxon.higher-ILS.estimated-genetrees.R6",
+      "10-taxon.higher-ILS.estimated-genetrees.R7", "10-taxon.higher-ILS.estimated-genetrees.R8",
+      "10-taxon.higher-ILS.estimated-genetrees.R9", "10-taxon.higher-ILS.estimated-genetrees.R10"
+//      "10-taxon.higher-ILS.estimated-genetrees.R1", "10-taxon.higher-ILS.estimated-genetrees.R2",      
+//      "10-taxon.higher-ILS.estimated-genetrees.R1", "10-taxon.higher-ILS.estimated-genetrees.R2",
+//      "10-taxon.higher-ILS.estimated-genetrees.R1", "10-taxon.higher-ILS.estimated-genetrees.R2",
+//      "10-taxon.higher-ILS.estimated-genetrees.R1", "10-taxon.higher-ILS.estimated-genetrees.R2",
+//      "10-taxon.higher-ILS.estimated-genetrees.R1", "10-taxon.higher-ILS.estimated-genetrees.R2",
+//      "10-taxon.higher-ILS.estimated-genetrees.R1", "10-taxon.higher-ILS.estimated-genetrees.R2",
+//      "10-taxon.higher-ILS.estimated-genetrees.R1", "10-taxon.higher-ILS.estimated-genetrees.R2",          
+  };//, 
  //, "37-taxon.noscale_200g_500b.estimated-genetrees.R5", "10-taxon.higher-ILS.estimated-genetrees.R2"
 
   // Directory where the execution results will be stored:
@@ -81,10 +92,10 @@ int main(int argc, char ** argv) {
                                  exp->experimentName_;
 
   // Number of independent runs of each algorithm for each problem:
-  exp->independentRuns_ = 3;
+  exp->independentRuns_ = 1;
 
   // Number of threads to be used to execute the experiment
-  int numberOfThreads = 6;
+  int numberOfThreads = 2;
   
   exp->algorithmNameList_ = algorithmNameList_;
   exp->problemList_ = problemList_;
@@ -97,8 +108,8 @@ int main(int argc, char ** argv) {
   cout << "Experiment (" << exp->experimentName_ << ") is starting." << endl;
 
   exp->runExperiment(numberOfThreads);
-  //exp->calculateTreePerf();
-  exp->calculateCheckpointTreePerf();
+  exp->calculateTreePerf();
+  //exp->calculateCheckpointTreePerf();
 
   cout << "Experiment (" << exp->experimentName_ << ") has finished." << endl;
 

@@ -53,12 +53,12 @@ NSGAII_Settings::NSGAII_Settings(string problemName, Checkpoint * checkpoint)
     //cout<<path;
 
     //problem_ = ProblemFactory::getProblem((char *) problemName_.c_str());
-    vector<int> obj{ InferSpeciesTree::MAX_ASTRAL, InferSpeciesTree::MAX_STELAR, InferSpeciesTree::MIN_PHYLONET}; 
+    vector<int> obj{ InferSpeciesTree::MAX_ASTRAL, InferSpeciesTree::MAX_STELAR, InferSpeciesTree::MAX_MPEST, InferSpeciesTree::MIN_PHYLONET}; 
     problem_ = new InferSpeciesTree(path, obj);
 
     // Algorithm parameters
-    populationSize_ = 100;
-    maxEvaluations_ = 2600;
+    populationSize_ = 1000;
+    maxEvaluations_ = 0;
     maxGen_ = 44;
     mutationProbability_ = 0.8;
     crossoverProbability_ = 0.5;
@@ -119,11 +119,19 @@ Algorithm * NSGAII_Settings::configure()
     parameters["probability"] = &pb;
     parameters["numDescendientes"] = &numDes;
     Operator * initCross = new TreeCrossover(parameters);
-    //bool unique = true;
+    
+    parameters.clear();
+    mutationProbability = 0.3;
+    parameters["probability"] = &mutationProbability;
+    parameters["metodo"] = &method[0]; //NNI
+    Operator * initNNI = new PhylogeneticMutation(parameters);
+    
+    parameters.clear();
+    bool unique = true;
     string initMethod = "from_gene_trees";
     parameters["problem"] = problem_;
     parameters["crossover"] = initCross;
-    //parameters["mutation"] = mulMut;
+    parameters["mutation"] = initNNI;
     parameters["method"] = &initMethod;
     //parameters["unique"] = &unique;
     initializer = new TreeInitializer(parameters);

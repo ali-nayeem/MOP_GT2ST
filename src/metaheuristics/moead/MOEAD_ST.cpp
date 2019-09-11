@@ -53,8 +53,8 @@ SolutionSet * MOEAD_ST::execute() {
   //Selection * randSel = new RandomSelection(parameters);
   // STEP 1. Initialization
   // STEP 1.1. Compute euclidean distances between weight vectors and find T
-  //initUniformWeight();
-  initRandomWeight(0.5, 0.1);
+  initUniformWeight();
+  //initRandomWeight(0.5, 0.1);
   //for (int i = 0; i < 300; i++)
   // 	cout << lambda_[i][0] << " " << lambda_[i][1] << endl ;
   

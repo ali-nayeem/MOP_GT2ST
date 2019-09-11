@@ -188,16 +188,17 @@ SolutionSet * NSGAII_ST::execute() {
     //  setOutputParameter("evaluations", &requiredEvaluations);
 
     // Return the first non-dominated front
-    Ranking * ranking = new Ranking(population);
-    SolutionSet * result = new SolutionSet(ranking->getSubfront(0)->size());
-    for (int i = 0; i < ranking->getSubfront(0)->size(); i++) {
-        result->add(new Solution(ranking->getSubfront(0)->get(i)));
-    }
+//    Ranking * ranking = new Ranking(population);
+//    SolutionSet * result = new SolutionSet(ranking->getSubfront(0)->size());
+//    for (int i = 0; i < ranking->getSubfront(0)->size(); i++) {
+//        result->add(new Solution(ranking->getSubfront(0)->get(i)));
+//    }
+//      delete ranking;
     if (checkpoint_ != NULL)
     {
         checkpoint_->logVARforce(population, gen);
     }
-    delete ranking;
+    
     //delete population;
 
     return population; //result;
