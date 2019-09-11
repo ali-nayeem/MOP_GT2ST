@@ -107,7 +107,8 @@ Solution * TreeCrossover::doCrossover(double probability, Solution *parent1, Sol
                  //Cross PT1 y offspringTree, offspringTree is really affected
                  CrossTrees(copyPT1, offspringTree);
                  offspringTree->setModificada(true);
-             
+                 //testing whether TreeCorssover work without PLLisTreeValidate
+                 break;
                  tree = offspringTree->getTree();
                  
                  if(!Problem->PLLisTreeValidate(tree)){

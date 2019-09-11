@@ -1,4 +1,4 @@
-//  StandardStudyExecution.cpp
+//  StudyNSGAII.cpp
 //
 //  Author:
 //       Esteban López-Camacho <esteban@lcc.uma.es>
@@ -19,7 +19,7 @@
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 
-#include <StandardStudyExecution.h>
+#include <StudyNSGAII.h>
 
 /**
  * Class implementing a typical experimental study. Three algorithms are
@@ -34,7 +34,7 @@
  * @algorithmId Index of the algorithm to be configured
  * @param experimentIndividualId Index of the experiment individual
  */
-Algorithm * StandardStudyExecution::algorithmSettings(string problemName,
+Algorithm * StudyNSGAII::algorithmSettings(string problemName,
     int algorithmId, int experimentIndividualId, Checkpoint *checkpoint) {
 
   Algorithm * alg;
@@ -56,7 +56,7 @@ int main(int argc, char ** argv) {
 
   //PseudoRandom::bppRand_->setSeed(01234567);
   Checkpoint::interval_ = 1;
-  StandardStudyExecution * exp = new StandardStudyExecution() ;
+  StudyNSGAII * exp = new StudyNSGAII() ;
   
   // Name of the experiment:
 //<<<<<<< HEAD
@@ -72,8 +72,7 @@ int main(int argc, char ** argv) {
   // List of problem names to be used in the experiment
   // (please, refer to the README to check the possible values):
   vector<string> problemList_ {
-//<<<<<<< HEAD
-      "10-taxon.higher-ILS.estimated-genetrees.R14"};//, "10-taxon.higher-ILS.estimated-genetrees.R2", 
+      "10-taxon.higher-ILS.estimated-genetrees.R14", "10-taxon.higher-ILS.estimated-genetrees.R2"};//, 
  //, "37-taxon.noscale_200g_500b.estimated-genetrees.R5", "10-taxon.higher-ILS.estimated-genetrees.R2"
 
   // Directory where the execution results will be stored:
@@ -82,10 +81,10 @@ int main(int argc, char ** argv) {
                                  exp->experimentName_;
 
   // Number of independent runs of each algorithm for each problem:
-  exp->independentRuns_ = 1;
+  exp->independentRuns_ = 3;
 
   // Number of threads to be used to execute the experiment
-  int numberOfThreads = 1;
+  int numberOfThreads = 6;
   
   exp->algorithmNameList_ = algorithmNameList_;
   exp->problemList_ = problemList_;

@@ -27,8 +27,8 @@ private:
     int popSize;
     InferSpeciesTree *problem;
     bool unique;
-    Operator * mut;
-    Operator * cross;
+    Operator * mut = NULL;
+    Operator * cross = NULL;
     void  fillupNewPopulationUsingOld(SolutionSet * newPop, SolutionSet * oldPop);
     SolutionSet * fromGeneTrees(int size);
     SolutionSet * fromTrueTree(int size);

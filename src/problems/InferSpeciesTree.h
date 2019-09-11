@@ -42,7 +42,7 @@
 #include "SpeciesTreeSolutionType.h"
 #include "ShuffledMutation.h"
 #include "MultipleRandomMutation.h"
-#define MAN_DEBUG 1
+//#define MAN_DEBUG 1
 
 class InferSpeciesTree;
 typedef string(InferSpeciesTree::*GetScoreFuncPointer)(string, int);
@@ -61,11 +61,8 @@ private:
     int timestamp_;
     int threadId_;
     string varFile_;
-//<<<<<<< HEAD
     vector <int> selectedObjectives;
-    //enum Objective { MAX_ASTRAL=0, MIN_PHYLONET, MAX_STELAR, MAX_MPEST };
-//=======
-   //enum Objective { MAX_ASTRAL, MIN_PHYLONET, MAX_STELAR, MAX_MPEST };
+   //enum Objective { MAX_ASTRAL=0, MIN_PHYLONET, MAX_STELAR, MAX_MPEST };
     int objNegIfMax[4] = {-1, 1, -1, -1};
     static string GetStdoutFromCommand(string cmd);
     string getAstralScoreList(string varFile, int popSize);
@@ -101,6 +98,8 @@ public:
  vector< PhyloTree* > readPrecomputedSpeciesTree();
  bool matchObjectiveValues(Solution * one, Solution * two );
  Solution * getTrueTree(){return trueTree;}
+ double getMinObjective(int i){ return objMin[i];}
+ double getMaxObjective(int i){ return objMax[i];}
 private:
   //Newick * newick;
   string datapath;
@@ -110,6 +109,9 @@ private:
   string geneTreeFileName = "gene.tre";
   Solution * trueTree;
   vector< PhyloTree* > precomputedTrees;
+  double * objMin, * objMax;
+  void updateReference(Solution * individual);
+  void updateReference(Solution * individual, int obj);
   //SolutionSet *createInitialPopulation(int size);
   //SolutionSet * createInitialPopulationGeneTrees(int size); 
   //void fillupNewPopulationUsingOld(SolutionSet * newPop, SolutionSet * oldPop);

@@ -140,6 +140,7 @@ void RunExperiment::run() {
 
       // TODO: Improve Settings
       Checkpoint *checkpoint = new Checkpoint(experiment_->keepCheckpoint_, directory, numRun);
+      checkpoint->setThreadId(threadIndex_);
       algorithm = experiment_->algorithmSettings(problemName, algorithmIndex,
           experimentIndividualListIndex, checkpoint);
 

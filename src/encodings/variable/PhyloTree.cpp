@@ -264,3 +264,50 @@ void PhyloTree::setValue(double value){  }
 double PhyloTree::getLowerBound(){return 0;}
 double PhyloTree::getUpperBound(){return 0; }
 
+int PhyloTree::findDistance(int node1, int node2)
+{
+    Node * root = tree_->getRootNode();
+    Node * lca = findLCA(root, node1, node2);
+    //cout<<"LCA: "<<lca
+    int dist = 0;
+    Node * curNode = tree_->getNode(node1);
+    while(curNode->getId() != lca->getId())
+    {
+        curNode = curNode->getFather();
+        dist++;
+    }
+    curNode = tree_->getNode(node2);
+    while(curNode->getId() != lca->getId())
+    {
+        curNode = curNode->getFather();
+        dist++;
+    }
+    return dist;
+}
+
+Node * PhyloTree::findLCA(Node * root, int n1, int n2)
+{
+    if (root != NULL) {
+        if (root->getId() == n1 || root->getId() == n2) {
+                return root;
+        }
+        Node * left = (root->isLeaf()) ? NULL : findLCA(root->getSon(0), n1, n2); //root->getSon(0)
+        Node * right = (root->isLeaf()) ? NULL : findLCA(root->getSon(1), n1, n2);
+
+        if (left != NULL && right != NULL) {
+                return root;
+        }
+        if (left != NULL) {
+                return left;
+        }
+        if (right != NULL) {
+                return right;
+        }
+    }
+    return NULL;
+}
+
+//for testing
+//    PhyloTree* pt = (PhyloTree*)(trueTree->getDecisionVariables()[0]);
+//    cout << "Dist betn 2 nodes: "<<pt->findDistance(pt->getTree()->getNode("C")->getId(), pt->getTree()->getNode("D")->getId())<<endl;
+//    exit(0);

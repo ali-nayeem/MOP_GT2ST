@@ -23,6 +23,7 @@
 
 #include "RandomSelection.h"
 #include "MOEAD_ST.h"
+#include "TreeInitializer.h"
 
 
 /**
@@ -54,15 +55,15 @@ MOEAD_Settings::MOEAD_Settings(string problemName, Checkpoint * checkpoint)
     //cout<<path;
 
     //problem_ = ProblemFactory::getProblem((char *) problemName_.c_str());
-    vector<int> obj{ InferSpeciesTree::MAX_ASTRAL, InferSpeciesTree::MAX_STELAR}; 
+    vector<int> obj{ InferSpeciesTree::MAX_ASTRAL, InferSpeciesTree::MAX_STELAR}; //, InferSpeciesTree::MIN_PHYLONET, InferSpeciesTree::MAX_MPEST
     problem_ = new InferSpeciesTree(path, obj);
 
     // Algorithm parameters
     populationSize_ = 100;
-    maxEvaluations_ = 2600;
+    maxEvaluations_ = 500;
     maxGen_ = 44;
     mutationProbability_ = 0.8;
-    crossoverProbability_ = 0.4;
+    crossoverProbability_ = 0.8;
     checkpoint_ = checkpoint;
 
 } // MOEAD_Settings
@@ -101,9 +102,9 @@ Algorithm * MOEAD_Settings::configure()
     parameters["metodo"] = &method[2];
     Mutation * TBR = new PhylogeneticMutation(parameters);
 
-    //mutList1.push_back(NNI);
+    mutList1.push_back(NNI);
     mutList1.push_back(SPR);
-    //mutList1.push_back(TBR);
+    mutList1.push_back(TBR);
     parameters.clear();
     mutationProbability = mutationProbability_;
     parameters["probability"] = &mutationProbability;
@@ -113,12 +114,28 @@ Algorithm * MOEAD_Settings::configure()
     // Selection Operator
     parameters.clear();
     selection = new RandomSelection(parameters); //BinaryTournament2(parameters);
+   
+    //initializer
+    parameters.clear();
+    double pb = 1.0;
+    int numDes = 1;
+    parameters["probability"] = &pb;
+    parameters["numDescendientes"] = &numDes;
+    Operator * initCross = new TreeCrossover(parameters);
+    //bool unique = true;
+    string initMethod = "from_gene_trees";
+    parameters["problem"] = problem_;
+    parameters["crossover"] = initCross;
+    //parameters["mutation"] = NULL;
+    parameters["method"] = &initMethod;
+    //parameters["unique"] = &unique;
+    initializer = new TreeInitializer(parameters);
 
     // Add the operators to the algorithm
     algorithm->addOperator("crossover", crossover);
     algorithm->addOperator("mutation", mutation);
     algorithm->addOperator("selection", selection);
-
+    algorithm->addOperator("initializer", initializer);
     //cout << "NGSAII algorithm initialized." << endl;
 
     return algorithm;

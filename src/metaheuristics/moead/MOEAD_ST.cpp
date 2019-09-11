@@ -22,7 +22,7 @@ MOEAD_ST::MOEAD_ST(Problem * problem, Checkpoint *checkpoint) : MOEAD(problem)
 
 SolutionSet * MOEAD_ST::execute() {
   int maxEvaluations;
-  
+  functionType_ = "_WS_ADJUSTED";
   evaluations_ = 0;
   maxEvaluations = *(int *) getInputParameter("maxEvaluations");
   populationSize_ = *(int *) getInputParameter("populationSize");
@@ -32,7 +32,7 @@ SolutionSet * MOEAD_ST::execute() {
   population_ = new SolutionSet(populationSize_);
   //indArray_ = new Solution*[problem_->getNumberOfObjectives()];
   
-  T_ = 30;
+  T_ = problem_->getNumberOfObjectives() + 1;
   delta_ = 0.9;
   nr_ = 2;
 /*
@@ -48,11 +48,13 @@ SolutionSet * MOEAD_ST::execute() {
   
   crossover_ = operators_["crossover"];  // default: DE crossover
   mutation_ = operators_["mutation"];  // default: polynomial mutation
+  initializer_ = operators_["initializer"]; 
   map<string, void *> parameters;
   //Selection * randSel = new RandomSelection(parameters);
   // STEP 1. Initialization
   // STEP 1.1. Compute euclidean distances between weight vectors and find T
-  initUniformWeight();
+  //initUniformWeight();
+  initRandomWeight(0.5, 0.1);
   //for (int i = 0; i < 300; i++)
   // 	cout << lambda_[i][0] << " " << lambda_[i][1] << endl ;
   
@@ -69,7 +71,7 @@ SolutionSet * MOEAD_ST::execute() {
   int gen = 0;
   do {
     checkpoint_->logVAR(population_, gen);
-    cout<<"Generation: "<<gen++ << endl;
+    cout<< "Thread[" << checkpoint_->getThreadId() << "]: " <<"Generation: "<<gen++ << endl;
     int * permutation = new int[populationSize_];
     UtilsMOEAD::randomPermutation(permutation, populationSize_);
     for (int i = 0; i < populationSize_; i++) {
@@ -166,9 +168,70 @@ void MOEAD_ST::initPopulation() {
   InferSpeciesTree * p = (InferSpeciesTree *) problem_;
     
   //population_ = p->createInitialPopulationGeneTrees(populationSize_);
+  population_ = (SolutionSet*) initializer_->execute(&populationSize_);
     
   p->evaluate(population_);
   evaluations_ += populationSize_;
   
-  cout << "Initial Population Done" << endl;
+  cout << "Thread[" << checkpoint_->getThreadId() << "]: " << "Initial Population Done" << endl;
 } 
+
+void MOEAD_ST::initRandomWeight(double mean, double stdDev)
+{
+    
+    for (int n = 0; n < this->populationSize_; ) 
+    {
+      lambda_[n] = new double[problem_->getNumberOfObjectives()];
+      //double a = 1.0 * n / (populationSize_ - 1);
+      //lambda_[n][0] = a;
+      //lambda_[n][1] = 1 - a;
+      double sum = 0;
+      for(int obj = 0; obj < problem_->getNumberOfObjectives(); obj++)
+      {
+          lambda_[n][obj] = RandomTools::randGaussian(mean, stdDev*stdDev);   
+          sum  += lambda_[n][obj];
+      }
+      for(int obj = 0; obj < problem_->getNumberOfObjectives(); obj++)
+      {
+          lambda_[n][obj] = lambda_[n][obj]/sum;   
+      }
+      bool match = false;
+      for(int i=0; i < n; i++)
+      {
+          if(matchWeightValues(lambda_[n], lambda_[i]))
+          {
+            cout << "Duplicate weight vector found. Discarded. " << endl;
+            match = true;
+            break;
+           }
+            //for()
+      }
+      if(match)
+      { 
+        continue;
+      }
+      else
+      {
+          n++;
+//          cout << n-1 <<"-th Weight:";
+//          for(int obj = 0; obj < problem_->getNumberOfObjectives(); obj++)
+//            {
+//                cout << lambda_[n-1][obj]<<", ";  
+//            }
+//          cout<<endl;
+      }
+    } // for
+}
+
+bool MOEAD_ST::matchWeightValues(double * one, double * two)
+{
+    //bool match = true;
+    for (int i = 0; i < problem_->getNumberOfObjectives(); i++)
+    {
+        if (one[i] != two[i]) //fabs(one->getObjective(i) - two->getObjective(i)) > 0.00001
+        {
+            return false;
+        }
+    }
+    return true;
+}

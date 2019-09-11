@@ -46,6 +46,7 @@ private:
   Operator  * mutation  ; // Mutation operator
   Operator  * selection ; // Selection operator
   Checkpoint * checkpoint_;
+  Operator  * initializer ;
 
 public:
 	NSGAII_Settings() ;

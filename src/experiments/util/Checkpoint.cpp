@@ -37,6 +37,7 @@ void Checkpoint::logVAR(SolutionSet *pop, int gen)
         if( (gen % interval_)==0 )
         {
             pop->printVariablesToFile(dataStorePath_ + "/pop." + to_string(gen));
+            pop->printObjectivesToFile(dataStorePath_ + "/obj." + to_string(gen));
         }
     }
     
@@ -47,6 +48,7 @@ void Checkpoint::logVARforce(SolutionSet *pop, int gen)
     {
         
        pop->printVariablesToFile(dataStorePath_ + "/pop." + to_string(gen));
+       pop->printObjectivesToFile(dataStorePath_ + "/obj." + to_string(gen));
         
     }
     

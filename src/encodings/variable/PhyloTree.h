@@ -100,12 +100,13 @@ public:
   void setModificada(bool Modificada_){ Modificada = Modificada_;}
 
   double kappa,piA, piC, piG, piT, alpha, beta, AC,AG,AT,CG,CT,GT;
-  
+  int findDistance(int node1, int node2);
 private:
   TreeTemplate<Node> * tree_;
   double ParsimonyScore ;
   double LnLikelihoodValue ;
   bool Modificada; //Indica si esta solución ha sido modifica entre Cruce y Mutaciópn
+  Node * findLCA(Node * root, int node1, int node2);
 
 };
 

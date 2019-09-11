@@ -87,8 +87,8 @@ int main(int argc, char** argv) {
     Mutation * TBR = new PhylogeneticMutation(parameters);
     vector<Mutation *> mutList1;
     //mutList1.push_back(NNI);
-    mutList1.push_back(SPR);
-    //mutList1.push_back(TBR);
+    //mutList1.push_back(SPR);
+    mutList1.push_back(TBR);
     pb = 1.0;
     parameters["probability"] = &pb;
     parameters["mutationList"] = &mutList1;

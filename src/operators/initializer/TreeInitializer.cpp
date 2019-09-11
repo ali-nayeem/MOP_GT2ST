@@ -101,6 +101,7 @@ void TreeInitializer::fillupNewPopulationUsingOld(SolutionSet * newPop, Solution
         }
         if(mut != NULL)
         {
+            cout << "Inside Mut of TreeInitializer."<<endl;
             mut->execute(offSpring);
             if (problem->isMultifurcating(offSpring))
             {

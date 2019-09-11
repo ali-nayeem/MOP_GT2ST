@@ -31,10 +31,13 @@ public:
     void logVARforce(SolutionSet *pop, int gen);
     //void setMaxGen(int gen);
     static int interval_;
+    void setThreadId(int id){threadId=id;}
+    int  getThreadId(){return threadId;}
 private:
     string dataStorePath_;
     int runNumber_;
     bool keepCheckpoint_ = false;
+    int threadId;
     
     //int maxGen;
 };

@@ -21,6 +21,7 @@
 
 #include <ExperimentExecution.h>
 #include <algorithm>
+#include <unistd.h>
 
 
 void* executeRun(void* ctx) {
@@ -112,6 +113,7 @@ void ExperimentExecution::runExperiment(int numberOfThreads) {
 //      exit(-1) ;
 //    }
     threads.push_back(thread(executeRun, experiments_[i]));
+    usleep(1000000);
   }
 
 //  for (int i = 0; i < numberOfThreads; i++) {
@@ -215,11 +217,12 @@ void ExperimentExecution::calculateCheckpointTreePerf(){
                    string r = GetStdoutFromCommand(cmd);
                    cmd = "python2  lib/PyTreePerf/drawTreePerfDistrib.py -f " + treePerfPath;
                    r = GetStdoutFromCommand(cmd);
-                   cout << r << endl;
+                   if(r.size() > 1)
+                        cout << r << endl;
                    //cout << r << endl;
-                   cmd = "python3  lib/PyTreePerf/drawTreePerfDistrib.py -f " + treePerfPath;
-                   r = GetStdoutFromCommand(cmd);
-                   cout << r << endl;
+                  // cmd = "python2  lib/PyTreePerf/drawTreePerfDistrib.py -f " + treePerfPath;
+                   //r = GetStdoutFromCommand(cmd);
+                   //cout << r << endl;
 
                 }
             }

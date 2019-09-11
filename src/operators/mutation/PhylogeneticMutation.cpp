@@ -28,8 +28,9 @@
 
 #include <PhylogeneticMutation.h>
 
-//#include <Bpp/Numeric/Random/RandomTools.h>
 
+//#include <Bpp/Numeric/Random/RandomTools.h>
+void printTree(TreeTemplate<Node> * tree);
 
 /**
  * Constructor
@@ -94,22 +95,33 @@ void * PhylogeneticMutation::doMutation(double mutationProbability_, Solution *s
 } // doMutation
 
 void PhylogeneticMutation::TBR(Solution * solution){
-    vector<int> nodosIDs;
+    //vector<int> nodosIDs;
+    vector<Node *> nodeVec;
     Variable **variables = solution->getDecisionVariables();
     PhyloTree * Pt = (PhyloTree*) variables[0];
     TreeTemplate<Node> * tree = Pt->getTree();
-
+//    int NextIDNode = tree->getNextId();
+//    Node * newNode = new Node(NextIDNode++);
+//    Node * node17 = tree->getNode(17);
+//    int pos = tree->getNode(18)->getSonPosition(node17);
+//    tree->getNode(18)->setSon(pos, newNode);
+//    //newNode->addSon(tree->getNode(18));
+//    newNode->addSon(node17);
+//    tree->rootAt(newNode);
+//    cout<<Pt->toString()<<endl;
+//    printTree(tree);
+//    exit(0);
     Node * nodo;
     Node * nodoi;
     Node * nodoj;
-    Node * nodoPadre;
+    Node * nodoFather;
     Node * nodoSubTree;
 
-    nodosIDs = tree->getNodesId();
+    vector<int> nodosIDs = tree->getNodesId();
     do{
               do{
                       nodo = tree->getNode(RandomTools::pickOne(nodosIDs,true));
-              }while(nodo->isLeaf() || nodo->getNumberOfSons() < 2 || !nodo->hasFather());
+              }while(nodo->isLeaf() || nodo->getNumberOfSons() < 2 || !nodo->hasFather()); //reject if (leaf || root || )
 
               if (RandomTools::flipCoin()) {
                       nodoi= nodo->getSon(0); nodoj= nodo->getSon(1);
@@ -118,31 +130,54 @@ void PhylogeneticMutation::TBR(Solution * solution){
               }
 
      }while(nodoi->isLeaf());
-
+     #ifdef MAN_DEBUG
+        cout << "node: " << nodo->getId()<<", nodei:"<<nodoi->getId()<<", nodej:"<<nodoj->getId()<<endl ;
+     #endif 
      TreeTemplate<Node> * subtree = new TreeTemplate<Node>(nodoi);
-     subtree->resetNodesId();
-     nodosIDs = subtree->getNodesId();
+     //subtree->resetNodesId();
+     nodeVec = subtree->getNodes();
      do{
-            nodoSubTree = subtree->getNode(RandomTools::pickOne(nodosIDs,true));
+            nodoSubTree = RandomTools::pickOne(nodeVec,true);
      }while(nodoSubTree->isLeaf());
-
-     subtree->rootAt(nodoSubTree->getId());
-
-     nodoPadre = nodo->getFather();
-     nodoPadre->setSon(nodoPadre->getSonPosition(nodo),nodoj);
-     tree->resetNodesId();
-     nodosIDs = tree->getNodesId();
+     
+     if(nodoi->getId() != nodoSubTree->getId())
+     {
+        //int NextIDNode = subtree->getNextId();
+        Node * newNode = new Node(); //NextIDNode++
+        Node * Father = nodoSubTree->getFather();
+        int pos = Father->getSonPosition(nodoSubTree);
+        Father->setSon(pos, newNode);
+        //newNode->addSon(tree->getNode(18));
+        newNode->addSon(nodoSubTree);
+        subtree->rootAt(newNode);
+        //nodoSubTree = newNode;
+     }
+     //subtree->rootAt(nodoSubTree->getId());
+     //printTree();
+     #ifdef MAN_DEBUG
+        cout << "Subtree nodei root: " << nodoSubTree->getId()<<endl ;
+        cout<<"New subtree: "<<TreeTemplateTools::treeToParenthesis(*subtree)<<endl;
+     #endif 
+     //nodo->removeSon(nodoj);
+     //nodo->removeSon(nodoi);
+     //Node * nuevonodo = nodo;
+     nodoFather = nodo->getFather();
+     nodoFather->setSon(nodoFather->getSonPosition(nodo),nodoj);
+     //tree->resetNodesId();
+     nodeVec = tree->getNodes();
      do{
-              nodo = tree->getNode(RandomTools::pickOne(nodosIDs,true));
+            nodo = RandomTools::pickOne(nodeVec,true);
      }while(nodo->isLeaf());
-
-
+      #ifdef MAN_DEBUG
+        cout << "New node as adding point: " << nodo->getId()<<endl ;
+     #endif
      int posSon;
      if (RandomTools::flipCoin()) posSon=0; else posSon=1;
 
      Node * nuevonodo = new Node();
      nuevonodo->addSon(nodo->getSon(posSon));
      nuevonodo->addSon(subtree->getRootNode());
+     
 
      nodo->setSon(posSon,nuevonodo);
      tree->resetNodesId();
@@ -238,26 +273,28 @@ bool PhylogeneticMutation::NNI(Solution * solution){
 //   // }
 //    
 //}
-		
-void PhylogeneticMutation::SPR(Solution * solution){
-    
-    PhyloTree * Pt = (PhyloTree*) solution->getDecisionVariables()[0];
-    TreeTemplate<Node> * tree = Pt->getTree();
-    int NextIDNode = tree->getNextId();
-//    vector<Node*> nodes1 = tree->getNodes();
-//    for(int i=0; i<nodes1.size(); i++)
-//    {
-//        if(nodes1[i]->isLeaf())
-//             cout<< "Leaf Node:" << nodes1[i]->getId()<< ", Name:"<<nodes1[i]->getName()<< endl;
-//        else
-//        cout<< "Node:" << nodes1[i]->getId()<< ", left child:"<<nodes1[i]->getSon(0)->getId()<< ", right child:"<<nodes1[i]->getSon(1)->getId()<<endl;
-//    }
+void printTree(TreeTemplate<Node> * tree)
+{
+    vector<Node*> nodes1 = tree->getNodes();
+    for(int i=0; i<nodes1.size(); i++)
+    {
+        if(nodes1[i]->isLeaf())
+             cout<< "Leaf Node:" << nodes1[i]->getId()<< ", Name:"<<nodes1[i]->getName()<< endl;
+        else
+        cout<< "Node:" << nodes1[i]->getId()<< ", left child:"<<nodes1[i]->getSon(0)->getId()<< ", right child:"<<nodes1[i]->getSon(1)->getId()<<endl;
+    }
 //    exit(0);
 //    Node* rs = tree->getNode(18)->getSon(1);
 //    tree->getNode(18)->removeSon(1);
 //    vector<Node*> nodes1 = tree->getNodes();
 //    tree->getNode(18)->addSon(1,rs);
 //    nodes1 = tree->getNodes();
+}
+void PhylogeneticMutation::SPR(Solution * solution){
+    
+    PhyloTree * Pt = (PhyloTree*) solution->getDecisionVariables()[0];
+    TreeTemplate<Node> * tree = Pt->getTree();
+    int NextIDNode = tree->getNextId();
     bool b;
     Node* Nodo1;
     Node* Nodo2;

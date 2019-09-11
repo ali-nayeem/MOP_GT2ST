@@ -21,6 +21,14 @@ InferSpeciesTree::InferSpeciesTree(string & _datapath, vector <int> & _selectedO
     numberOfVariables_ = 1;
     selectedObjectives = _selectedObjectives;
     numberOfObjectives_ = selectedObjectives.size();
+    objMin = new double[numberOfObjectives_];
+    objMax = new double[numberOfObjectives_];
+    for(int i=0; i<numberOfObjectives_; i++)
+    {
+        objMin[i] = std::numeric_limits<double>::max();
+        objMax[i] = std::numeric_limits<double>::min();
+        cout << "Initial value of min max"<<objMin[i]<<" "<<objMax[i]<<endl;
+    }
     numberOfConstraints_ = 0;
     problemName_ = "Infer Species Tree: " + _datapath;
     solutionType_ = new PhyloTreeSolutionType(this);
@@ -63,18 +71,6 @@ vector< PhyloTree* > InferSpeciesTree::readPrecomputedSpeciesTree() {
                 cout << "Reading precomputed tree: "<< treeFiles[i] << endl;
             #endif
             precomputedTrees.push_back(new PhyloTree(treeFiles[i]));
-            //             Variable **variables = new Variable*[this->getNumberOfVariables()];
-            //             variables[0] = new SpeciesTree(treeFiles[i]);
-            //             Solution * newSolution = new Solution(this, variables);
-            //             cout << variables[0]->toString()<<endl;        
-            //cout << precomputedTrees[i]->getName();
-            //TreeTemplate<Node> * tree = precomputedTrees[i]->getTree();
-            //cout << tree->getNumberOfLeaves() << endl;
-            //Node * Nodo2 = precomputedTrees[i]->selectrandomnodeToCross();//selectNodeToCross(tree, tree->getNodesId());
-            //Node * padre= Nodo2->getFather();
-            //double distancetofather = Nodo2->getDistanceToFather();
-            //int PosNodo2= padre->getSonPosition(Nodo2);
-            //cout<< distancetofather << ", "<<PosNodo2;
         }        
     }
     if(precomputedTrees.size() < 2){
@@ -104,7 +100,7 @@ SolutionSet * InferSpeciesTree::getSolutionSetFromVarFile(string varFileName)
     string aTree;
     while(std::getline(varFile, aTree))
     {
-        TreeTemplate<Node> * tree = TreeTemplateTools::parenthesisToTree(aTree);
+        TreeTemplate<Node> * tree = TreeTemplateTools::parenthesisToTree(aTree); //, true, TreeTools::BOOTSTRAP, false, false
         Variable **variables = new Variable*[this->getNumberOfVariables()];
         variables[0] = new PhyloTree();
         ((PhyloTree *) variables[0])->setTree(tree);
@@ -198,6 +194,7 @@ void InferSpeciesTree::evaluate(Solution *solution) {
           //solId++;
         }
     }
+    updateReference(solution);
 }
 void InferSpeciesTree::setThreadId(int id)
 {
@@ -277,6 +274,7 @@ void InferSpeciesTree::evaluate(SolutionSet *pop, int gen)
           double value = atof(to.c_str());
           pop->get(solId)->setObjective(i, value * objNegIfMax[objId]);
           //cout << pop->get(solId)->getObjective(i) << endl;
+          updateReference(pop->get(solId), i);
           solId++;
         }
     }
@@ -284,7 +282,22 @@ void InferSpeciesTree::evaluate(SolutionSet *pop, int gen)
     
     
 }
-
+void InferSpeciesTree::updateReference(Solution * individual) {
+  for (int n = 0; n < getNumberOfObjectives(); n++) {
+      updateReference(individual, n);
+  }
+}
+void InferSpeciesTree::updateReference(Solution * individual, int n) {
+    if (individual->getObjective(n) < objMin[n]) 
+    {
+        objMin[n] = individual->getObjective(n);
+    }
+    if(individual->getObjective(n) > objMax[n])
+    {
+        objMax[n] = individual->getObjective(n);
+    }
+  
+}
 bool InferSpeciesTree::matchObjectiveValues(Solution * one, Solution * two )
 {
     //bool match = true;

@@ -19,7 +19,7 @@
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 
-#include <StandardStudyExecution.h>
+#include <StudyMOEAD.h>
 
 /**
  * Class implementing a typical experimental study. Three algorithms are
@@ -34,7 +34,7 @@
  * @algorithmId Index of the algorithm to be configured
  * @param experimentIndividualId Index of the experiment individual
  */
-Algorithm * StandardStudyExecution::algorithmSettings(string problemName,
+Algorithm * StudyMOEAD::algorithmSettings(string problemName,
     int algorithmId, int experimentIndividualId, Checkpoint *checkpoint) {
 
   Algorithm * alg;
@@ -42,7 +42,7 @@ Algorithm * StandardStudyExecution::algorithmSettings(string problemName,
   switch (algorithmId) {
   case 0:
     algorithmSettingsList_[experimentIndividualId] =
-        new NSGAII_Settings(problemName, checkpoint);
+        new MOEAD_Settings(problemName, checkpoint);
     alg = (algorithmSettingsList_[experimentIndividualId])->configure();
     break;
   }
@@ -54,26 +54,25 @@ Algorithm * StandardStudyExecution::algorithmSettings(string problemName,
 
 int main(int argc, char ** argv) {
 
-  //PseudoRandom::bppRand_->setSeed(01234567);
+  PseudoRandom::bppRand_->setSeed(01234567);
   Checkpoint::interval_ = 1;
-  StandardStudyExecution * exp = new StandardStudyExecution() ;
+  StudyMOEAD * exp = new StudyMOEAD() ;
   
   // Name of the experiment:
-//<<<<<<< HEAD
-  exp->experimentName_ = "Nayeem26AugNSGA";
-
+  exp->experimentName_ = "Nayeem10SepMOEAD2ObjWS_ADJUSTED";
   exp->keepCheckpoint_ = true;
 
   // List of algorithm names to be used in the experiment
   // (please, refer to the README to check the possible values):
   vector<string> algorithmNameList_ {
-      "NSGAII"}; //, "SMPSO", "GDE3"
+      "MOEAD"}; //, "SMPSO", "GDE3"
 
   // List of problem names to be used in the experiment
   // (please, refer to the README to check the possible values):
   vector<string> problemList_ {
-//<<<<<<< HEAD
-      "10-taxon.higher-ILS.estimated-genetrees.R14"};//, "10-taxon.higher-ILS.estimated-genetrees.R2", 
+      "10-taxon.higher-ILS.estimated-genetrees.R6"};// "10-taxon.higher-ILS.estimated-genetrees.R9"}; 
+       //"10-taxon.higher-ILS.estimated-genetrees.R14", "10-taxon.higher-ILS.estimated-genetrees.R18",
+  //};//, "10-taxon.higher-ILS.estimated-genetrees.R2", 
  //, "37-taxon.noscale_200g_500b.estimated-genetrees.R5", "10-taxon.higher-ILS.estimated-genetrees.R2"
 
   // Directory where the execution results will be stored:
@@ -82,7 +81,7 @@ int main(int argc, char ** argv) {
                                  exp->experimentName_;
 
   // Number of independent runs of each algorithm for each problem:
-  exp->independentRuns_ = 1;
+  exp->independentRuns_ = 4;
 
   // Number of threads to be used to execute the experiment
   int numberOfThreads = 1;

@@ -395,7 +395,7 @@ void MOEAD::updateProblem(Solution * indiv, int id, int type) {
     }
     
     double f1, f2;
-    
+    cout<< "neighbor of "<< id <<" (k) "<<k<<endl;
     f1 = fitnessFunction(population_->get(k), lambda_[k]);
     f2 = fitnessFunction(indiv, lambda_[k]);
     
@@ -423,7 +423,7 @@ void MOEAD::updateProblem(Solution * indiv, int id, int type) {
  * fitnessFunction
  */
 double MOEAD::fitnessFunction(Solution * individual, double * lambda) {
-  double fitness;
+  double fitness; //to be minimized by MOEAD
   fitness = 0.0;
   
   if (functionType_.compare("_TCHE1")==0) {
@@ -445,6 +445,43 @@ double MOEAD::fitnessFunction(Solution * individual, double * lambda) {
     
     fitness = maxFun;
   } // if
+  else if (functionType_.compare("_TCHE_NORM")==0) {
+    double maxFun = -1.0e+30;
+    InferSpeciesTree * inferST = (InferSpeciesTree *) problem_;
+    for (int n = 0; n < problem_->getNumberOfObjectives(); n++) {
+      double diff = (individual->getObjective(n) - z_[n]) / (inferST->getMaxObjective(n) - z_[n] );
+      
+      double feval;
+      if (lambda[n] == 0) {
+        feval = 0.0001 * diff;
+      } else {
+        feval = diff * lambda[n];
+      }
+      if (feval > maxFun) {
+        maxFun = feval;
+      }
+    } // for
+    
+    fitness = maxFun;
+  } 
+  else if (functionType_.compare("_WS_ADJUSTED")==0)
+  {
+      InferSpeciesTree * inferST = (InferSpeciesTree *) problem_;
+      double * normalizedObjective = new double[problem_->getNumberOfObjectives()];
+      double sum = 0;
+      for(int n = 0; n < problem_->getNumberOfObjectives(); n++)
+      {
+          //cout << "Min and max are " << inferST->getMaxObjective(n) << " " << inferST->getMinObjective(n)<<endl;
+          normalizedObjective[n] = (individual->getObjective(n) - inferST->getMinObjective(n)) / (inferST->getMaxObjective(n) - inferST->getMinObjective(n)); 
+          sum += normalizedObjective[n];
+      }
+      for(int n = 0; n < problem_->getNumberOfObjectives(); n++)
+      {
+          //objNorm[n] = (objNorm[n] / sum); 
+          fitness = (normalizedObjective[n] / sum) * lambda[n];
+      }
+      fitness = fitness * -1.0 ; //to turn weighted sum into a minimization fitness
+  }
   else {
     cout << "MOEAD.fitnessFunction: unknown type " << functionType_ << endl;
     exit (EXIT_FAILURE);

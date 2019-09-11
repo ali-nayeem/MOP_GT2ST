@@ -28,6 +28,9 @@ public:
 protected:
     void initPopulation();
     Checkpoint *checkpoint_; 
+    Operator * initializer_;
+    void initRandomWeight(double mean, double stdDev);
+    bool matchWeightValues(double * one, double * two);
 };
 
 #endif /* MOEAD_ST_H */
