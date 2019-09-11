@@ -15,6 +15,7 @@
 #include <unordered_set>
 #include <iterator>
 
+int InferSpeciesTree::instanceCount = 0;
 InferSpeciesTree::InferSpeciesTree(string & _datapath, vector <int> & _selectedObjectives) {
 
     this->datapath =  "data/" +  _datapath + "/";
@@ -27,7 +28,7 @@ InferSpeciesTree::InferSpeciesTree(string & _datapath, vector <int> & _selectedO
     {
         objMin[i] = 1.0e+30; //std::numeric_limits<double>::max();
         objMax[i] = -1.0e+30; //std::numeric_limits<double>::min();
-        cout << "Initial value of min max: "<<objMin[i]<<" "<<objMax[i]<<endl;
+        cout << "Initial value of min, max: "<<objMin[i]<<", "<<objMax[i]<<endl;
     }
     numberOfConstraints_ = 0;
     problemName_ = "Infer Species Tree: " + _datapath;
@@ -37,7 +38,7 @@ InferSpeciesTree::InferSpeciesTree(string & _datapath, vector <int> & _selectedO
     treeFiles.push_back(datapath + speciesTreeFileName + "_phylonet");
     //treeFiles.push_back(datapath + speciesTreeFileName + "_triplet");
     //newick = new Newick;
-    timestamp_ = time(0);
+    timestamp_ = instanceCount++;//time(0);
     threadId_ = -1;
     //readPrecomputedSpeciesTree();
     trueTree = getSolutionSetFromVarFile(datapath + trueTreeFileName)->get(0);
@@ -292,7 +293,7 @@ void InferSpeciesTree::updateReference(Solution * individual, int n) {
     {
         objMin[n] = individual->getObjective(n);
     }
-    if(individual->getObjective(n) > objMax[n])
+    else if(individual->getObjective(n) > objMax[n])
     {
         objMax[n] = individual->getObjective(n);
     }

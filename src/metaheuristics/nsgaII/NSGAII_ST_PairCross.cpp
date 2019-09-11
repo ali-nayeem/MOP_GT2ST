@@ -64,7 +64,7 @@ SolutionSet * NSGAII_ST_PairCross::execute() {
 
     InferSpeciesTree * p = (InferSpeciesTree *) problem_;
     // Create the initial solutionSet
-    population = p->createInitialPopulation(populationSize);
+    //population = p->createInitialPopulation(populationSize);
     p->evaluate(population);
     evaluations += populationSize;
 

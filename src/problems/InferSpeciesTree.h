@@ -112,6 +112,7 @@ private:
   double * objMin, * objMax;
   void updateReference(Solution * individual);
   void updateReference(Solution * individual, int obj);
+  static int instanceCount;
   //SolutionSet *createInitialPopulation(int size);
   //SolutionSet * createInitialPopulationGeneTrees(int size); 
   //void fillupNewPopulationUsingOld(SolutionSet * newPop, SolutionSet * oldPop);

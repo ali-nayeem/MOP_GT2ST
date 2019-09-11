@@ -215,7 +215,7 @@ void ExperimentExecution::calculateCheckpointTreePerf(){
                    string treePerfPath = varPath3 + "popTreePerf." + gen;
                    string cmd = "python2  lib/PyTreePerf/getTreePerfFromVAR.py -t" + trueStPath + " -v " + to + " -o " + treePerfPath;
                    string r = GetStdoutFromCommand(cmd);
-                   cmd = "python2  lib/PyTreePerf/drawTreePerfDistrib.py -f " + treePerfPath;
+                   cmd = "python3  lib/PyTreePerf/drawTreePerfDistrib.py -f " + treePerfPath;
                    r = GetStdoutFromCommand(cmd);
                    if(r.size() > 1)
                         cout << r << endl;

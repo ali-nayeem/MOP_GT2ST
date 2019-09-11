@@ -60,7 +60,7 @@ MOEAD_Settings::MOEAD_Settings(string problemName, Checkpoint * checkpoint)
 
     // Algorithm parameters
     populationSize_ = 100;
-    maxEvaluations_ = 500;
+    maxEvaluations_ = 2600;
     maxGen_ = 44;
     mutationProbability_ = 0.8;
     crossoverProbability_ = 0.8;
