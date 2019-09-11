@@ -25,9 +25,9 @@ InferSpeciesTree::InferSpeciesTree(string & _datapath, vector <int> & _selectedO
     objMax = new double[numberOfObjectives_];
     for(int i=0; i<numberOfObjectives_; i++)
     {
-        objMin[i] = std::numeric_limits<double>::max();
-        objMax[i] = std::numeric_limits<double>::min();
-        cout << "Initial value of min max"<<objMin[i]<<" "<<objMax[i]<<endl;
+        objMin[i] = 1.0e+30; //std::numeric_limits<double>::max();
+        objMax[i] = -1.0e+30; //std::numeric_limits<double>::min();
+        cout << "Initial value of min max: "<<objMin[i]<<" "<<objMax[i]<<endl;
     }
     numberOfConstraints_ = 0;
     problemName_ = "Infer Species Tree: " + _datapath;

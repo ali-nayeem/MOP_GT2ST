@@ -395,7 +395,7 @@ void MOEAD::updateProblem(Solution * indiv, int id, int type) {
     }
     
     double f1, f2;
-    cout<< "neighbor of "<< id <<" (k) "<<k<<endl;
+    //cout<< "neighbor of "<< id <<" (k) "<<k<<endl;
     f1 = fitnessFunction(population_->get(k), lambda_[k]);
     f2 = fitnessFunction(indiv, lambda_[k]);
     
