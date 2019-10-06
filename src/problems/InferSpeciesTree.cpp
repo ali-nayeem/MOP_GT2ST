@@ -28,7 +28,7 @@ InferSpeciesTree::InferSpeciesTree(string & _datapath, vector <int> & _selectedO
     {
         objMin[i] = 1.0e+30; //std::numeric_limits<double>::max();
         objMax[i] = -1.0e+30; //std::numeric_limits<double>::min();
-        cout << "Initial value of min, max: "<<objMin[i]<<", "<<objMax[i]<<endl;
+        //cout << "Initial value of min, max: "<<objMin[i]<<", "<<objMax[i]<<endl;
     }
     numberOfConstraints_ = 0;
     problemName_ = "Infer Species Tree: " + _datapath;
@@ -38,7 +38,7 @@ InferSpeciesTree::InferSpeciesTree(string & _datapath, vector <int> & _selectedO
     treeFiles.push_back(datapath + speciesTreeFileName + "_phylonet");
     //treeFiles.push_back(datapath + speciesTreeFileName + "_triplet");
     //newick = new Newick;
-    timestamp_ = instanceCount++;//time(0);
+    timestamp_ = time(0);//*100 + instanceCount++;//time(0);
     threadId_ = -1;
     //readPrecomputedSpeciesTree();
     trueTree = getSolutionSetFromVarFile(datapath + trueTreeFileName)->get(0);
