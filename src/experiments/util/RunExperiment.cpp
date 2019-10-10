@@ -146,6 +146,7 @@ void RunExperiment::run() {
 
       problem = algorithm->getProblem();
       ((InferSpeciesTree*)problem)->setThreadId(threadIndex_);
+      checkpoint->addProblem(problem);
       
       // Run the algorithm
       mutex_->lock();

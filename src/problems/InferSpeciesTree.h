@@ -64,7 +64,6 @@ private:
     vector <int> selectedObjectives;
    //enum Objective { MAX_ASTRAL=0, MIN_PHYLONET, MAX_STELAR, MAX_MPEST };
     int objNegIfMax[4] = {-1, 1, -1, -1};
-    static string GetStdoutFromCommand(string cmd);
     string getAstralScoreList(string varFile, int popSize);
     string getPhylonetScoreList(string varFile, int popSize);
     string getMpestScoreList(string varFile, int popSize);
@@ -100,6 +99,8 @@ public:
  Solution * getTrueTree(){return trueTree;}
  double getMinObjective(int i){ return objMin[i];}
  double getMaxObjective(int i){ return objMax[i];}
+ string getTrueTreePath(){return datapath + trueTreeFileName;}
+ static string GetStdoutFromCommand(string cmd);
 private:
   //Newick * newick;
   string datapath;

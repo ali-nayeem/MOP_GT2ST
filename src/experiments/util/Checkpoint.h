@@ -17,7 +17,7 @@
 #include <string>
 #include <SolutionSet.h>
 #include "FileUtils.h"
-
+#include <InferSpeciesTree.h>
 
 using namespace std;
 
@@ -33,11 +33,13 @@ public:
     static int interval_;
     void setThreadId(int id){threadId=id;}
     int  getThreadId(){return threadId;}
+    void addProblem(Problem * prob){prob_=prob;}
 private:
     string dataStorePath_;
     int runNumber_;
     bool keepCheckpoint_ = false;
     int threadId;
+    Problem * prob_;
     
     //int maxGen;
 };

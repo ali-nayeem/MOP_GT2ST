@@ -19,6 +19,7 @@ Checkpoint::Checkpoint(bool keepCheckpoint, string dataStorePath, int runNumber)
     keepCheckpoint_ = keepCheckpoint;
     runNumber_ =  runNumber;
     dataStorePath_ = dataStorePath + "/run" + to_string(runNumber);
+    //prob_ = prob;
     //interval_ = 10;
     if (keepCheckpoint_ && FileUtils::existsPath(dataStorePath_.c_str()) != 1) {
         FileUtils::createDirectory(dataStorePath_);
@@ -38,6 +39,13 @@ void Checkpoint::logVAR(SolutionSet *pop, int gen)
         {
             pop->printVariablesToFile(dataStorePath_ + "/pop." + to_string(gen));
             pop->printObjectivesToFile(dataStorePath_ + "/obj." + to_string(gen));
+            string to = dataStorePath_ + "/pop." + to_string(gen);
+            string treePerfPath = dataStorePath_ + "/popTreePerf." + to_string(gen);
+            string trueStPath =  ((InferSpeciesTree*)prob_)->getTrueTreePath();
+            string cmd = "python2  lib/PyTreePerf/getTreePerfFromVAR.py -t " + trueStPath + " -v " + to + " -o " + treePerfPath;
+            InferSpeciesTree::GetStdoutFromCommand(cmd);
+            cmd = "python3  lib/PyTreePerf/drawTreePerfDistrib.py -f " + treePerfPath;
+            InferSpeciesTree::GetStdoutFromCommand(cmd);
         }
     }
     

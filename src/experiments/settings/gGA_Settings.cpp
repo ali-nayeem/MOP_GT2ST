@@ -1,4 +1,4 @@
-//  NSGAII_Settings.cpp
+//  gGA_Settings.cpp
 //
 //  Author:
 //       Antonio J. Nebro <antonio@lcc.uma.es>
@@ -19,33 +19,34 @@
 //  You should have received a copy of the GNU Lesser General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#include <NSGAII_Settings.h>
+#include <gGA_Settings.h>
 
-#include "RandomSelection.h"
+#include "DetTournament.h"
 #include "TreeInitializer.h"
+#include "NormalizedSumComparator.h"
 
 /**
  * Default constructor
  */
-NSGAII_Settings::NSGAII_Settings() : Settings()
+gGA_Settings::gGA_Settings() : Settings()
 {
-} // NSGAII_Settings
+} // gGA_Settings
 
 /**
  * Destructor
  */
-NSGAII_Settings::~NSGAII_Settings()
+gGA_Settings::~gGA_Settings()
 {
     delete algorithm;
     delete crossover; // Crossover operator
     delete mutation; // Mutation operator
-    delete selection; // Selection operator
-} // ~NSGAII_Settings
+    //delete selection; // Selection operator
+} // ~gGA_Settings
 
 /**
  * Constructor
  */
-NSGAII_Settings::NSGAII_Settings(string problemName, Checkpoint * checkpoint)
+gGA_Settings::gGA_Settings(string problemName, Checkpoint * checkpoint)
 {
     problemName_ = problemName;
     string path(problemName_);
@@ -53,30 +54,32 @@ NSGAII_Settings::NSGAII_Settings(string problemName, Checkpoint * checkpoint)
     //cout<<path;
 
     //problem_ = ProblemFactory::getProblem((char *) problemName_.c_str());
-    vector<int> obj{ InferSpeciesTree::MAX_ASTRAL, InferSpeciesTree::MAX_STELAR, InferSpeciesTree::MAX_MPEST, InferSpeciesTree::MIN_PHYLONET}; 
+    vector<int> obj{ InferSpeciesTree::MAX_ASTRAL, InferSpeciesTree::MAX_STELAR, InferSpeciesTree::MAX_MPEST}; //, InferSpeciesTree::MIN_PHYLONET}; 
     problem_ = new InferSpeciesTree(path, obj);
 
     // Algorithm parameters
-    populationSize_ = 100;
-    maxEvaluations_ = 800;
+    populationSize_ = 10;
+    maxEvaluations_ = 30;
     maxGen_ = 44;
     mutationProbability_ = 0.8;
-    crossoverProbability_ = 0.5;
+    crossoverProbability_ = 0.4;
+    tournamentSize_ = 10;
     checkpoint_ = checkpoint;
+    comparator_ = new NormalizedSumComparator() ;
 
-} // NSGAII_Settings
+} // gGA_Settings
 
 /**
  * Configure method
  */
-Algorithm * NSGAII_Settings::configure()
+Algorithm * gGA_Settings::configure()
 {
 
-    algorithm = new NSGAII_ST(problem_);
+    algorithm = new gGA_ST(problem_);
     algorithm->setInputParameter("populationSize", &populationSize_);
     algorithm->setInputParameter("maxEvaluations", &maxEvaluations_);
     algorithm->setInputParameter("checkpoint", checkpoint_);
-    //algorithm->setInputParameter("maxGenerations", &maxGen_);
+    algorithm->setInputParameter("comparator", comparator_);
 
     // Mutation and Crossover for Real codification
     map<string, void *> parameters;
@@ -110,7 +113,9 @@ Algorithm * NSGAII_Settings::configure()
 
     // Selection Operator
     parameters.clear();
-    selection = new RandomSelection(parameters); //BinaryTournament2(parameters);
+    parameters["comparator"] = comparator_;
+    parameters["size"] = &tournamentSize_;
+    selection = new DetTournament(parameters); //BinaryTournament2(parameters);
     
     //initializer
     parameters.clear();
@@ -131,7 +136,7 @@ Algorithm * NSGAII_Settings::configure()
     string initMethod = "from_gene_trees";
     parameters["problem"] = problem_;
     parameters["crossover"] = initCross;
-    parameters["mutation"] = initNNI;
+    parameters["mutation"] = NULL;
     parameters["method"] = &initMethod;
     //parameters["unique"] = &unique;
     initializer = new TreeInitializer(parameters);
@@ -141,6 +146,7 @@ Algorithm * NSGAII_Settings::configure()
     algorithm->addOperator("mutation", mutation);
     algorithm->addOperator("selection", selection);
     algorithm->addOperator("initializer", initializer);
+    algorithm->addOperator("selection", selection);
     //cout << "NGSAII algorithm initialized." << endl;
 
     return algorithm;
