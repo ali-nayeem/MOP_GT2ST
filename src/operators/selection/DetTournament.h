@@ -26,6 +26,8 @@
 #include <Comparator.h>
 #include <DominanceComparator.h>
 #include <PseudoRandom.h>
+#include <UtilsMOEAD.h>
+
 
 /**
  * This class implements an binary tournament selection operator

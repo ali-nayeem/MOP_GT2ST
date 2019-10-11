@@ -59,7 +59,7 @@ int main(int argc, char ** argv) {
   StudyMOEAD * exp = new StudyMOEAD() ;
   
   // Name of the experiment:
-  exp->experimentName_ = "Nayeem10SepMOEAD2ObjWS_ADJUSTED";
+  exp->experimentName_ = "Test";
   exp->keepCheckpoint_ = true;
 
   // List of algorithm names to be used in the experiment
@@ -84,7 +84,7 @@ int main(int argc, char ** argv) {
   exp->independentRuns_ = 2;
 
   // Number of threads to be used to execute the experiment
-  int numberOfThreads = 4;
+  int numberOfThreads = 1;
   
   exp->algorithmNameList_ = algorithmNameList_;
   exp->problemList_ = problemList_;

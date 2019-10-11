@@ -87,7 +87,7 @@ int main(int argc, char ** argv) {
 //      "10-taxon.higher-ILS.estimated-genetrees.R13", "10-taxon.higher-ILS.estimated-genetrees.R14",
 //      "10-taxon.higher-ILS.estimated-genetrees.R15", "10-taxon.higher-ILS.estimated-genetrees.R16",
 //      "10-taxon.higher-ILS.estimated-genetrees.R17", "10-taxon.higher-ILS.estimated-genetrees.R18",
-      "10-taxon.higher-ILS.estimated-genetrees.R14"          
+      "10-taxon.higher-ILS.estimated-genetrees.R14", "10-taxon.higher-ILS.estimated-genetrees.R9", "10-taxon.higher-ILS.estimated-genetrees.R4"      
   };//, 
  //, "37-taxon.noscale_200g_500b.estimated-genetrees.R5", "10-taxon.higher-ILS.estimated-genetrees.R2"
 
@@ -100,7 +100,7 @@ int main(int argc, char ** argv) {
   exp->independentRuns_ = 1;
 
   // Number of threads to be used to execute the experiment
-  int numberOfThreads = 1;
+  int numberOfThreads = 3;
   
   exp->algorithmNameList_ = algorithmNameList_;
   exp->problemList_ = problemList_;

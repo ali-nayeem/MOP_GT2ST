@@ -37,15 +37,7 @@ void Checkpoint::logVAR(SolutionSet *pop, int gen)
     {
         if( (gen % interval_)==0 )
         {
-            pop->printVariablesToFile(dataStorePath_ + "/pop." + to_string(gen));
-            pop->printObjectivesToFile(dataStorePath_ + "/obj." + to_string(gen));
-            string to = dataStorePath_ + "/pop." + to_string(gen);
-            string treePerfPath = dataStorePath_ + "/popTreePerf." + to_string(gen);
-            string trueStPath =  ((InferSpeciesTree*)prob_)->getTrueTreePath();
-            string cmd = "python2  lib/PyTreePerf/getTreePerfFromVAR.py -t " + trueStPath + " -v " + to + " -o " + treePerfPath;
-            InferSpeciesTree::GetStdoutFromCommand(cmd);
-            cmd = "python3  lib/PyTreePerf/drawTreePerfDistrib.py -f " + treePerfPath;
-            InferSpeciesTree::GetStdoutFromCommand(cmd);
+            execute(pop, gen);
         }
     }
     
@@ -54,17 +46,22 @@ void Checkpoint::logVARforce(SolutionSet *pop, int gen)
 {
     if(keepCheckpoint_ )
     {
-        
-       pop->printVariablesToFile(dataStorePath_ + "/pop." + to_string(gen));
-       pop->printObjectivesToFile(dataStorePath_ + "/obj." + to_string(gen));
-        
+        execute(pop, gen);
     }
     
 }
-//void Checkpoint::setMaxGen(int gen)
-//{
-//    maxGen = gen;
-//}
+void Checkpoint::execute(SolutionSet *pop, int gen)
+{
+    pop->printVariablesToFile(dataStorePath_ + "/pop." + to_string(gen));
+    pop->printObjectivesToFile(dataStorePath_ + "/obj." + to_string(gen));
+    string to = dataStorePath_ + "/pop." + to_string(gen);
+    string treePerfPath = dataStorePath_ + "/popTreePerf." + to_string(gen);
+    string trueStPath =  ((InferSpeciesTree*)prob_)->getTrueTreePath();
+    string cmd = "python2  lib/PyTreePerf/getTreePerfFromVAR.py -t " + trueStPath + " -v " + to + " -o " + treePerfPath;
+    InferSpeciesTree::GetStdoutFromCommand(cmd);
+    cmd = "python3  lib/PyTreePerf/drawTreePerfDistrib.py -f " + treePerfPath;
+    InferSpeciesTree::GetStdoutFromCommand(cmd);
+}
 
 Checkpoint::~Checkpoint()
 {

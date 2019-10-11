@@ -63,7 +63,7 @@ MOEAD_Settings::MOEAD_Settings(string problemName, Checkpoint * checkpoint)
     maxEvaluations_ = 2600;
     maxGen_ = 44;
     mutationProbability_ = 0.8;
-    crossoverProbability_ = 0.8;
+    crossoverProbability_ = 0.2;
     checkpoint_ = checkpoint;
 
 } // MOEAD_Settings

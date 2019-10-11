@@ -61,17 +61,20 @@ DetTournament::~DetTournament() {
 void * DetTournament::execute(void * object) {
 
   SolutionSet * solutionSet = (SolutionSet *) object;
-  int index = PseudoRandom::randInt(0,solutionSet->size()-1);
+  int * perm = new int[solutionSet->size()];
+  UtilsMOEAD::randomPermutation(perm, solutionSet->size());
+  int index = perm[0];
   Solution * best = solutionSet->get(index);
   for(int i = 1; i < size_; i++)
   {
-      index = PseudoRandom::randInt(0,solutionSet->size()-1);
+      index = perm[i];
       Solution * solution = solutionSet->get(index);
-      if (comparator_->compare(best, solution)==1) {
+      int comp = comparator_->compare(best, solution);
+      if (comp == 1) {
           best = solution;
       }
   }
-  
+  delete[] perm;
   return best;
 
 } // execute

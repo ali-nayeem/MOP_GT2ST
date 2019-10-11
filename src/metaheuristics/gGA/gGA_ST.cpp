@@ -46,12 +46,13 @@ SolutionSet * gGA_ST::execute() {
 
   SolutionSet * population;
   SolutionSet * offspringPopulation;
+  SolutionSet * unionSolution;
 
   Operator * mutationOperator;
   Operator * crossoverOperator;
   Operator * selectionOperator;
   Operator * initializerOperator;
-
+  Distance * distance = new Distance();
   
 
   //Read the parameters
@@ -101,15 +102,9 @@ SolutionSet * gGA_ST::execute() {
         parents[1] = (Solution *) (selectionOperator->execute(population));
         Solution * offSpring = (Solution *) (crossoverOperator->execute(parents));
         mutationOperator->execute(offSpring);
-//        mutationOperator->execute(offSpring[1]);
-//        problem_->evaluate(offSpring[0]);
-//        problem_->evaluateConstraints(offSpring[0]);
-//        problem_->evaluate(offSpring[1]);
-//        problem_->evaluateConstraints(offSpring[1]);
 
         offspringPopulation->add(offSpring);
-//        offspringPopulation->add(offSpring[1]);
-        //evaluations += 2;
+
         //delete offSpring;
       } // if
     } // for
@@ -117,23 +112,47 @@ SolutionSet * gGA_ST::execute() {
     p->evaluate(offspringPopulation);
     evaluations += offspringPopulation->size();
     
-    population->sort(comparator) ;
-    offspringPopulation->sort(comparator) ;
-
-    delete offspringPopulation->get(offspringPopulation->size()-1);
-    delete offspringPopulation->get(offspringPopulation->size()-2);
-    offspringPopulation->replace(offspringPopulation->size()-1, new Solution(population->get(0))) ;
-    offspringPopulation->replace(offspringPopulation->size()-2, new Solution(population->get(1))) ;
+    unionSolution = population->join(offspringPopulation);
+    delete offspringPopulation;
+    
+    unionSolution->sort(comparator);
+//    population->sort(comparator) ;
+//    offspringPopulation->sort(comparator) ;
+//
+//    delete offspringPopulation->get(offspringPopulation->size()-1);
+//    delete offspringPopulation->get(offspringPopulation->size()-2);
+//    offspringPopulation->replace(offspringPopulation->size()-1, new Solution(population->get(0))) ;
+//    offspringPopulation->replace(offspringPopulation->size()-2, new Solution(population->get(1))) ;
 
     for (int i=0;i<population->size();i++) {
       delete population->get(i);
     }
     population->clear() ;
-
-    for (int i = 0; i < offspringPopulation->size(); i++)
-      population->add(offspringPopulation->get(i)) ;
-    offspringPopulation->clear() ;
-    delete offspringPopulation;
+    double lastFitness = 1.0e+30;
+    for (int i = 0; i < unionSolution->getMaxSize()/3; i++)
+    {
+        if(lastFitness != unionSolution->get(0)->getFitness())
+        {
+            population->add(unionSolution->get(0)) ;
+            lastFitness = unionSolution->get(0)->getFitness();
+        }
+        delete unionSolution->get(0);
+        unionSolution->remove(0);
+    }
+    
+    distance->crowdingDistanceAssignment(unionSolution, problem_->getNumberOfObjectives());
+    Comparator * c = new CrowdingComparator();
+    unionSolution->sort(c);
+    delete c;
+    
+    for (int i = population->size(); i < population->getMaxSize(); i++)
+    {
+        population->add(new Solution(unionSolution->get(0))) ;
+        unionSolution->remove(0);
+    }
+    
+    unionSolution->clear() ;
+    delete unionSolution;
   }
 
   delete comparator;

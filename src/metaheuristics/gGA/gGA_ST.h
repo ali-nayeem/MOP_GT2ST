@@ -27,6 +27,9 @@
 #include <ObjectiveComparator.h>
 #include <InferSpeciesTree.h>
 #include <Checkpoint.h>
+#include <Distance.h>
+#include <Ranking.h>
+#include <CrowdingComparator.h>
 
 class gGA_ST : public Algorithm {
 private:

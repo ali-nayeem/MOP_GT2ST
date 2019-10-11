@@ -58,11 +58,11 @@ gGA_Settings::gGA_Settings(string problemName, Checkpoint * checkpoint)
     problem_ = new InferSpeciesTree(path, obj);
 
     // Algorithm parameters
-    populationSize_ = 10;
-    maxEvaluations_ = 30;
+    populationSize_ = 100;
+    maxEvaluations_ = 3000;
     maxGen_ = 44;
-    mutationProbability_ = 0.8;
-    crossoverProbability_ = 0.4;
+    mutationProbability_ = 1.0;
+    crossoverProbability_ = 0.2;
     tournamentSize_ = 10;
     checkpoint_ = checkpoint;
     comparator_ = new NormalizedSumComparator() ;

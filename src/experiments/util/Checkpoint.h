@@ -35,6 +35,7 @@ public:
     int  getThreadId(){return threadId;}
     void addProblem(Problem * prob){prob_=prob;}
 private:
+    void execute(SolutionSet *pop, int gen);
     string dataStorePath_;
     int runNumber_;
     bool keepCheckpoint_ = false;
