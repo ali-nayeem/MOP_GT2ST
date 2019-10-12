@@ -21,6 +21,7 @@
 #include <gGA_ST.h>
 
 #include "MultipleProbMutation.h"
+#include "RandomSelection.h"
 
 /*
  * This class implements the NSGA-II algorithm.
@@ -53,6 +54,8 @@ SolutionSet * gGA_ST::execute() {
   Operator * mutationOperator;
   Operator * crossoverOperator;
   Operator * selectionOperator;
+  map<string, void *> parameters;
+  Operator * randSelection = new RandomSelection(parameters);
   Operator * initializerOperator;
   Distance * distance = new Distance();
   
@@ -101,9 +104,9 @@ SolutionSet * gGA_ST::execute() {
     for (int i = 0; i < (populationSize); i++) {
       if (evaluations < maxEvaluations) {
         //obtain parents
-          parents = (Solution **) (selectionOperator->execute(population));
+        parents[0] = ((Solution **) (randSelection->execute(population)))[0];
 //        parents[0] = (Solution *) (selectionOperator->execute(population));
-//        parents[1] = (Solution *) (selectionOperator->execute(population));
+        parents[1] = (Solution *) (selectionOperator->execute(population));
         Solution * offSpring = (Solution *) (crossoverOperator->execute(parents));
         mutationOperator->execute(offSpring);
 
