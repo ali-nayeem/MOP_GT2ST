@@ -60,7 +60,7 @@ public:
    PhylogeneticMutation(map<string, void *> parameters);
   ~PhylogeneticMutation();
   void * execute(void *);
-
+  string getName();
   
   void printParameters();
   

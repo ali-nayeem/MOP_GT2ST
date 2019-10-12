@@ -31,6 +31,7 @@ using namespace std;
 
 RandomGenerator * PseudoRandom::randomGenerator_ = NULL ;
 RandomTools * PseudoRandom::bppRand_ = new RandomTools() ;
+std::unordered_map <std::thread::id, RandomFactory*> PseudoRandom::RndFactoryMap;
 //bppRand_->setSeed(0123456789);
 
 PseudoRandom::PseudoRandom() {
@@ -55,7 +56,7 @@ double PseudoRandom::randDouble() {
     PseudoRandom::randomGenerator_ = new RandomGenerator();
   }
   //return PseudoRandom::randomGenerator_->rndreal(0.0,1.0);
-  return bppRand_->giveRandomNumberBetweenZeroAndEntry(1.0);
+  return bppRand_->giveRandomNumberBetweenZeroAndEntry(1.0, *getRndFactory());
 }
 
 int PseudoRandom::randInt(int minBound, int maxBound) {
@@ -64,7 +65,7 @@ int PseudoRandom::randInt(int minBound, int maxBound) {
   }
   int diff = maxBound - minBound;
   //return PseudoRandom::randomGenerator_->rnd(minBound,maxBound);
-  return minBound + bppRand_->giveIntRandomNumberBetweenZeroAndEntry(maxBound-minBound+1);
+  return minBound + bppRand_->giveIntRandomNumberBetweenZeroAndEntry(maxBound-minBound+1, *getRndFactory());
 
 }
 
@@ -80,6 +81,16 @@ double PseudoRandom::randDouble(double minBound, double maxBound) {
     //PseudoRandom::randomGenerator_ = new RandomGenerator();
   }
   //return PseudoRandom::randomGenerator_->rndreal(minBound,maxBound);
-  return minBound + bppRand_->giveRandomNumberBetweenZeroAndEntry(maxBound-minBound);
+  return minBound + bppRand_->giveRandomNumberBetweenZeroAndEntry(maxBound-minBound, *getRndFactory());
 }
     
+RandomFactory* PseudoRandom::getRndFactory()
+{
+    std::thread::id tid = std::this_thread::get_id();
+    if(RndFactoryMap[tid] == NULL)
+    {
+        RndFactoryMap[tid] = new Uniform01K(time(NULL));
+        cout<< "New Rnd for a new thread: "<<tid<<", thread count: "<<RndFactoryMap.size()<<endl;
+    }
+    return RndFactoryMap[tid];
+}

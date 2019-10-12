@@ -279,9 +279,20 @@ void InferSpeciesTree::evaluate(SolutionSet *pop, int gen)
           solId++;
         }
     }
-    //cout << ls << endl;
-    
-    
+    //cout << ls << endl;     
+}
+void InferSpeciesTree::evaluateFitness(SolutionSet *pop)
+{
+    for(int i = 0; i < pop->size(); i++) //for each solution
+    {
+        Solution * sol = pop->get(i);
+        double fitness = 0;
+        for(int n = 0; n < getNumberOfObjectives(); n++)
+        {
+            fitness += ( (sol->getObjective(n) - getMinObjective(n)) / (getMaxObjective(n) - getMinObjective(n)) );      
+        }
+        sol->setFitness(fitness);
+    }
 }
 void InferSpeciesTree::updateReference(Solution * individual) {
   for (int n = 0; n < getNumberOfObjectives(); n++) {

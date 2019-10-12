@@ -20,6 +20,8 @@
 
 #include <gGA_ST.h>
 
+#include "MultipleProbMutation.h"
+
 /*
  * This class implements the NSGA-II algorithm.
  */
@@ -85,6 +87,7 @@ SolutionSet * gGA_ST::execute() {
   int gen = 0;
   while (evaluations < maxEvaluations) 
   {
+   addedMutIdCount = 0;   
    if (checkpoint_ != NULL)
     {
         checkpoint_->logVAR(population, gen);
@@ -98,8 +101,9 @@ SolutionSet * gGA_ST::execute() {
     for (int i = 0; i < (populationSize); i++) {
       if (evaluations < maxEvaluations) {
         //obtain parents
-        parents[0] = (Solution *) (selectionOperator->execute(population));
-        parents[1] = (Solution *) (selectionOperator->execute(population));
+          parents = (Solution **) (selectionOperator->execute(population));
+//        parents[0] = (Solution *) (selectionOperator->execute(population));
+//        parents[1] = (Solution *) (selectionOperator->execute(population));
         Solution * offSpring = (Solution *) (crossoverOperator->execute(parents));
         mutationOperator->execute(offSpring);
 
@@ -108,6 +112,8 @@ SolutionSet * gGA_ST::execute() {
         //delete offSpring;
       } // if
     } // for
+    //if(gen > 1)
+    ((MultipleProbMutation *) mutationOperator)->decreaseAllWeight(population->getMaxSize());
     delete[] parents;
     p->evaluate(offspringPopulation);
     evaluations += offspringPopulation->size();
@@ -115,6 +121,7 @@ SolutionSet * gGA_ST::execute() {
     unionSolution = population->join(offspringPopulation);
     delete offspringPopulation;
     
+    p->evaluateFitness(unionSolution);
     unionSolution->sort(comparator);
 //    population->sort(comparator) ;
 //    offspringPopulation->sort(comparator) ;
@@ -128,15 +135,16 @@ SolutionSet * gGA_ST::execute() {
       delete population->get(i);
     }
     population->clear() ;
-    double lastFitness = 1.0e+30;
-    for (int i = 0; i < unionSolution->getMaxSize()/3; i++)
+    double lastFitness = -1.0e+30;
+    for (int i = 0; i < population->getMaxSize()/3; i++)
     {
-        if(lastFitness != unionSolution->get(0)->getFitness())
+        if((unionSolution->get(0)->getFitness() - lastFitness) > 0.0001)
         {
             population->add(unionSolution->get(0)) ;
+            increaseMutWeight(unionSolution->get(0), mutationOperator);
             lastFitness = unionSolution->get(0)->getFitness();
         }
-        delete unionSolution->get(0);
+        //delete unionSolution->get(0);
         unionSolution->remove(0);
     }
     
@@ -147,11 +155,20 @@ SolutionSet * gGA_ST::execute() {
     
     for (int i = population->size(); i < population->getMaxSize(); i++)
     {
-        population->add(new Solution(unionSolution->get(0))) ;
+        increaseMutWeight(unionSolution->get(0), mutationOperator);
+        population->add(unionSolution->get(0)) ;
         unionSolution->remove(0);
     }
     
-    unionSolution->clear() ;
+    while (unionSolution->size() > 0)
+    {
+        //decreaseMutWeight(unionSolution->get(0), mutationOperator);
+        delete unionSolution->get(0);
+        unionSolution->remove(0);
+    }
+    
+    
+    //unionSolution->clear() ;
     delete unionSolution;
   }
 
@@ -166,3 +183,28 @@ SolutionSet * gGA_ST::execute() {
 
   return population;//resultPopulation ;
 } // execute
+
+void gGA_ST::increaseMutWeight(Solution * sol, Operator * mut)
+{
+    if(sol->getMutId() > -1)
+    {
+        ((MultipleProbMutation *) mut)->increaseWeight(sol->getMutId());
+        addedMutIdCount++;
+    }
+    else
+    {
+        sol->setMutId(-1);
+    }
+}
+
+void gGA_ST::decreaseMutWeight(Solution * sol, Operator * mut)
+{
+    if(sol->getMutId() > -1)
+    {
+        ((MultipleProbMutation *) mut)->decreaseWeight(sol->getMutId());
+    }
+    else
+    {
+        sol->setMutId(-1);
+    }
+}

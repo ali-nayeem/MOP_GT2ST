@@ -45,18 +45,18 @@ int NormalizedSumComparator::compare(void *o1, void *o2) {
     return -1;
   Solution * s1 = (Solution *) o1;
   Solution * s2 = (Solution *) o2;
-  InferSpeciesTree * inferST = (InferSpeciesTree *) s1->getProblem();
+  //InferSpeciesTree * inferST = (InferSpeciesTree *) s1->getProblem();
   //double * normalizedObjective = new double[prob->getNumberOfObjectives()];
-  double objetive1 = 0, objetive2 = 0;
-    double sum = 0;
-    for(int n = 0; n < inferST->getNumberOfObjectives(); n++)
-    {
-        //cout << "Min and max are " << inferST->getMaxObjective(n) << " " << inferST->getMinObjective(n)<<endl;
-        objetive1 += (s1->getObjective(n) - inferST->getMinObjective(n)) / (inferST->getMaxObjective(n) - inferST->getMinObjective(n));      
-        objetive2 += (s2->getObjective(n) - inferST->getMinObjective(n)) / (inferST->getMaxObjective(n) - inferST->getMinObjective(n));
-    }
-  s1->setFitness(objetive1); 
-  s2->setFitness(objetive2);
+//  double objetive1 = 0, objetive2 = 0;
+//    for(int n = 0; n < inferST->getNumberOfObjectives(); n++)
+//    {
+//        //cout << "Min and max are " << inferST->getMaxObjective(n) << " " << inferST->getMinObjective(n)<<endl;
+//        objetive1 += (s1->getObjective(n) - inferST->getMinObjective(n)) / (inferST->getMaxObjective(n) - inferST->getMinObjective(n));      
+//        objetive2 += (s2->getObjective(n) - inferST->getMinObjective(n)) / (inferST->getMaxObjective(n) - inferST->getMinObjective(n));
+//    }
+  double objetive1, objetive2;
+  objetive1 = s1->getFitness(); 
+  objetive2 = s2->getFitness();
   if (objetive1 < objetive2) {
     return -1;
   } else if (objetive1 > objetive2) {

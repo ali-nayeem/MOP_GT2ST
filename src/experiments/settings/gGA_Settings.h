@@ -31,6 +31,7 @@
 #include <BinaryTournament2.h>
 #include <algorithm>
 #include "MultipleRandomMutation.h"
+#include <MultipleProbMutation.h>
 #include "Checkpoint.h"
 
 class gGA_Settings : public Settings{

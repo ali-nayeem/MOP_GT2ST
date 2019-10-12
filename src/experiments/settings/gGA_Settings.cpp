@@ -24,6 +24,7 @@
 #include "DetTournament.h"
 #include "TreeInitializer.h"
 #include "NormalizedSumComparator.h"
+#include "RandomSelection.h"
 
 /**
  * Default constructor
@@ -58,11 +59,11 @@ gGA_Settings::gGA_Settings(string problemName, Checkpoint * checkpoint)
     problem_ = new InferSpeciesTree(path, obj);
 
     // Algorithm parameters
-    populationSize_ = 100;
-    maxEvaluations_ = 3000;
-    maxGen_ = 44;
+    populationSize_ = 150;
+    maxEvaluations_ = 15000;
+    //maxGen_ = 44;
     mutationProbability_ = 1.0;
-    crossoverProbability_ = 0.2;
+    crossoverProbability_ = 0.3;
     tournamentSize_ = 10;
     checkpoint_ = checkpoint;
     comparator_ = new NormalizedSumComparator() ;
@@ -109,13 +110,13 @@ Algorithm * gGA_Settings::configure()
     mutationProbability = mutationProbability_;
     parameters["probability"] = &mutationProbability;
     parameters["mutationList"] = &mutList1;
-    mutation = new MultipleRandomMutation(parameters);
+    mutation = new MultipleProbMutation(parameters);
 
     // Selection Operator
     parameters.clear();
-    parameters["comparator"] = comparator_;
-    parameters["size"] = &tournamentSize_;
-    selection = new DetTournament(parameters); //BinaryTournament2(parameters);
+    //parameters["comparator"] = comparator_;
+    //parameters["size"] = &tournamentSize_;
+    selection = new RandomSelection(parameters);//DetTournament(parameters); //BinaryTournament2(parameters);
     
     //initializer
     parameters.clear();

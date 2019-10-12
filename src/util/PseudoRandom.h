@@ -25,6 +25,10 @@
 #include <iostream>
 #include <RandomGenerator.h>
 #include <Bpp/Numeric/Random/RandomTools.h>
+#include <unordered_map> 
+#include <thread>
+#include <Bpp/Numeric/Random/Uniform01K.h>
+
 
 using namespace bpp; 
 
@@ -39,6 +43,8 @@ class PseudoRandom {
 public:
   static RandomGenerator * randomGenerator_;
   static RandomTools * bppRand_;
+  static std::unordered_map <std::thread::id, RandomFactory*> RndFactoryMap;
+
   PseudoRandom();
 
 public:
@@ -46,6 +52,7 @@ public:
   static int randInt(int minBound, int maxBound);
   //static int randInt(int maxBound);
   static double randDouble(double minBound, double maxBound);
+  static RandomFactory* getRndFactory();
 };
 
 

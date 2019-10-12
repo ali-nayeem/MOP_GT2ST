@@ -68,6 +68,10 @@ PhylogeneticMutation::~PhylogeneticMutation() {
 
 } // ~PhylogeneticMutation
 
+string PhylogeneticMutation::getName()
+{
+    return Metodo;
+}
 
 /**
  * Perform the mutation operation
@@ -120,10 +124,10 @@ void PhylogeneticMutation::TBR(Solution * solution){
     vector<int> nodosIDs = tree->getNodesId();
     do{
               do{
-                      nodo = tree->getNode(RandomTools::pickOne(nodosIDs,true));
+                      nodo = tree->getNode(RandomTools::pickOne(nodosIDs,true, *PseudoRandom::getRndFactory()));
               }while(nodo->isLeaf() || nodo->getNumberOfSons() < 2 || !nodo->hasFather()); //reject if (leaf || root || )
 
-              if (RandomTools::flipCoin()) {
+              if (RandomTools::flipCoin(*PseudoRandom::getRndFactory())) {
                       nodoi= nodo->getSon(0); nodoj= nodo->getSon(1);
               }else{
                       nodoi= nodo->getSon(1); nodoj= nodo->getSon(0);
@@ -137,7 +141,7 @@ void PhylogeneticMutation::TBR(Solution * solution){
      //subtree->resetNodesId();
      nodeVec = subtree->getNodes();
      do{
-            nodoSubTree = RandomTools::pickOne(nodeVec,true);
+            nodoSubTree = RandomTools::pickOne(nodeVec,true, *PseudoRandom::getRndFactory());
      }while(nodoSubTree->isLeaf());
      
      if(nodoi->getId() != nodoSubTree->getId())
@@ -166,13 +170,13 @@ void PhylogeneticMutation::TBR(Solution * solution){
      //tree->resetNodesId();
      nodeVec = tree->getNodes();
      do{
-            nodo = RandomTools::pickOne(nodeVec,true);
+            nodo = RandomTools::pickOne(nodeVec,true, *PseudoRandom::getRndFactory());
      }while(nodo->isLeaf());
       #ifdef MAN_DEBUG
         cout << "New node as adding point: " << nodo->getId()<<endl ;
      #endif
      int posSon;
-     if (RandomTools::flipCoin()) posSon=0; else posSon=1;
+     if (RandomTools::flipCoin(*PseudoRandom::getRndFactory())) posSon=0; else posSon=1;
 
      Node * nuevonodo = new Node();
      nuevonodo->addSon(nodo->getSon(posSon));
@@ -228,7 +232,7 @@ bool PhylogeneticMutation::NNI(Solution * solution){
               #endif              
               return false;
           }
-          NodoSel = RandomTools::pickOne(nodes, false);    //nodes[PseudoRandom::randInt(0, nodes.size() - 1)];
+          NodoSel = RandomTools::pickOne(nodes, false, *PseudoRandom::getRndFactory());    //nodes[PseudoRandom::randInt(0, nodes.size() - 1)];
     }while(!NNIValidate(NodoSel));
     
     Node * Nodo1;
@@ -414,7 +418,7 @@ bool PhylogeneticMutation::modifiedNNI(Solution * solution){
               #endif              
               return false;
           }
-          NodoSel = RandomTools::pickOne(nodes, false);    //nodes[PseudoRandom::randInt(0, nodes.size() - 1)];
+          NodoSel = RandomTools::pickOne(nodes, false, *PseudoRandom::getRndFactory());    //nodes[PseudoRandom::randInt(0, nodes.size() - 1)];
           if(!NodoSel->getSon(0)->isLeaf() || !NodoSel->getSon(1)->isLeaf())
           {
               if(NodoSel->getSon(0)->isLeaf() || NodoSel->getSon(1)->isLeaf())

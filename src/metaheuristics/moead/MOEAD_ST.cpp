@@ -188,7 +188,7 @@ void MOEAD_ST::initRandomWeight(double mean, double stdDev)
       double sum = 0;
       for(int obj = 0; obj < problem_->getNumberOfObjectives(); obj++)
       {
-          lambda_[n][obj] = RandomTools::randGaussian(mean, stdDev*stdDev);   
+          lambda_[n][obj] = RandomTools::randGaussian(mean, stdDev*stdDev, *PseudoRandom::getRndFactory());   
           sum  += lambda_[n][obj];
       }
       for(int obj = 0; obj < problem_->getNumberOfObjectives(); obj++)

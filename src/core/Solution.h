@@ -61,6 +61,7 @@ private:
   double kDistance_;
   double crowdingDistance_;
   double distanceToSolutionSet_;
+  int mutId = -1;
     
 public:
   Solution ();
@@ -103,6 +104,8 @@ public:
   double getAggregativeValue();
   Problem * getProblem() ;
   //int getNumberOfBits();
+  void setMutId(int id){ mutId = id;}
+  int getMutId(){return mutId;}
 
 };
 

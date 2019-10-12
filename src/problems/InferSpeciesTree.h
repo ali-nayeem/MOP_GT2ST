@@ -29,7 +29,7 @@
 //#include <Bpp/Phyl/Io/Newick.h>
 #include <Bpp/Phyl/Node.h>
 
-#include <pll/pll.h>
+//#include <pll/pll.h>
 //#include<libpll/pll.h>
 //#include <Bpp/Text/KeyvalTools.h>
 #include <sys/stat.h>
@@ -87,6 +87,7 @@ public:
   void evaluate(Solution *solution);
   //void evaluate(Solution *solution,float p, float l);
   void evaluate(SolutionSet *pop, int gen=-1);
+  void evaluateFitness(SolutionSet *pop);
   bool isMultifurcating(Solution * solution);
   void printParameters();
 //  void readParameters(BppApplication *objApp);

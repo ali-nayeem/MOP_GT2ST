@@ -35,6 +35,9 @@ class gGA_ST : public Algorithm {
 private:
   int populationSize_;
   int maxEvaluations_;
+  int addedMutIdCount;
+  void increaseMutWeight(Solution * sol, Operator * mut);
+  void decreaseMutWeight(Solution * sol, Operator * mut);
 public:
   gGA_ST(Problem * problem);
   SolutionSet * execute();

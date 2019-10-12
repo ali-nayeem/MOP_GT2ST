@@ -67,7 +67,7 @@ private:
   int numDescendientes_ ;
   Solution * doCrossover(double probability, Solution * parent1, Solution * parent2);
   void CrossTrees(PhyloTree * PtMon, PhyloTree * PtDad);
-  boolean implementCrossover(Solution *parent1, Solution *parent2, Solution *offSpring);
+  bool implementCrossover(Solution *parent1, Solution *parent2, Solution *offSpring);
   Node * selectNodeToCross(TreeTemplate<Node> * tree_, vector<int> nodosIDs );
 
 

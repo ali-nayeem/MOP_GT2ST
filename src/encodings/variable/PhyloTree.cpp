@@ -187,7 +187,7 @@ Node * PhyloTree::selectrandomnode()
 	if(nodosIDs.empty()){ cout << "Tree without Nodes " << endl;  exit(-1);	}
 
 	do{
-		nodo = tree_->getNode(RandomTools::pickOne(nodosIDs,true));
+		nodo = tree_->getNode(RandomTools::pickOne(nodosIDs,true, *PseudoRandom::getRndFactory()));
 	}while(!nodo->hasFather() || !nodo->getFather()->hasFather() || nodo->isLeaf() );
 
 	return nodo;
@@ -198,7 +198,7 @@ Node * PhyloTree::selectrandomnodeToCross()
 	Node * nodo;
 	vector<int> nodosIDs = tree_->getNodesId();
 	do{
-		nodo =  tree_->getNode(RandomTools::pickOne(nodosIDs,true));
+		nodo =  tree_->getNode(RandomTools::pickOne(nodosIDs,true, *PseudoRandom::getRndFactory()));
 	}while(!nodo->hasFather() || nodo->isLeaf() );
 
 	return nodo;
@@ -211,7 +211,7 @@ Node * PhyloTree::getRandomLeaf()
 	vector<int> nodosIDs = tree_->getLeavesId();
 	do{
 		do{
-			nodo =  tree_->getNode(RandomTools::pickOne(nodosIDs,true));
+			nodo =  tree_->getNode(RandomTools::pickOne(nodosIDs,true, *PseudoRandom::getRndFactory()));
 		}while(!nodo->hasFather());
 	}while(!nodo->getFather()->hasFather()); //Que el SubTree NO sea el Root
 

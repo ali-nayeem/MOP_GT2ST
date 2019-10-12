@@ -118,7 +118,7 @@ Solution::Solution (Solution *solution) {
   type_ = solution->type_;
   numberOfObjectives_ = solution->getNumberOfObjectives();
   numberOfVariables_ = solution->getNumberOfVariables();
-
+  mutId = solution->getMutId();
   // creating the objective vector
   objective_ = new double[numberOfObjectives_];
   if (objective_ == NULL) {
