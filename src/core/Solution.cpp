@@ -490,7 +490,10 @@ Problem * Solution::getProblem() {
   return problem_ ;
 } // getAggregativeValue
 
-
+bool Solution::operator<(Solution const &other) 
+{ 
+     return (this->fitness_ < other.fitness_);
+}
 /**
  * Returns the number of bits of the chromosome in case of using a binary
  * representation

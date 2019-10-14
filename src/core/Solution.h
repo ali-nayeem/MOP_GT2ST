@@ -70,6 +70,7 @@ public:
   //getNewsolution (Problem *problem);
   Solution(Problem * problem, Variable ** variables);
   Solution (Solution * solution);
+  bool operator<(Solution const &other);
 
   ~Solution();
 

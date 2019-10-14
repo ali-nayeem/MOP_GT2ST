@@ -22,6 +22,7 @@
 
 
 #include <SolutionSet.h>
+#include <algorithm>
 
 
 /**
@@ -421,3 +422,9 @@ void SolutionSet::printObjectivesToFile2(string file){
   }
   out.close();
 } // pri
+
+  void SolutionSet::sortFitness()
+  {
+      std::sort(solutionsList_.begin(), solutionsList_.end(), comparePtrToNode);
+  }
+bool SolutionSet::comparePtrToNode(Solution* a, Solution* b) { return (*a < *b); }

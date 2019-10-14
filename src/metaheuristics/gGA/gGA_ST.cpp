@@ -125,7 +125,8 @@ SolutionSet * gGA_ST::execute() {
     delete offspringPopulation;
     
     p->evaluateFitness(unionSolution);
-    unionSolution->sort(comparator);
+    //unionSolution->sort(comparator);
+    unionSolution->sortFitness();
 //    population->sort(comparator) ;
 //    offspringPopulation->sort(comparator) ;
 //

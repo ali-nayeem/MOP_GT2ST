@@ -76,7 +76,8 @@ public:
   void replace(int position, Solution * solution);
   void replace(int position, Solution * solution, bool del);
   vector <vector<double> > writeObjectivesToMatrix();
-
+  void sortFitness();
+  static bool comparePtrToNode(Solution* a, Solution* b); 
   //void reset() ;
   //string toString();
 };
