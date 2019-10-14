@@ -92,30 +92,29 @@ SolutionSet * NSGAII_ST::execute() {
 
         //cout << "Evaluating  " << evaluations << endl;
 
-        for (int i = 0; i < (populationSize); ) {
+        for (int i = 0; i < (populationSize); i++) {
 
             if (evaluations < maxEvaluations) {
                 //obtain parents
-                parents[0] = ((Solution **) (randSel->execute(population)))[0];
-                parents[1] = (Solution *) (binTourSel->execute(population));
-
+                parents[0] = (Solution *) (selectionOperator->execute(population));
+                parents[1] = (Solution *) (selectionOperator->execute(population));
+                //Apply Crossover
                 Solution * offSpring = (Solution *) (crossoverOperator->execute(parents));
-                if(p->isMultifurcating(offSpring))
-                    continue;
-                Solution * copy;
-                do {
-                    copy = new Solution(offSpring);
-                    mutationOperator->execute(copy);
-                } while ( (p->getNumberOfLeaves(copy) != p->getNumberOfTaxa()) );
-                if(p->isMultifurcating(copy))
-                    continue;
-
-                offspringPopulation->add(copy);
-                i++;
-                //offspringPopulation->add(offSpring[1]);
-                //cout << "Next " << evaluations << endl;
-                delete offSpring;
-
+                //Apply Mutation
+                mutationOperator->execute(offSpring);
+                offspringPopulation->add(offSpring);
+//                if(p->isMultifurcating(offSpring))
+//                    continue;
+//                Solution * copy;
+//                do {
+//                    copy = new Solution(offSpring);
+//                    mutationOperator->execute(copy);
+//                } while ( (p->getNumberOfLeaves(copy) != p->getNumberOfTaxa()) );
+//                if(p->isMultifurcating(copy))
+//                    continue;
+//                offspringPopulation->add(copy);
+//                i++;                
+//                delete offSpring;
             } // if
         } // for
 

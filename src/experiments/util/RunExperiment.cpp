@@ -150,6 +150,7 @@ void RunExperiment::run() {
       
       // Run the algorithm
       mutex_->lock();
+      PseudoRandom::getRndFactory()->setSeed(time(NULL));
       cout << "Thread[" << threadIndex_ << "]: Start of algorithm: " <<
           algorithmNameList_[algorithmIndex] << ", problem: " <<
           problemList_[problemIndex] << ", run: " << numRun << endl;

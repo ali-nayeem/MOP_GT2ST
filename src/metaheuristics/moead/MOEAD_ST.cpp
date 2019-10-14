@@ -32,7 +32,7 @@ SolutionSet * MOEAD_ST::execute() {
   population_ = new SolutionSet(populationSize_);
   //indArray_ = new Solution*[problem_->getNumberOfObjectives()];
   
-  T_ = problem_->getNumberOfObjectives() + 1;
+  T_ = 10;
   delta_ = 0.9;
   nr_ = 2;
 /*
@@ -55,8 +55,6 @@ SolutionSet * MOEAD_ST::execute() {
   // STEP 1.1. Compute euclidean distances between weight vectors and find T
   initUniformWeight();
   //initRandomWeight(0.5, 0.1);
-  //for (int i = 0; i < 300; i++)
-  // 	cout << lambda_[i][0] << " " << lambda_[i][1] << endl ;
   
   initNeighborhood();
   
@@ -99,31 +97,26 @@ SolutionSet * MOEAD_ST::execute() {
       parents[1] = population_->get(p[1]);
       //parents[2] = population_->get(n);
       
-      // Apply DE crossover
-      //void ** object = new void*[2];
-      //object[0] = population_->get(n);
-      //object[1] = parents;
+      // Apply crossover
       child = (Solution *) (crossover_->execute(parents));
       //delete[] object;
       delete[] parents;
       
-      InferSpeciesTree * p_ = (InferSpeciesTree *) problem_;
       // Apply mutation
-      Solution * copy;
-      
-      do {
-            copy = new Solution(child);
-            mutation_->execute(copy);
-      } while ( (p_->getNumberOfLeaves(copy) != p_->getNumberOfTaxa()) );
+      mutation_->execute(child);
+//      InferSpeciesTree * p_ = (InferSpeciesTree *) problem_;
+//      Solution * copy;
+//      do {
+//            copy = new Solution(child);
+//            mutation_->execute(copy);
+//      } while ( (p_->getNumberOfLeaves(copy) != p_->getNumberOfTaxa()) );
       
       //((Phylogeny *)problem_)->Optimization(child);
         
       // Evaluation
-      problem_->evaluate(child);
-      
+      problem_->evaluate(child); 
       evaluations_++;
       
-      //if((evaluations_ % 100) == 0)   cout << "Evaluations " << evaluations_ << endl;
       // STEP 2.3. Repair. Not necessary
       
       // STEP 2.4. Update z_

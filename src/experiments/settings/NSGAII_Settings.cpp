@@ -53,15 +53,15 @@ NSGAII_Settings::NSGAII_Settings(string problemName, Checkpoint * checkpoint)
     //cout<<path;
 
     //problem_ = ProblemFactory::getProblem((char *) problemName_.c_str());
-    vector<int> obj{ InferSpeciesTree::MAX_ASTRAL, InferSpeciesTree::MAX_STELAR, InferSpeciesTree::MAX_MPEST, InferSpeciesTree::MIN_PHYLONET}; 
+    vector<int> obj{ InferSpeciesTree::MAX_ASTRAL, InferSpeciesTree::MAX_STELAR, InferSpeciesTree::MAX_MPEST}; //, InferSpeciesTree::MIN_PHYLONET}; 
     problem_ = new InferSpeciesTree(path, obj);
 
     // Algorithm parameters
     populationSize_ = 100;
-    maxEvaluations_ = 800;
+    maxEvaluations_ = 5000;
     maxGen_ = 44;
-    mutationProbability_ = 0.8;
-    crossoverProbability_ = 0.5;
+    mutationProbability_ = 1.0;
+    crossoverProbability_ = 0.3;
     checkpoint_ = checkpoint;
 
 } // NSGAII_Settings
@@ -110,7 +110,7 @@ Algorithm * NSGAII_Settings::configure()
 
     // Selection Operator
     parameters.clear();
-    selection = new RandomSelection(parameters); //BinaryTournament2(parameters);
+    selection = new BinaryTournament2(parameters); //RandomSelection(parameters); 
     
     //initializer
     parameters.clear();
@@ -131,7 +131,7 @@ Algorithm * NSGAII_Settings::configure()
     string initMethod = "from_gene_trees";
     parameters["problem"] = problem_;
     parameters["crossover"] = initCross;
-    parameters["mutation"] = initNNI;
+    parameters["mutation"] = NULL;
     parameters["method"] = &initMethod;
     //parameters["unique"] = &unique;
     initializer = new TreeInitializer(parameters);

@@ -139,7 +139,7 @@ SolutionSet * gGA_ST::execute() {
     }
     population->clear() ;
     double lastFitness = -1.0e+30;
-    for (int i = 0; i < population->getMaxSize()/3; i++)
+    for (int i = 0; i < population->getMaxSize(); i++)
     {
         if((unionSolution->get(0)->getFitness() - lastFitness) > 0.0001)
         {
@@ -150,7 +150,7 @@ SolutionSet * gGA_ST::execute() {
         //delete unionSolution->get(0);
         unionSolution->remove(0);
     }
-    
+    //cout<< "pop, union: "<<population->size()<<", "<<unionSolution->size()<<endl;
     distance->crowdingDistanceAssignment(unionSolution, problem_->getNumberOfObjectives());
     Comparator * c = new CrowdingComparator();
     unionSolution->sort(c);
@@ -189,15 +189,15 @@ SolutionSet * gGA_ST::execute() {
 
 void gGA_ST::increaseMutWeight(Solution * sol, Operator * mut)
 {
-    if(sol->getMutId() > -1)
-    {
-        ((MultipleProbMutation *) mut)->increaseWeight(sol->getMutId());
-        addedMutIdCount++;
-    }
-    else
-    {
-        sol->setMutId(-1);
-    }
+//    if(sol->getMutId() > -1)
+//    {
+//        ((MultipleProbMutation *) mut)->increaseWeight(sol->getMutId());
+//        sol->setMutId(-1);
+//        addedMutIdCount++;
+//    }
+//    else
+//    {
+//    }
 }
 
 void gGA_ST::decreaseMutWeight(Solution * sol, Operator * mut)

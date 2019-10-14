@@ -54,8 +54,8 @@ Algorithm * StudyMOEAD::algorithmSettings(string problemName,
 
 int main(int argc, char ** argv) {
 
-  PseudoRandom::bppRand_->setSeed(01234567);
-  Checkpoint::interval_ = 1;
+  //PseudoRandom::bppRand_->setSeed(01234567);
+  Checkpoint::interval_ = 5;
   StudyMOEAD * exp = new StudyMOEAD() ;
   
   // Name of the experiment:
@@ -70,9 +70,9 @@ int main(int argc, char ** argv) {
   // List of problem names to be used in the experiment
   // (please, refer to the README to check the possible values):
   vector<string> problemList_ {
-      "10-taxon.higher-ILS.estimated-genetrees.R6", "10-taxon.higher-ILS.estimated-genetrees.R9"}; 
-       //"10-taxon.higher-ILS.estimated-genetrees.R14", "10-taxon.higher-ILS.estimated-genetrees.R18",
-  //};//, "10-taxon.higher-ILS.estimated-genetrees.R2", 
+       "10-taxon.higher-ILS.estimated-genetrees.R9", "10-taxon.higher-ILS.estimated-genetrees.R9", "10-taxon.higher-ILS.estimated-genetrees.R4",   
+      "15-taxon.100gene-100bp.estimated-genetrees.R6", "15-taxon.100gene-100bp.estimated-genetrees.R9"  
+  };//, "10-taxon.higher-ILS.estimated-genetrees.R2", 
  //, "37-taxon.noscale_200g_500b.estimated-genetrees.R5", "10-taxon.higher-ILS.estimated-genetrees.R2"
 
   // Directory where the execution results will be stored:
@@ -84,7 +84,7 @@ int main(int argc, char ** argv) {
   exp->independentRuns_ = 2;
 
   // Number of threads to be used to execute the experiment
-  int numberOfThreads = 1;
+  int numberOfThreads = 6;
   
   exp->algorithmNameList_ = algorithmNameList_;
   exp->problemList_ = problemList_;
@@ -97,8 +97,8 @@ int main(int argc, char ** argv) {
   cout << "Experiment (" << exp->experimentName_ << ") is starting." << endl;
 
   exp->runExperiment(numberOfThreads);
-  //exp->calculateTreePerf();
-  exp->calculateCheckpointTreePerf();
+  exp->calculateTreePerf();
+  //exp->calculateCheckpointTreePerf();
 
   cout << "Experiment (" << exp->experimentName_ << ") has finished." << endl;
 

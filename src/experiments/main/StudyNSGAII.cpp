@@ -55,11 +55,11 @@ Algorithm * StudyNSGAII::algorithmSettings(string problemName,
 int main(int argc, char ** argv) {
 
   //PseudoRandom::bppRand_->setSeed(01234567);
-  Checkpoint::interval_ = 1;
+  Checkpoint::interval_ = 5;
   StudyNSGAII * exp = new StudyNSGAII() ;
   
   // Name of the experiment:
-  exp->experimentName_ = "Nayeem8Oct3Obj";
+  exp->experimentName_ = "Nayeem14OctNSGAII";
   exp->keepCheckpoint_ = true;
 
  //exp->keepCheckpoint_ = true;
@@ -96,10 +96,10 @@ int main(int argc, char ** argv) {
                                  exp->experimentName_;
 
   // Number of independent runs of each algorithm for each problem:
-  exp->independentRuns_ = 1;
+  exp->independentRuns_ = 5;
 
   // Number of threads to be used to execute the experiment
-  int numberOfThreads = 1;
+  int numberOfThreads = 5;
   
   exp->algorithmNameList_ = algorithmNameList_;
   exp->problemList_ = problemList_;

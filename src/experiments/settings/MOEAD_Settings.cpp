@@ -55,15 +55,15 @@ MOEAD_Settings::MOEAD_Settings(string problemName, Checkpoint * checkpoint)
     //cout<<path;
 
     //problem_ = ProblemFactory::getProblem((char *) problemName_.c_str());
-    vector<int> obj{ InferSpeciesTree::MAX_ASTRAL, InferSpeciesTree::MAX_STELAR}; //, InferSpeciesTree::MIN_PHYLONET, InferSpeciesTree::MAX_MPEST
+    vector<int> obj{ InferSpeciesTree::MAX_ASTRAL, InferSpeciesTree::MAX_STELAR, InferSpeciesTree::MAX_MPEST}; //, InferSpeciesTree::MIN_PHYLONET
     problem_ = new InferSpeciesTree(path, obj);
 
     // Algorithm parameters
     populationSize_ = 100;
-    maxEvaluations_ = 2600;
+    maxEvaluations_ = 10000;
     maxGen_ = 44;
-    mutationProbability_ = 0.8;
-    crossoverProbability_ = 0.2;
+    mutationProbability_ = 1.0;
+    crossoverProbability_ = 0.3;
     checkpoint_ = checkpoint;
 
 } // MOEAD_Settings
@@ -126,7 +126,7 @@ Algorithm * MOEAD_Settings::configure()
     string initMethod = "from_gene_trees";
     parameters["problem"] = problem_;
     parameters["crossover"] = initCross;
-    //parameters["mutation"] = NULL;
+    parameters["mutation"] = NULL;
     parameters["method"] = &initMethod;
     //parameters["unique"] = &unique;
     initializer = new TreeInitializer(parameters);

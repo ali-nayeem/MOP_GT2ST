@@ -56,11 +56,11 @@ Algorithm * StudyGGA::algorithmSettings(string problemName,
 int main(int argc, char ** argv) {
 
   //PseudoRandom::bppRand_->setSeed(01234567);
-  Checkpoint::interval_ = 1;
+  Checkpoint::interval_ = 5;
   StudyGGA * exp = new StudyGGA() ;
   
   // Name of the experiment:
-  exp->experimentName_ = "Nayeem12Oct3ObjR14";
+  exp->experimentName_ = "Nayeem13Oct3ObjNoCrowdingDynMut";
   exp->keepCheckpoint_ = true;
 
  //exp->keepCheckpoint_ = true;
@@ -87,8 +87,8 @@ int main(int argc, char ** argv) {
 //      "10-taxon.higher-ILS.estimated-genetrees.R13", "10-taxon.higher-ILS.estimated-genetrees.R14",
 //      "10-taxon.higher-ILS.estimated-genetrees.R15", "10-taxon.higher-ILS.estimated-genetrees.R16",
 //      "10-taxon.higher-ILS.estimated-genetrees.R17", "10-taxon.higher-ILS.estimated-genetrees.R18",
-      "10-taxon.higher-ILS.estimated-genetrees.R14", "10-taxon.higher-ILS.estimated-genetrees.R9", "10-taxon.higher-ILS.estimated-genetrees.R4",   
-      "15-taxon.100gene-100bp.estimated-genetrees.R2", "15-taxon.100gene-100bp.estimated-genetrees.R6", "15-taxon.100gene-100bp.estimated-genetrees.R9"        
+      "10-taxon.higher-ILS.estimated-genetrees.R9"//, "10-taxon.higher-ILS.estimated-genetrees.R9", "10-taxon.higher-ILS.estimated-genetrees.R4",   
+      // "15-taxon.100gene-100bp.estimated-genetrees.R6", "15-taxon.100gene-100bp.estimated-genetrees.R9"        
   };//, 
  //, "37-taxon.noscale_200g_500b.estimated-genetrees.R5", "10-taxon.higher-ILS.estimated-genetrees.R2"
 
@@ -98,7 +98,7 @@ int main(int argc, char ** argv) {
                                  exp->experimentName_;
 
   // Number of independent runs of each algorithm for each problem:
-  exp->independentRuns_ = 2;
+  exp->independentRuns_ = 10;
 
   // Number of threads to be used to execute the experiment
   int numberOfThreads = 6;
