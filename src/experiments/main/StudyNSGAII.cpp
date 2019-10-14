@@ -72,9 +72,9 @@ int main(int argc, char ** argv) {
   // List of problem names to be used in the experiment
   // (please, refer to the README to check the possible values):
   vector<string> problemList_ {
-//      "15-taxon.100gene-100bp.estimated-genetrees.R1", "15-taxon.100gene-100bp.estimated-genetrees.R2",
-//      "15-taxon.100gene-100bp.estimated-genetrees.R3", "15-taxon.100gene-100bp.estimated-genetrees.R4",
-//      "15-taxon.100gene-100bp.estimated-genetrees.R5", "15-taxon.100gene-100bp.estimated-genetrees.R6",
+      "15-taxon.100gene-100bp.estimated-genetrees.R1", "15-taxon.100gene-100bp.estimated-genetrees.R2",
+      "15-taxon.100gene-100bp.estimated-genetrees.R3", "15-taxon.100gene-100bp.estimated-genetrees.R4",
+      "15-taxon.100gene-100bp.estimated-genetrees.R5", "15-taxon.100gene-100bp.estimated-genetrees.R6",
 //      "15-taxon.100gene-100bp.estimated-genetrees.R7", "15-taxon.100gene-100bp.estimated-genetrees.R8",
 //      "15-taxon.100gene-100bp.estimated-genetrees.R4"//, "15-taxon.100gene-100bp.estimated-genetrees.R10"      
 //      "10-taxon.higher-ILS.estimated-genetrees.R4", "10-taxon.higher-ILS.estimated-genetrees.R2",
@@ -86,7 +86,7 @@ int main(int argc, char ** argv) {
 //      "10-taxon.higher-ILS.estimated-genetrees.R13", "10-taxon.higher-ILS.estimated-genetrees.R14",
 //      "10-taxon.higher-ILS.estimated-genetrees.R15", "10-taxon.higher-ILS.estimated-genetrees.R16",
 //      "10-taxon.higher-ILS.estimated-genetrees.R17", "10-taxon.higher-ILS.estimated-genetrees.R18",
-      "10-taxon.higher-ILS.estimated-genetrees.R4", "10-taxon.higher-ILS.estimated-genetrees.R14"          
+//      "10-taxon.higher-ILS.estimated-genetrees.R4", "10-taxon.higher-ILS.estimated-genetrees.R14"          
   };//, 
  //, "37-taxon.noscale_200g_500b.estimated-genetrees.R5", "10-taxon.higher-ILS.estimated-genetrees.R2"
 
@@ -96,10 +96,10 @@ int main(int argc, char ** argv) {
                                  exp->experimentName_;
 
   // Number of independent runs of each algorithm for each problem:
-  exp->independentRuns_ = 5;
+  exp->independentRuns_ = 10;
 
   // Number of threads to be used to execute the experiment
-  int numberOfThreads = 5;
+  int numberOfThreads = 10;
   
   exp->algorithmNameList_ = algorithmNameList_;
   exp->problemList_ = problemList_;
