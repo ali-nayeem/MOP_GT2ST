@@ -5,7 +5,7 @@ y1 = []
 y2 = []
 y3 = []
 
-with open(filepath) as fp:  
+with open(filepath) as fp:
 	line = fp.readline()
 	#cnt = 1
 	while line:
@@ -34,13 +34,13 @@ plt.bar(x_ + bar_width*2, y3, width=bar_width, color='blue', zorder=2)
 #labels
 #adjust x until it is centered
 plt.xticks(x_ + bar_width, x)
-plt.title('Comparison of FN rate between ASTRAL, PhyloNet and MP-EST')
+plt.title('Comparison of FN rate between ASTRAL, STELAR and MP-EST')
 plt.xlabel('Replicates')
 plt.ylabel('FN rate')
 
 #legend
 yellow_patch = mpatches.Patch(color='yellow', label='ASTRAL')
-red_patch = mpatches.Patch(color='red', label='PhyloNet')
+red_patch = mpatches.Patch(color='red', label='STELAR')
 blue_patch = mpatches.Patch(color='blue', label='MP-EST')
 plt.legend(handles=[yellow_patch, red_patch, blue_patch])
 

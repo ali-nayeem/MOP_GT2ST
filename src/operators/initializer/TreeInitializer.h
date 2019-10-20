@@ -33,6 +33,7 @@ private:
     SolutionSet * fromGeneTrees(int size);
     SolutionSet * fromTrueTree(int size);
     SolutionSet * fromTools(int size);
+    SolutionSet *  fromToolsGeneTrees(int size);
     map<string, Operator *> operators;
 };
 

@@ -12,6 +12,7 @@
  */
 
 #include "TreeInitializer.h"
+#include "UtilsMOEAD.h"
 
 TreeInitializer::TreeInitializer(map<string, void *> parameters) : Operator(parameters)
 {
@@ -53,6 +54,8 @@ void * TreeInitializer::execute(void *object)
         pop = fromGeneTrees(popSize);
     else if (method == "from_true_tree")
         pop = fromTrueTree(popSize);
+    else if (method == "from_tool_gene_trees")
+        pop = fromToolsGeneTrees(popSize);
     else
         throw Exception("Population initialization method name doesn't matched with any!");
     return pop;
@@ -162,7 +165,8 @@ SolutionSet * TreeInitializer::fromTools(int size)
     for (int i = 0; i < PrecomputedTrees.size(); i++)
     {
         Variable **variables = new Variable*[problem->getNumberOfVariables()];
-        variables[0] = new PhyloTree(PrecomputedTrees[i]);
+        variables[0] = new PhyloTree(PrecomputedTrees[i]);      
+        TreeTemplateTools::deleteBranchLengths(*((PhyloTree *)variables[0])->getTree()->getRootNode());
         Solution * newSolution = new Solution(problem, variables);
         pop->add(newSolution);
     }
@@ -184,6 +188,25 @@ SolutionSet * TreeInitializer::fromTrueTree(int size)
     return outPop;
 }
 
+SolutionSet * TreeInitializer::fromToolsGeneTrees(int size)
+{
+    SolutionSet * tool = fromTools(size/3);
+    tool->remove(0);
+    tool->remove(0);
+    tool->remove(0);
+    SolutionSet * gene = fromGeneTrees(size - tool->size());
+    SolutionSet * comb = gene->join(tool);
+    int *perm = new int[size];
+    UtilsMOEAD::randomPermutation(perm, size);
+    SolutionSet * combPerm = new SolutionSet(size);
+    for(int i=0 ; i<size; i++)
+    {
+        combPerm->add(comb->get(perm[i]));
+    }
+    return combPerm;
+}
+
+        
 //newPop = new SolutionSet(size);
     /*map<string, void *> parameters;
     double prob = 0.8; int numDes = 1.0;

@@ -35,8 +35,8 @@ InferSpeciesTree::InferSpeciesTree(string & _datapath, vector <int> & _selectedO
     solutionType_ = new PhyloTreeSolutionType(this);
     treeFiles.push_back(datapath + speciesTreeFileName + "_astral");
     treeFiles.push_back(datapath + speciesTreeFileName + "_mpest");
-    treeFiles.push_back(datapath + speciesTreeFileName + "_phylonet");
-    //treeFiles.push_back(datapath + speciesTreeFileName + "_triplet");
+    //treeFiles.push_back(datapath + speciesTreeFileName + "_phylonet");
+    treeFiles.push_back(datapath + speciesTreeFileName + "_stelar");
     //newick = new Newick;
     timestamp_ = time(0);//*100 + instanceCount++;//time(0);
     threadId_ = -1;
@@ -102,6 +102,7 @@ SolutionSet * InferSpeciesTree::getSolutionSetFromVarFile(string varFileName)
     while(std::getline(varFile, aTree))
     {
         TreeTemplate<Node> * tree = TreeTemplateTools::parenthesisToTree(aTree); //, true, TreeTools::BOOTSTRAP, false, false
+        TreeTemplateTools::deleteBranchLengths(*tree->getRootNode());
         Variable **variables = new Variable*[this->getNumberOfVariables()];
         variables[0] = new PhyloTree();
         ((PhyloTree *) variables[0])->setTree(tree);
