@@ -34,7 +34,9 @@ private:
     SolutionSet * fromTrueTree(int size);
     SolutionSet * fromTools(int size);
     SolutionSet *  fromToolsGeneTrees(int size);
+    SolutionSet *  fromPrevVAR(int size);
     map<string, Operator *> operators;
+    string prevVARPath;
 };
 
 #endif /* USINGGENETREES_H */

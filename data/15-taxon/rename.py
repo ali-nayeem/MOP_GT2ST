@@ -15,6 +15,18 @@ def copy(path, subpath, i):
 	new = path+ "/"+subpath+"/R"+str(i)+"/gene.tre"
 	run ("cp "+old+" "+new)
 
+def copy_true_tree(path, subpath, i):
+	tree = "true-species.tre"
+	old = path+ "/"+subpath+"/R"+str(i)+"/true_st.tre"
+	old2 = path+ "/"+subpath+"/R"+str(i)+"/true_st_sakshar.tre"
+	cmd = "mv " + old + "  " + old2
+	run(cmd)
+	run("rm "+ old)
+	#cmd = "perl strip_edge_support.pl -i " + old + " -o " + old
+	#run(cmd)
+	# new = path+ "/"+subpath+"/R"+str(i)+"/gene.tre"
+	run ("cp " + tree + " " +  old)
+
 def copy_mpest(path, subpath, i):
 	old = path+ "/"+subpath+"/R"+str(i)+"/st_from_mpest.txt"
 	new = path+ "/"+subpath+"/R"+str(i)+"/species.tre_mpest"

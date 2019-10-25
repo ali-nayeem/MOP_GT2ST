@@ -34,6 +34,7 @@ public:
     void setThreadId(int id){threadId=id;}
     int  getThreadId(){return threadId;}
     void addProblem(Problem * prob){prob_=prob;}
+    int getRunNumber(){ return runNumber_;}
 private:
     void execute(SolutionSet *pop, int gen);
     string dataStorePath_;

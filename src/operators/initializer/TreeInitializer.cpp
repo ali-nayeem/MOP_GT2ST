@@ -31,6 +31,8 @@ TreeInitializer::TreeInitializer(map<string, void *> parameters) : Operator(para
         mut = (Operator *) parameters["mutation"];
     if (parameters["crossover"] != NULL)
         cross = (Operator *) parameters["crossover"];
+    if (parameters["prevVARPath"] != NULL)
+        prevVARPath = *(string *) parameters["prevVARPath"];
 }
 
 void TreeInitializer::addOperator(string name, Operator* op)
@@ -54,8 +56,10 @@ void * TreeInitializer::execute(void *object)
         pop = fromGeneTrees(popSize);
     else if (method == "from_true_tree")
         pop = fromTrueTree(popSize);
-    else if (method == "from_tool_gene_trees")
+    else if (method == "from_tools_gene_trees")
         pop = fromToolsGeneTrees(popSize);
+    else if (method == "from_prev_var")
+        pop = fromPrevVAR(popSize);
     else
         throw Exception("Population initialization method name doesn't matched with any!");
     return pop;
@@ -190,7 +194,7 @@ SolutionSet * TreeInitializer::fromTrueTree(int size)
 
 SolutionSet * TreeInitializer::fromToolsGeneTrees(int size)
 {
-    SolutionSet * tool = fromTools(size/3);
+    SolutionSet * tool = fromTools(size/10);
     tool->remove(0);
     tool->remove(0);
     tool->remove(0);
@@ -206,7 +210,29 @@ SolutionSet * TreeInitializer::fromToolsGeneTrees(int size)
     return combPerm;
 }
 
-        
+SolutionSet * TreeInitializer::fromPrevVAR(int size)    
+{
+    SolutionSet * prevPop = problem->getSolutionSetFromVarFile(prevVARPath);
+    if(prevPop->size() == size)
+    {
+        return prevPop;
+    }
+    else if(prevPop->size() < size)
+    {
+        SolutionSet * restPop = fromGeneTrees(size - prevPop->size());
+        return prevPop->join(restPop);
+    }
+    else
+    {
+        SolutionSet * outPop = new SolutionSet(size);
+        for(int i=0 ; i<size; i++)
+        {
+            outPop->add(prevPop->get(prevPop->size()-1-i));
+        }
+        return outPop;
+    }
+   
+}
 //newPop = new SolutionSet(size);
     /*map<string, void *> parameters;
     double prob = 0.8; int numDes = 1.0;
