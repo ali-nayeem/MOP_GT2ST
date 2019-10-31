@@ -84,7 +84,7 @@ SolutionSet * gGA_ST::execute() {
   population = (SolutionSet*) initializerOperator->execute(&populationSize);//p->createInitialPopulationGeneTrees(populationSize);
   p->evaluate(population);
   evaluations += populationSize;
-   
+  p->evaluateFitness(population); 
 
   // Generations
   int gen = 0;
