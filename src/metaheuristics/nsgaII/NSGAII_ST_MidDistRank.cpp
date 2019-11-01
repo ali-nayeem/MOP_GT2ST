@@ -5,13 +5,13 @@
  */
 
 /* 
- * File:   NSGAII_ST.cpp
+ * File:   NSGAII_ST_MidDistRank.cpp
  * Author: ali_nayeem
  * 
  * Created on January 11, 2019, 11:38 AM
  */
 
-#include "NSGAII_ST.h"
+#include "NSGAII_ST_MidDistRank.h"
 #include "Checkpoint.h"
 #include "RandomSelection.h"
 #include "BinaryTournament2.h"
@@ -19,11 +19,11 @@
 
 using namespace bpp;
 
-NSGAII_ST::NSGAII_ST(Problem *problem) : Algorithm(problem) {
+NSGAII_ST_MidDistRank::NSGAII_ST_MidDistRank(Problem *problem) : Algorithm(problem) {
     checkpoint_ = NULL;
 }
 
-SolutionSet * NSGAII_ST::execute() {
+SolutionSet * NSGAII_ST_MidDistRank::execute() {
     int populationSize;
     int maxEvaluations;
     int evaluations;
@@ -116,7 +116,7 @@ SolutionSet * NSGAII_ST::execute() {
         delete offspringPopulation;
 
         // Ranking the union
-        Ranking * ranking = new Ranking(unionSolution);
+        MidDistanceRanking * midDistRanking = new MidDistanceRanking(unionSolution);
 
         int remain = populationSize;
         int index = 0;
@@ -127,7 +127,7 @@ SolutionSet * NSGAII_ST::execute() {
         population->clear();
 
         // Obtain the next front
-        front = ranking->getSubfront(index);
+        front = midDistRanking->getSubfront(index);
 
         while ((remain > 0) && (remain >= front->size())) {
             //Assign crowding distance to individuals
@@ -144,7 +144,7 @@ SolutionSet * NSGAII_ST::execute() {
             //Obtain the next front
             index++;
             if (remain > 0) {
-                front = ranking->getSubfront(index);
+                front = midDistRanking->getSubfront(index);
             } // if
 
         } // while
@@ -162,7 +162,7 @@ SolutionSet * NSGAII_ST::execute() {
             remain = 0;
         } // if
 
-        delete ranking;
+        delete midDistRanking;
         delete unionSolution;
 
     }// while

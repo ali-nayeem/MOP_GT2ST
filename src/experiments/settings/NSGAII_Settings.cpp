@@ -23,6 +23,7 @@
 
 #include "RandomSelection.h"
 #include "TreeInitializer.h"
+#include "NSGAII_ST_MidDistRank.h"
 
 /**
  * Default constructor
@@ -53,7 +54,7 @@ NSGAII_Settings::NSGAII_Settings(string problemName, Checkpoint * checkpoint)
     //cout<<path;
 
     //problem_ = ProblemFactory::getProblem((char *) problemName_.c_str());
-    vector<int> obj{ InferSpeciesTree::MAX_ASTRAL, InferSpeciesTree::MAX_STELAR, InferSpeciesTree::MAX_MPEST}; //, InferSpeciesTree::MIN_PHYLONET}; 
+    vector<int> obj{ InferSpeciesTree::MAX_ASTRAL, InferSpeciesTree::MAX_STELAR, InferSpeciesTree::MAX_MPEST, InferSpeciesTree::MIN_PHYLONET}; //, InferSpeciesTree::MIN_PHYLONET}; 
     problem_ = new InferSpeciesTree(path, obj);
 
     // Algorithm parameters
@@ -72,7 +73,7 @@ NSGAII_Settings::NSGAII_Settings(string problemName, Checkpoint * checkpoint)
 Algorithm * NSGAII_Settings::configure()
 {
 
-    algorithm = new NSGAII_ST(problem_);
+    algorithm = new NSGAII_ST_MidDistRank(problem_); //new NSGAII_ST(problem_)
     algorithm->setInputParameter("populationSize", &populationSize_);
     algorithm->setInputParameter("maxEvaluations", &maxEvaluations_);
     algorithm->setInputParameter("checkpoint", checkpoint_);

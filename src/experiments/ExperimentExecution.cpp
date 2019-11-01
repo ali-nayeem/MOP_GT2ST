@@ -113,7 +113,7 @@ void ExperimentExecution::runExperiment(int numberOfThreads) {
 //      exit(-1) ;
 //    }
     threads.push_back(thread(executeRun, experiments_[i]));
-    usleep(1000000);
+    usleep(2000000);
   }
 
 //  for (int i = 0; i < numberOfThreads; i++) {
