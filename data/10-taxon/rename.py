@@ -25,6 +25,14 @@ def copy_mpest_control(path, subpath, i):
 	new = path+ "/"+subpath+"/R"+str(i)+"/control_score"
 	run ("echo "+input+" > "+new)
 	run ("cat "+old+" >> "+new)
+
+def replace_mpest_control(path, subpath, i):
+	old = "control_R1"
+	new = path+ "/"+subpath+"/R"+str(i)+"/control_score"
+	new2 = path+ "/"+subpath+"/R"+str(i)+"/control_score_old"
+	run("mv " + new + " " + new2)
+	run ("cp "+old+" "+new)
+
 def copy_true_species_tree(path, subpath, i):
 	old = path+ "/true-speciestrees/"+"R"+str(i)+".label.true.tre"
 	new = path+ "/"+subpath+"/R"+str(i)+"/true_st.tre"
@@ -120,15 +128,15 @@ def check2(path, subpath, i, pwd):
 
 def main():
 	pwd = run("pwd")
-	paths = ["higher-ILS"] #, "lower-ILS"
+	paths = ["higher-ILS", "lower-ILS"] #, "lower-ILS"
 	subpaths = ["estimated-genetrees"] #, "true-genetrees"]
 	for  path in paths:
 		  print path
 		  for subpath in subpaths:
 				for i in range(1,21):
-					#copy_true_species_tree(path, subpath, i)
+					copy_mpest_control(path, subpath, i)
 					#astral_exact(path, subpath, i)
-					check2(path, subpath, i, pwd)
+					#check2(path, subpath, i, pwd)
 					#return
 					#sys.exit(0)
 					#print(run ("diff "+old+" "+new))

@@ -33,12 +33,6 @@ def copy_mpest(path, subpath, i):
 	run ("cp "+old+" "+new)
 	run ("diff "+old+" "+new)
 
-def copy_mpest_control(path, subpath, i):
-	old = "control_R1"
-	input = "data/10-taxon/"+ path+ "/"+subpath+"/R"+str(i)+"/gene.tre"
-	new = path+ "/"+subpath+"/R"+str(i)+"/control_score"
-	run ("echo "+input+" > "+new)
-	run ("cat "+old+" >> "+new)
 def copy_true_species_tree(path, subpath, i):
 	old = path+ "/true-speciestrees/"+"R"+str(i)+".label.true.tre"
 	#old = path+ "/true.tree"
@@ -133,6 +127,19 @@ def check_old(path, subpath, i, pwd):
 	if result != "0.0, 0.0, 0.0":
 		print "R"+str(i)+ ": "+ result
 
+def copy_mpest_control(path, subpath, i):
+	old = "control_score"
+	input = "data/15-taxon/"+ path+ "/"+subpath+"/R"+str(i)+"/gene.tre"
+	new = path+ "/"+subpath+"/R"+str(i)+"/control_score"
+	run ("echo "+input+" > "+new)
+	run ("cat "+old+" >> "+new)
+
+def replace_mpest_control(path, subpath, i):
+	#old = "control_score"
+	new = path+ "/"+subpath+"/R"+str(i)+"/control_score"
+	new2 = path+ "/"+subpath+"/R"+str(i)+"/control_score_old"
+	run("mv " + new + " " + new2)
+	#run ("cp "+old+" "+new)
 
 def main():
 	pwd = run("pwd")
@@ -147,8 +154,8 @@ def main():
 					#copy(path, subpath, i)
 					#copy_true_species_tree(path, subpath, i)
 					#astral(path, subpath, i)
-					#phylonet(path, subpath, i)
-					check2(path, subpath, i, pwd)
+					copy_mpest_control(path, subpath, i)
+					#check2(path, subpath, i, pwd)
 					#stelar_exact(path, subpath, i)
 					#return
 					#sys.exit(0)

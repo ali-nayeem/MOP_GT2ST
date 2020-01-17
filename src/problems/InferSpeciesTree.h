@@ -118,7 +118,7 @@ private:
   //SolutionSet *createInitialPopulation(int size);
   //SolutionSet * createInitialPopulationGeneTrees(int size); 
   //void fillupNewPopulationUsingOld(SolutionSet * newPop, SolutionSet * oldPop);
-
+  void setBranchLength(SolutionSet *pop, double len);
   inline bool fileExistsTest (const string& name) {
     struct stat buffer;   
     return (stat (name.c_str(), &buffer) == 0); 

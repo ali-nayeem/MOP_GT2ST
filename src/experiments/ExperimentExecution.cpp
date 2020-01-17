@@ -75,9 +75,9 @@ void ExperimentExecution::runExperiment(int numberOfThreads) {
 
   experimentIndividualListSize_ =
       problemList_.size() * algorithmNameList_.size() * independentRuns_;
-  for (int i=0; i<problemList_.size(); i++) {
+  for (int k=0; k<independentRuns_; k++) { 
     for (int j=0; j<algorithmNameList_.size(); j++) {
-      for (int k=0; k<independentRuns_; k++) {
+      for (int i=0; i<problemList_.size(); i++) {
         ExperimentIndividual * expInd = new ExperimentIndividual(j, i, k);
         experimentIndividualList_.push_back(expInd);
       }

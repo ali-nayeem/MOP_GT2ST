@@ -83,6 +83,17 @@ int InferSpeciesTree::getNumberOfTaxa()
 {
     return numberOfTaxa_;
 }
+
+void InferSpeciesTree::setBranchLength(SolutionSet *pop, double len)
+{
+    for(int i=0; i<pop->size(); i++)
+    {
+        Solution * sol = pop->get(i);
+        TreeTemplate<Node> * tree = ((PhyloTree *) sol->getDecisionVariables()[0])->getTree();
+        TreeTemplateTools::setBranchLengths(*tree->getRootNode(), len);
+    }
+}
+
 SolutionSet * InferSpeciesTree::getSolutionSetFromVarFile(string varFileName)
 {
     ifstream varFile(varFileName);
@@ -258,6 +269,7 @@ string InferSpeciesTree::getStelarScoreList(string varFile, int popSize)
 
 void InferSpeciesTree::evaluate(SolutionSet *pop, int gen)
 {
+    setBranchLength(pop, 1.0);
     varFile_ = datapath + "tmp";
     if(!fileExistsTest(varFile_))
     {
