@@ -292,7 +292,13 @@ void InferSpeciesTree::evaluate(SolutionSet *pop, int gen)
           solId++;
         }
     }
-    //cout << ls << endl;     
+    //cout << ls << endl;  
+    for(int i=0; i<pop->size(); i++)
+    {
+        Solution * sol = pop->get(i);
+        TreeTemplate<Node> * tree = ((PhyloTree *) sol->getDecisionVariables()[0])->getTree();
+        TreeTemplateTools::deleteBranchLengths(*tree->getRootNode());
+    }
 }
 void InferSpeciesTree::evaluateFitness(SolutionSet *pop)
 {
