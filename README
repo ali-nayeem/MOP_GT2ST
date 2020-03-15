@@ -1,6 +1,6 @@
 # Evolutionary Multi-objective Optimization for Phylogenomic Analyses
 
-This is a C++ project built on top of [MO-Phylogenetics](https://github.com/cristianzambrano/MO-Phylogenetics) 
+This is a C++ project built on top of MO-Phylogenetics(https://github.com/cristianzambrano/MO-Phylogenetics) 
 for inferring species tree from a given set of gene trees.
 
 =======================================================================================
