@@ -1,0 +1,257 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+
+/* 
+ * File:   NSGAIII_ST.cpp
+ * Author: ali_nayeem
+ * 
+ * Created on January 11, 2019, 11:38 AM
+ */
+
+#include "NSGAIII_ST.h"
+#include "Checkpoint.h"
+#include "RandomSelection.h"
+#include "BinaryTournament2.h"
+#include <InferSpeciesTree.h>
+
+using namespace bpp;
+
+NSGAIII_ST::NSGAIII_ST(Problem *problem) : Algorithm(problem)
+{
+    checkpoint_ = NULL;
+}
+
+SolutionSet *NSGAIII_ST::execute()
+{
+    int populationSize;
+    int maxEvaluations;
+    int evaluations;
+    //int IntervalOptSubsModel;
+
+    //  QualityIndicator * indicators; // QualityIndicator object
+    //int requiredEvaluations; // Use in the example of use of the
+    // indicators object (see below)
+
+    SolutionSet *population;
+    SolutionSet *offspringPopulation;
+    SolutionSet *unionSolution;
+
+    Operator *mutationOperator;
+    Operator *crossoverOperator;
+    Operator *selectionOperator;
+    Operator *initializerOperator;
+    map<string, void *> parameters;
+    //Selection * randSel = new RandomSelection(parameters);
+    //Selection * binTourSel = new BinaryTournament2(parameters);
+    //Distance * distance = new Distance();
+
+    //Read the parameters
+    populationSize = *(int *)getInputParameter("populationSize");
+    maxEvaluations = *(int *)getInputParameter("maxEvaluations");
+    checkpoint_ = (Checkpoint *)getInputParameter("checkpoint");
+    //IntervalOptSubsModel = *(int *) getInputParameter("intervalupdateparameters");
+    //  indicators = (QualityIndicator *) getInputParameter("indicators");
+    obj_division_p_.push_back(*(int *)getInputParameter("p1"));
+    if (getInputParameter("p2") != NULL)
+    {
+        obj_division_p_.push_back(*(int *)getInputParameter("p2"));
+    }
+
+    //Initialize the variables
+    //population = new SolutionSet(populationSize);
+    evaluations = 0;
+
+    //requiredEvaluations = 0;
+
+    //Read the operators
+    mutationOperator = operators_["mutation"];
+    crossoverOperator = operators_["crossover"];
+    selectionOperator = operators_["selection"];
+    initializerOperator = operators_["initializer"];
+
+    vector<CReferencePoint> rps;
+    GenerateReferencePoints(&rps, problem_->getNumberOfObjectives(), obj_division_p_);
+    populationSize = rps.size();
+    //while (populationSize%4) populationSize += 1;
+
+    //ApplicationTools::displayTask("Initial Population", true);
+    // Create the initial solutionSet
+    //Solution * newSolution;
+
+    InferSpeciesTree *p = (InferSpeciesTree *)problem_;
+    // Create the initial solutionSet
+    population = (SolutionSet *)initializerOperator->execute(&populationSize); //p->createInitialPopulationGeneTrees(populationSize);
+    p->evaluate(population);
+    evaluations += populationSize;
+
+    // Generations
+    //ApplicationTools::displayTask("Generations", true);
+    int gen = 0;
+    while (evaluations < maxEvaluations)
+    {
+        if (checkpoint_ != NULL)
+        {
+            checkpoint_->logVAR(population, gen);
+        }
+        cout << "Thread[" << checkpoint_->getThreadId() << "]: "
+             << "Generation: " << gen++ << endl;
+        // Create the offSpring solutionSet
+        offspringPopulation = new SolutionSet(populationSize);
+        Solution **parents = new Solution *[2];
+
+        //cout << "Evaluating  " << evaluations << endl;
+
+        for (int i = 0; i < (populationSize); i++)
+        {
+
+            if (evaluations < maxEvaluations)
+            {
+                //obtain parents
+                parents[0] = (Solution *)(selectionOperator->execute(population));
+                parents[1] = (Solution *)(selectionOperator->execute(population));
+                //Apply Crossover
+                Solution *offSpring = (Solution *)(crossoverOperator->execute(parents));
+                //Apply Mutation
+                mutationOperator->execute(offSpring);
+                offspringPopulation->add(offSpring);
+            } // if
+        }     // for
+
+        delete[] parents;
+
+        p->evaluate(offspringPopulation);
+        evaluations += offspringPopulation->size();
+
+        // Create the solutionSet union of solutionSet and offSpring
+        unionSolution = population->join(offspringPopulation);
+        delete offspringPopulation;
+
+        // Ranking the union
+        Ranking *ranking = new Ranking(unionSolution);
+
+        int remain = populationSize;
+        int index = 0;
+        SolutionSet *front = NULL;
+        for (int i = 0; i < population->size(); i++)
+        {
+            delete population->get(i);
+        }
+        population->clear();
+
+        //SolutionSet fro
+        // Obtain the next front
+        front = ranking->getSubfront(index);
+
+        while ((remain > 0) && (remain >= front->size()))
+        {
+            //Assign crowding distance to individuals
+            //distance->crowdingDistanceAssignment(front, problem_->getNumberOfObjectives());
+
+            //Add the individuals of this front
+            for (int k = 0; k < front->size(); k++)
+            {
+                population->add(new Solution(front->get(k)));
+            } // for
+
+            //Decrement remain
+            remain = remain - front->size();
+
+            //Obtain the next front
+            index++;
+            if (remain > 0)
+            {
+                front = ranking->getSubfront(index);
+            } // if
+
+        } // while
+
+        int lastFrontRank = index; //Fl in the paper
+        if (remain > 0)
+        {
+            Niching(population, populationSize, rps, ranking, lastFrontRank);
+            remain = 0;
+        }
+
+        delete ranking;
+        delete unionSolution;
+
+    } // while
+
+    //ApplicationTools::displayTaskDone();
+
+    //delete distance;
+
+    // Return as output parameter the required evaluations
+    //  setOutputParameter("evaluations", &requiredEvaluations);
+
+    // Return the first non-dominated front
+    //    Ranking * ranking = new Ranking(population);
+    //    SolutionSet * result = new SolutionSet(ranking->getSubfront(0)->size());
+    //    for (int i = 0; i < ranking->getSubfront(0)->size(); i++) {
+    //        result->add(new Solution(ranking->getSubfront(0)->get(i)));
+    //    }
+    //      delete ranking;
+    if (checkpoint_ != NULL)
+    {
+        checkpoint_->logVARforce(population, gen);
+    }
+
+    //delete population;
+
+    return population; //result;
+
+} // execute
+
+void NSGAIII_ST::Niching(SolutionSet *population, int populationSize, vector<CReferencePoint> rps, Ranking *ranking, int lastFrontRank)
+{
+    // ---------- Step 14 / Algorithm 2 ----------
+    vector<double> ideal_point = TranslateObjectives(ranking, lastFrontRank);
+    vector<Solution *> extreme_points;
+    FindExtremePoints(&extreme_points, ranking);
+    vector<double> intercepts;
+    ConstructHyperplane(&intercepts, extreme_points, ranking);
+    NormalizeObjectives(ranking, lastFrontRank, intercepts, ideal_point);
+    // ---------- Step 15 / Algorithm 3, Step 16 ----------
+    Associate(&rps, ranking, lastFrontRank);
+    while (population->size() < populationSize) 
+    {
+        size_t min_rp = FindNicheReferencePoint(rps);
+
+        Solution *chosen = SelectClusterMember(rps[min_rp]);
+        if (chosen == nullptr) // no potential member in Fl, disregard this reference point
+        {
+            rps.erase(rps.begin() + min_rp);
+        }
+        else
+        {
+            rps[min_rp].AddMember();
+            rps[min_rp].RemovePotentialMember(chosen);
+            //next.push_back(cur[chosen]);
+            population->add(new Solution(chosen));
+        }
+    }
+}
+
+// void NSGAIII_ST::Assignment(SolutionSet *population, int populationSize, vector<CReferencePoint> rps)
+// {
+//     while (population->size() < populationSize) //for (int k = 0; k < remain; k++) while (population->size() < populationSize)
+//     {
+//         size_t min_rp = FindNicheReferencePoint(rps);
+
+//         Solution *chosen = SelectClusterMember(rps[min_rp]);
+//         if (chosen == nullptr) // no potential member in Fl, disregard this reference point
+//         {
+//             rps.erase(rps.begin() + min_rp);
+//         }
+//         else
+//         {
+//             rps[min_rp].AddMember();
+//             rps[min_rp].RemovePotentialMember(chosen);
+//             //next.push_back(cur[chosen]);
+//             population->add(new Solution(chosen));
+//         }
+//     }
+// }

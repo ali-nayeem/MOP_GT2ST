@@ -42,22 +42,44 @@ string GetStdoutFromCommand(string cmd) {
     }
     return data;
 }
+
 int main(int argc, char** argv) {
+        string dataset = "10-taxon";
+        string tool = "astral";
+        string pre_path = "/Users/ali_nayeem/PycharmProjects/GT2ST/data/combined/data/Tools/" + dataset + "/R";
 	for(int i=1; i<=10; i++){
-		string data = "11-taxon.estimated-strongILS.50genes.R"+to_string(i);  //"10-taxon.higher-ILS.estimated-genetrees.R3"; "15-taxon.100gene-100bp.estimated-genetrees.R3" "37-taxon.noscale_200g_500b.estimated-genetrees.R5"
+		string data = "10-taxon.higher-ILS.estimated-genetrees.R" + to_string(i);  
+                //"10-taxon.higher-ILS.estimated-genetrees.R3"; "15-taxon.100gene-100bp.estimated-genetrees.R3" "37-taxon.noscale_200g_500b.estimated-genetrees.R5
 		std::replace( data.begin(), data.end(), '.', '/');
 		vector<int> obj{ InferSpeciesTree::MAX_ASTRAL, InferSpeciesTree::MAX_STELAR, InferSpeciesTree::MAX_MPEST}; 
                 cout<<"here now -1 "+data<<endl;
 		InferSpeciesTree * problem = new InferSpeciesTree(data, obj);
                 //cout<<"here now"<<endl;
-		SolutionSet * solSet = problem->getSolutionSetFromVarFile("data/tool_output/11-taxon/R"+to_string(i)+".txt");
+		SolutionSet * solSet = problem->getSolutionSetFromVarFile(pre_path + to_string(i) + "/" + tool+ "_SPR.txt");
 		//cout<<"here now 1"<<endl;
                 problem->evaluate(solSet);
                 //cout<<"here now 2"<<endl;
-		solSet->printObjectivesToFile("data/tool_output/11-taxon/R"+to_string(i)+"_score.txt");
+		solSet->printObjectivesToFile(pre_path + to_string(i) + "/" + tool+ "_SPR_obj.txt");
 	}
     return 0;
 }
+
+// int main(int argc, char** argv) {
+// 	for(int i=1; i<=10; i++){
+// 		string data = "11-taxon.estimated-strongILS.50genes.R"+to_string(i);  //"10-taxon.higher-ILS.estimated-genetrees.R3"; "15-taxon.100gene-100bp.estimated-genetrees.R3" "37-taxon.noscale_200g_500b.estimated-genetrees.R5"
+// 		std::replace( data.begin(), data.end(), '.', '/');
+// 		vector<int> obj{ InferSpeciesTree::MAX_ASTRAL, InferSpeciesTree::MAX_STELAR, InferSpeciesTree::MAX_MPEST}; 
+//                 cout<<"here now -1 "+data<<endl;
+// 		InferSpeciesTree * problem = new InferSpeciesTree(data, obj);
+//                 //cout<<"here now"<<endl;
+// 		SolutionSet * solSet = problem->getSolutionSetFromVarFile("data/tool_output/11-taxon/R"+to_string(i)+".txt");
+// 		//cout<<"here now 1"<<endl;
+//                 problem->evaluate(solSet);
+//                 //cout<<"here now 2"<<endl;
+// 		solSet->printObjectivesToFile("data/tool_output/11-taxon/R"+to_string(i)+"_score.txt");
+// 	}
+//     return 0;
+// }
 /*int main(int argc, char** argv) {
     PseudoRandom::bppRand_->setSeed(01234567);
     string data = "10-taxon.higher-ILS.estimated-genetrees.R3";  //"10-taxon.higher-ILS.estimated-genetrees.R3"; "15-taxon.100gene-100bp.estimated-genetrees.R3" "37-taxon.noscale_200g_500b.estimated-genetrees.R5"

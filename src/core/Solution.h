@@ -31,6 +31,7 @@
 #include <Problem.h>
 #include <Variable.h>
 #include <SolutionType.h>
+#include <vector>
 
 
 //using namespace std;
@@ -62,6 +63,7 @@ private:
   double crowdingDistance_;
   double distanceToSolutionSet_;
   int mutId = -1;
+  std::vector<double> converted_objectives_;
     
 public:
   Solution ();
@@ -107,7 +109,7 @@ public:
   //int getNumberOfBits();
   void setMutId(int id){ mutId = id;}
   int getMutId(){return mutId;}
-
+  vector<double> & conv_objs() { return converted_objectives_; }
 };
 
 #endif
