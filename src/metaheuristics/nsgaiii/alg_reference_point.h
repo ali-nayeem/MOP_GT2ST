@@ -6,6 +6,7 @@
 //#include "alg_nondominated_sort.h"
 #include <Solution.h>
 #include "Ranking.h"
+#include <Bpp/Numeric/Random/RandomTools.h>
 
 
 // ----------------------------------------------------------------------------------
@@ -33,8 +34,9 @@ public:
 	void AddPotentialMember(Solution * member_ind, double distance);
 	Solution * FindClosestMember() const;
 	Solution * RandomMember() const;
+	Solution * PickWeightedMemberProbabilisticWithoutReplace();
 	void RemovePotentialMember(Solution * member_ind);
-
+	void CalculateWeightForAllPotentialMember();
 private:
 	std::vector<double> position_;
 
@@ -43,6 +45,7 @@ private:
 	// will be stored.
 	std::vector< std::pair<Solution *, double> > potential_members_; 
 	std::size_t member_size_; 
+	std::vector<double> potential_members_weights_; //more close to ideal points towards the reference => more weight
 };
 
 // ----------------------------------------------------------------------------------
@@ -60,5 +63,6 @@ void GenerateReferencePoints(std::vector<CReferencePoint> *rps, std::size_t M, c
 //class CPopulation;
 void Associate(std::vector<CReferencePoint> *prps, Ranking *fronts, int lastFrontRank);
 // ----------------------------------------------------------------------------------
-
+void AssociateAll(std::vector<CReferencePoint> *prps, Ranking *fronts);
+void GenerateReferencePointsRand(vector<CReferencePoint> *rps, size_t M, size_t N, double mean, double stdDev);
 #endif

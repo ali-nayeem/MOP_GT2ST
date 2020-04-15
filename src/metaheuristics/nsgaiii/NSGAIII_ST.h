@@ -28,12 +28,12 @@ class NSGAIII_ST : public Algorithm {
 
 public:
   NSGAIII_ST(Problem * problem);
-  SolutionSet * execute();
-private:
+  virtual SolutionSet * execute();
+protected:
   Checkpoint *checkpoint_;   
   std::vector<std::size_t> obj_division_p_; 
   //void Assignment(SolutionSet *population, int populationSize, vector<CReferencePoint> rps);
-  void Niching(SolutionSet *population, int populationSize, vector<CReferencePoint> rps, Ranking * ranking, int lastFrontRank);
+  virtual void Niching(SolutionSet *population, int populationSize, vector<CReferencePoint> rps, Ranking * ranking, int lastFrontRank);
 
 };
 

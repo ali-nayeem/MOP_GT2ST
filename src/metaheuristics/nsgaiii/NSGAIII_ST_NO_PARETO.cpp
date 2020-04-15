@@ -11,7 +11,7 @@
  * Created on January 11, 2019, 11:38 AM
  */
 
-#include "NSGAIII_ST.h"
+#include "NSGAIII_ST_NO_PARETO.h"
 #include "Checkpoint.h"
 #include "RandomSelection.h"
 #include "BinaryTournament2.h"
@@ -19,12 +19,12 @@
 
 using namespace bpp;
 
-NSGAIII_ST::NSGAIII_ST(Problem *problem) : Algorithm(problem)
+NSGAIII_ST_NO_PARETO::NSGAIII_ST_NO_PARETO(Problem *problem) : NSGAIII_ST(problem)
 {
-    checkpoint_ = NULL;
+   // checkpoint_ = NULL;
 }
 
-SolutionSet *NSGAIII_ST::execute()
+SolutionSet * NSGAIII_ST_NO_PARETO::execute()
 {
     int populationSize;
     int maxEvaluations;
@@ -54,11 +54,11 @@ SolutionSet *NSGAIII_ST::execute()
     checkpoint_ = (Checkpoint *)getInputParameter("checkpoint");
     //IntervalOptSubsModel = *(int *) getInputParameter("intervalupdateparameters");
     //  indicators = (QualityIndicator *) getInputParameter("indicators");
-    obj_division_p_.push_back(*(int *)getInputParameter("p1"));
-    if (getInputParameter("p2") != NULL)
-    {
-        obj_division_p_.push_back(*(int *)getInputParameter("p2"));
-    }
+    // obj_division_p_.push_back(*(int *)getInputParameter("p1"));
+    // if (getInputParameter("p2") != NULL)
+    // {
+    //     obj_division_p_.push_back(*(int *)getInputParameter("p2"));
+    // }
 
     //Initialize the variables
     //population = new SolutionSet(populationSize);
@@ -146,30 +146,30 @@ SolutionSet *NSGAIII_ST::execute()
         // Obtain the next front
         front = ranking->getSubfront(index);
 
-        while ((remain > 0) && (remain >= front->size()))
-        {
-            //Assign crowding distance to individuals
-            //distance->crowdingDistanceAssignment(front, problem_->getNumberOfObjectives());
+        // while ((remain > 0) && (remain >= front->size()))
+        // {
+        //     //Assign crowding distance to individuals
+        //     //distance->crowdingDistanceAssignment(front, problem_->getNumberOfObjectives());
 
-            //Add the individuals of this front
-            for (int k = 0; k < front->size(); k++)
-            {
-                population->add(new Solution(front->get(k)));
-            } // for
+        //     //Add the individuals of this front
+        //     for (int k = 0; k < front->size(); k++)
+        //     {
+        //         population->add(new Solution(front->get(k)));
+        //     } // for
 
-            //Decrement remain
-            remain = remain - front->size();
+        //     //Decrement remain
+        //     remain = remain - front->size();
 
-            //Obtain the next front
-            index++;
-            if (remain > 0)
-            {
-                front = ranking->getSubfront(index);
-            } // if
+        //     //Obtain the next front
+        //     index++;
+        //     if (remain > 0)
+        //     {
+        //         front = ranking->getSubfront(index);
+        //     } // if
 
-        } // while
+        // } // while
 
-        int lastFrontRank = index; //Fl in the paper
+        int lastFrontRank = ranking->getNumberOfSubfronts()-1;//index; //Fl in the paper
         if (remain > 0)
         {
             Niching(population, populationSize, rps, ranking, lastFrontRank);
@@ -206,7 +206,7 @@ SolutionSet *NSGAIII_ST::execute()
 
 } // execute
 
-void NSGAIII_ST::Niching(SolutionSet *population, int populationSize, vector<CReferencePoint> rps, Ranking *ranking, int lastFrontRank)
+void NSGAIII_ST_NO_PARETO::Niching(SolutionSet *population, int populationSize, vector<CReferencePoint> rps, Ranking *ranking, int lastFrontRank)
 {
     // ---------- Step 14 / Algorithm 2 ----------
     vector<double> ideal_point = TranslateObjectives(ranking, lastFrontRank);
@@ -216,12 +216,17 @@ void NSGAIII_ST::Niching(SolutionSet *population, int populationSize, vector<CRe
     ConstructHyperplane(&intercepts, extreme_points, ranking);
     NormalizeObjectives(ranking, lastFrontRank, intercepts, ideal_point);
     // ---------- Step 15 / Algorithm 3, Step 16 ----------
-    Associate(&rps, ranking, lastFrontRank);
+    AssociateAll(&rps, ranking);
+    for (size_t i = 0; i < rps.size(); i++)
+    {
+        rps[i].CalculateWeightForAllPotentialMember();
+    }
+    
     while (population->size() < populationSize) 
     {
         size_t min_rp = FindNicheReferencePoint(rps);
 
-        Solution *chosen = SelectClusterMember(rps[min_rp]);
+        Solution *chosen = rps[min_rp].PickWeightedMemberProbabilisticWithoutReplace(); //SelectClusterMember(rps[min_rp]);
         if (chosen == nullptr) // no potential member in Fl, disregard this reference point
         {
             rps.erase(rps.begin() + min_rp);
@@ -229,7 +234,7 @@ void NSGAIII_ST::Niching(SolutionSet *population, int populationSize, vector<CRe
         else
         {
             rps[min_rp].AddMember();
-            rps[min_rp].RemovePotentialMember(chosen);
+            //rps[min_rp].RemovePotentialMember(chosen);
             population->add(new Solution(chosen));
         }
     }

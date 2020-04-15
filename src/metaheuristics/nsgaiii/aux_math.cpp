@@ -121,6 +121,18 @@ double PerpendicularDistance(const vector<double> &direction, const vector<doubl
     }
     return sqrt(d);
 }
+
+double ProjectedDistanceFromOrigin(const vector<double> &direction, const vector<double> &point)
+{
+    double numerator = 0, denominator = 0;
+    for (size_t i=0; i<direction.size(); i+=1)
+    {
+        numerator += direction[i]*point[i];
+        denominator += square(direction[i]);
+    }
+    denominator = sqrt(denominator);
+    return numerator/denominator; //fabs(numerator)
+}
 // ---------------------------------------------------------------------
 
 

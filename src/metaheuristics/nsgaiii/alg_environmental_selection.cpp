@@ -199,7 +199,6 @@ void ConstructHyperplane(vector<double> *pintercepts, const vector<Solution *> &
 // ----------------------------------------------------------------------
 void NormalizeObjectives(Ranking * fronts, int lastFrontRank, const vector<double> &intercepts, const vector<double> &ideal_point)
 {
-
 	for (size_t t=0; t<lastFrontRank+1; t+=1)
 	{
 		for (size_t i=0; i<fronts->getSubfront(t)->size(); i+=1)
@@ -207,8 +206,9 @@ void NormalizeObjectives(Ranking * fronts, int lastFrontRank, const vector<doubl
 			Solution * ind = fronts->getSubfront(t)->get(i);
 			for (size_t f=0; f<ind->conv_objs().size(); f+=1)
 			{
-				if ( fabs(intercepts[f])>10e-10 ) // avoid the divide-by-zero error
-					ind->conv_objs()[f] = ind->conv_objs()[f]/(intercepts[f]); // v1.11: fixed
+				double denom = intercepts[f] - ideal_point[f];
+				if ( denom > 10e-10 ) // avoid the divide-by-zero error. prev:fabs(intercepts[f])>10e-10
+					ind->conv_objs()[f] = ind->conv_objs()[f]/(denom); // v1.11: fixed
 				else
 					ind->conv_objs()[f] = ind->conv_objs()[f]/10e-10;
 			}
@@ -272,7 +272,22 @@ Solution * SelectClusterMember(const CReferencePoint &rp)
 	}
 	return chosen;
 }
-
+Solution * SelectClusterMemberProbabilistic(const CReferencePoint &rp)
+{
+	Solution * chosen =  nullptr;
+	if (rp.HasPotentialMember())
+	{
+		if (rp.MemberSize() == 0) // currently has no member
+		{
+			chosen =  rp.FindClosestMember();
+		}
+		else
+		{
+			chosen =  rp.RandomMember();
+		}
+	}
+	return chosen;
+}
 // ----------------------------------------------------------------------
 // EnvironmentalSelection():
 //
