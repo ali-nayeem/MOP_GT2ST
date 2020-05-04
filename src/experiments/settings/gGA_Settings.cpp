@@ -60,7 +60,7 @@ gGA_Settings::gGA_Settings(string problemName, Checkpoint * checkpoint)
 
     // Algorithm parameters
     populationSize_ = 100;
-    maxEvaluations_ = 12000;
+    maxEvaluations_ = 10000;
     //maxGen_ = 44;
     mutationProbability_ = 1.0;
     crossoverProbability_ = 0.3;

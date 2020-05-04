@@ -55,12 +55,12 @@ Algorithm * StudyGGA::algorithmSettings(string problemName,
 
 int main(int argc, char ** argv) {
 
-  PseudoRandom::bppRand_->setSeed(01234567);
-  Checkpoint::interval_ = 3;
+  //PseudoRandom::bppRand_->setSeed(01234567);
+  Checkpoint::interval_ = 5;
   StudyGGA * exp = new StudyGGA() ;
   
   // Name of the experiment:
-  exp->experimentName_ = "NSGAII_Focused_15taxa_Rnd";
+  exp->experimentName_ = "NSGAII_Focused_15taxa";
   exp->keepCheckpoint_ = true;
 
  exp->keepCheckpoint_ = true;
@@ -78,9 +78,9 @@ int main(int argc, char ** argv) {
 //      "11-taxon.estimated-strongILS.50genes.R5", "11-taxon.estimated-strongILS.50genes.R6",
 //      "11-taxon.estimated-strongILS.50genes.R7", "11-taxon.estimated-strongILS.50genes.R8",
 //      "11-taxon.estimated-strongILS.50genes.R9", "11-taxon.estimated-strongILS.50genes.R10"
-//      "15-taxon.100gene-100bp.estimated-genetrees.R1", "15-taxon.100gene-100bp.estimated-genetrees.R2",
-//      "15-taxon.100gene-100bp.estimated-genetrees.R3", "15-taxon.100gene-100bp.estimated-genetrees.R4",
-      "15-taxon.100gene-100bp.estimated-genetrees.R5" //, "15-taxon.100gene-100bp.estimated-genetrees.R6",
+     "15-taxon.100gene-100bp.estimated-genetrees.R1", "15-taxon.100gene-100bp.estimated-genetrees.R2",
+     "15-taxon.100gene-100bp.estimated-genetrees.R3", "15-taxon.100gene-100bp.estimated-genetrees.R4"
+//      "15-taxon.100gene-100bp.estimated-genetrees.R5" //, "15-taxon.100gene-100bp.estimated-genetrees.R6",
 //      "15-taxon.100gene-100bp.estimated-genetrees.R7", "15-taxon.100gene-100bp.estimated-genetrees.R8",
 //      "15-taxon.100gene-100bp.estimated-genetrees.R9", "15-taxon.100gene-100bp.estimated-genetrees.R10"      
 //      "10-taxon.higher-ILS.estimated-genetrees.R4", "10-taxon.higher-ILS.estimated-genetrees.R2",
@@ -104,10 +104,10 @@ int main(int argc, char ** argv) {
                                  exp->experimentName_;
 
   // Number of independent runs of each algorithm for each problem:
-  exp->independentRuns_ = 2;
+  exp->independentRuns_ = 15;
 
   // Number of threads to be used to execute the experiment
-  int numberOfThreads = 2;
+  int numberOfThreads = 6;
   
   exp->algorithmNameList_ = algorithmNameList_;
   exp->problemList_ = problemList_;

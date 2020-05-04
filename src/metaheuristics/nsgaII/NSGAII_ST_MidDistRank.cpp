@@ -240,7 +240,7 @@ bool NSGAII_ST_MidDistRank::insideFocusAngle(Solution *sol, InferSpeciesTree *pr
         sol->conv_objs()[i] = (sol->getObjective(i) - prob->getMinObjective(i)) / (prob->getMaxObjective(i) - prob->getMinObjective(i));
     }
     
-    if (MathAux::CosineSimilarityFromMid(sol->conv_objs()) >= PseudoRandom::randDouble(0, minCosineSim)) //MathAux::CosineSimilarityFromMid(sol->conv_objs()) > minCosineSim
+    if (MathAux::CosineSimilarityFromMid(sol->conv_objs()) > minCosineSim) //MathAux::CosineSimilarityFromMid(sol->conv_objs()) > minCosineSim   MathAux::CosineSimilarityFromMid(sol->conv_objs()) >= PseudoRandom::randDouble(0, minCosineSim)
     {
         return true;
     }
