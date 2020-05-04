@@ -63,6 +63,6 @@ void GenerateReferencePoints(std::vector<CReferencePoint> *rps, std::size_t M, c
 //class CPopulation;
 void Associate(std::vector<CReferencePoint> *prps, Ranking *fronts, int lastFrontRank);
 // ----------------------------------------------------------------------------------
-void AssociateAll(std::vector<CReferencePoint> *prps, Ranking *fronts);
+void AssociateAll(std::vector<CReferencePoint> *prps, Ranking *fronts, int lastFrontRank);
 void GenerateReferencePointsRand(vector<CReferencePoint> *rps, size_t M, size_t N, double mean, double stdDev);
 #endif

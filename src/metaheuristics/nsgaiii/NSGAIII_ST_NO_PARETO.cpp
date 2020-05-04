@@ -73,9 +73,9 @@ SolutionSet * NSGAIII_ST_NO_PARETO::execute()
     initializerOperator = operators_["initializer"];
 
     vector<CReferencePoint> rps;
-    //GenerateReferencePoints(&rps, problem_->getNumberOfObjectives(), obj_division_p_);
-    //populationSize = rps.size();
-    GenerateReferencePointsRand(&rps, problem_->getNumberOfObjectives(), populationSize, 0.5, 0.005);
+    GenerateReferencePoints(&rps, problem_->getNumberOfObjectives(), obj_division_p_);
+    populationSize = rps.size();
+    //GenerateReferencePointsRand(&rps, problem_->getNumberOfObjectives(), populationSize, 0.5, 0.004);
     //while (populationSize%4) populationSize += 1;
 
     //ApplicationTools::displayTask("Initial Population", true);
@@ -144,35 +144,12 @@ SolutionSet * NSGAIII_ST_NO_PARETO::execute()
 
         //SolutionSet fro
         // Obtain the next front
-        front = ranking->getSubfront(index);
+        // front = ranking->getSubfront(index);
 
-        // while ((remain > 0) && (remain >= front->size()))
-        // {
-        //     //Assign crowding distance to individuals
-        //     //distance->crowdingDistanceAssignment(front, problem_->getNumberOfObjectives());
-
-        //     //Add the individuals of this front
-        //     for (int k = 0; k < front->size(); k++)
-        //     {
-        //         population->add(new Solution(front->get(k)));
-        //     } // for
-
-        //     //Decrement remain
-        //     remain = remain - front->size();
-
-        //     //Obtain the next front
-        //     index++;
-        //     if (remain > 0)
-        //     {
-        //         front = ranking->getSubfront(index);
-        //     } // if
-
-        // } // while
-
-        int lastFrontRank = ranking->getNumberOfSubfronts()-1;//index; //Fl in the paper
+        int lastFrontRank = ranking->getNumberOfSubfronts() - 1;//index; //Fl in the paper
         if (remain > 0)
         {
-            Niching(population, populationSize, rps, ranking, lastFrontRank);
+            Niching(population, populationSize, rps, ranking, lastFrontRank, p);
             remain = 0;
         }
 
@@ -206,7 +183,7 @@ SolutionSet * NSGAIII_ST_NO_PARETO::execute()
 
 } // execute
 
-void NSGAIII_ST_NO_PARETO::Niching(SolutionSet *population, int populationSize, vector<CReferencePoint> rps, Ranking *ranking, int lastFrontRank)
+void NSGAIII_ST_NO_PARETO::Niching(SolutionSet *population, int populationSize, vector<CReferencePoint> rps, Ranking *ranking, int lastFrontRank, InferSpeciesTree *prob)
 {
     // ---------- Step 14 / Algorithm 2 ----------
     vector<double> ideal_point = TranslateObjectives(ranking, lastFrontRank);
@@ -216,7 +193,7 @@ void NSGAIII_ST_NO_PARETO::Niching(SolutionSet *population, int populationSize, 
     ConstructHyperplane(&intercepts, extreme_points, ranking);
     NormalizeObjectives(ranking, lastFrontRank, intercepts, ideal_point);
     // ---------- Step 15 / Algorithm 3, Step 16 ----------
-    AssociateAll(&rps, ranking);
+    AssociateAll(&rps, ranking, lastFrontRank);
     for (size_t i = 0; i < rps.size(); i++)
     {
         rps[i].CalculateWeightForAllPotentialMember();

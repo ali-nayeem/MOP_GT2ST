@@ -39,10 +39,18 @@
  * Constructor.
  * @param solutionSet The <code>SolutionSet</code> to be ranked.
  */
-Ranking::Ranking (SolutionSet * solutionSet) {
+Ranking::Ranking (SolutionSet * solutionSet, Comparator * dominance) {
 
   solutionSet_ = solutionSet;
-  dominance_   = new DominanceComparator();
+  if (dominance == nullptr)
+  {
+      dominance_   = new DominanceComparator();
+  }
+  else
+  {
+    dominance_ = dominance;
+  }
+  
   constraint_  = new OverallConstraintViolationComparator();
 
   // dominateMe[i] contains the number of solutions dominating i        
@@ -71,10 +79,10 @@ Ranking::Ranking (SolutionSet * solutionSet) {
   for (int p = 0; p < (solutionSet_->size() - 1); p++) {
     for (int q = p + 1; q < solutionSet_->size(); q++) {
 
-      flagDominate =constraint_->compare(solutionSet->get(p),solutionSet->get(q));
-      if (flagDominate == 0) {
+      //flagDominate =constraint_->compare(solutionSet->get(p),solutionSet->get(q));
+      //if (flagDominate == 0) {
         flagDominate =dominance_->compare(solutionSet->get(p),solutionSet->get(q));
-      } // if
+     // } // if
 
       if (flagDominate == -1) {
         iDominate[p].push_back(q);
@@ -165,3 +173,16 @@ SolutionSet * Ranking::getSubfront(int rank) {
 int Ranking::getNumberOfSubfronts() {
   return numberOfSubfronts_;
 } // getNumberOfSubfronts
+
+
+Ranking::Ranking (SolutionSet * solutionSet, bool dummy) {
+  solutionSet_ = solutionSet;
+  ranking_ = new SolutionSet*[1];
+  numberOfSubfronts_ = 1;
+  ranking_[0] = solutionSet; 
+  // for (size_t i = 0; i < solutionSet->size(); i++)
+  // {
+  //   ranking_[0]->add(new Solution(solutionSet->get(i)));
+  // }
+  
+} 

@@ -2,6 +2,7 @@
 #define ENVIRONMENTAL_SELECTION__
 #include <vector>
 #include "Ranking.h"
+#include <InferSpeciesTree.h>
 
 
 // ----------------------------------------------------------------------
@@ -24,6 +25,7 @@ void ConstructHyperplane(vector<double> *pintercepts, const vector<Solution *> &
 void NormalizeObjectives(Ranking * fronts, int lastFrontRank, const vector<double> &intercepts, const vector<double> &ideal_point);
 size_t FindNicheReferencePoint(const vector<CReferencePoint> &rps);
 Solution * SelectClusterMember(const CReferencePoint &rp);
+void NormalizeObjectivesMinMax(Ranking *fronts, int lastFrontRank, InferSpeciesTree *prob);
 
 
 

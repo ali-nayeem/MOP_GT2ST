@@ -122,6 +122,17 @@ double PerpendicularDistance(const vector<double> &direction, const vector<doubl
     return sqrt(d);
 }
 
+double CosineSimilarityFromMid(const vector<double> &point)
+{
+    double numerator = 0, denominator = 0;
+    for (size_t i=0; i<point.size(); i+=1)
+    {
+        numerator += point[i];
+        denominator += square(point[i]);
+    }
+    return numerator/ (sqrt(denominator) * sqrt(3));
+}
+
 double ProjectedDistanceFromOrigin(const vector<double> &direction, const vector<double> &point)
 {
     double numerator = 0, denominator = 0;

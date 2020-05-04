@@ -241,6 +241,41 @@ void SolutionSet::printObjectivesToFile(string file){
   out.close();
 } // printObjectivesToFile
 
+string GetStdoutFromCommand(string cmd) {
+
+    string data;
+    FILE * stream;
+    const int max_buffer = 256;
+    char buffer[max_buffer];
+    //cmd.append(" 2>&1");
+
+    stream = popen(cmd.c_str(), "r");
+    if (stream) {
+        while (!feof(stream))
+            if (fgets(buffer, max_buffer, stream) != NULL) data.append(buffer);
+        pclose(stream);
+    }
+    return data;
+}
+
+void SolutionSet::readObjectivesToFile(string path)
+{
+    int numOfObj = this->get(0)->getNumberOfObjectives();
+    for (size_t i = 0; i < numOfObj; i++)
+    {
+        string cmd = "cut -d ' ' -f " + to_string(i+1) + " " + path;
+        string scoreList = GetStdoutFromCommand(cmd);
+        stringstream ss(scoreList);
+        string to;
+        int solId=0;
+        while(std::getline(ss,to,'\n')){
+          double value = atof(to.c_str());
+          this->get(solId)->setObjective(i, value);
+          //cout << pop->get(solId)->getObjective(i) << endl;
+          solId++;
+        }
+    }
+}
 
 /**
  * Writes the objective function values of the <code>Solution</code>

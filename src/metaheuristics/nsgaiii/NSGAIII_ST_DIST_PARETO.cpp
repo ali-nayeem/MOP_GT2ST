@@ -5,34 +5,35 @@
  */
 
 /* 
- * File:   NSGAII_ST_MidDistRank.cpp
+ * File:   NSGAIII_ST.cpp
  * Author: ali_nayeem
  * 
  * Created on January 11, 2019, 11:38 AM
  */
 
-#include "NSGAII_ST_MidDistRank.h"
+#include "NSGAIII_ST_DIST_PARETO.h"
 #include "Checkpoint.h"
 #include "RandomSelection.h"
 #include "BinaryTournament2.h"
 #include <InferSpeciesTree.h>
+#include <DominanceDistComparator.h>
 
 using namespace bpp;
 
-NSGAII_ST_MidDistRank::NSGAII_ST_MidDistRank(Problem *problem) : Algorithm(problem)
+NSGAIII_ST_DIST_PARETO::NSGAIII_ST_DIST_PARETO(Problem *problem) : NSGAIII_ST_NO_PARETO(problem)
 {
-    checkpoint_ = NULL;
+   // checkpoint_ = NULL;
 }
 
-SolutionSet *NSGAII_ST_MidDistRank::execute()
+SolutionSet * NSGAIII_ST_DIST_PARETO::execute()
 {
     int populationSize;
     int maxEvaluations;
     int evaluations;
-    int IntervalOptSubsModel;
+    //int IntervalOptSubsModel;
 
     //  QualityIndicator * indicators; // QualityIndicator object
-    int requiredEvaluations; // Use in the example of use of the
+    //int requiredEvaluations; // Use in the example of use of the
     // indicators object (see below)
 
     SolutionSet *population;
@@ -44,9 +45,9 @@ SolutionSet *NSGAII_ST_MidDistRank::execute()
     Operator *selectionOperator;
     Operator *initializerOperator;
     map<string, void *> parameters;
-    Operator *randSelection = new RandomSelection(parameters);
-    Selection *binTourSel = new BinaryTournament2(parameters);
-    Distance *distance = new Distance();
+    //Selection * randSel = new RandomSelection(parameters);
+    //Selection * binTourSel = new BinaryTournament2(parameters);
+    //Distance * distance = new Distance();
 
     //Read the parameters
     populationSize = *(int *)getInputParameter("populationSize");
@@ -54,13 +55,17 @@ SolutionSet *NSGAII_ST_MidDistRank::execute()
     checkpoint_ = (Checkpoint *)getInputParameter("checkpoint");
     //IntervalOptSubsModel = *(int *) getInputParameter("intervalupdateparameters");
     //  indicators = (QualityIndicator *) getInputParameter("indicators");
+    // obj_division_p_.push_back(*(int *)getInputParameter("p1"));
+    // if (getInputParameter("p2") != NULL)
+    // {
+    //     obj_division_p_.push_back(*(int *)getInputParameter("p2"));
+    // }
 
     //Initialize the variables
     //population = new SolutionSet(populationSize);
-    double minCosineSim = 0.936585;
     evaluations = 0;
 
-    requiredEvaluations = 0;
+    //requiredEvaluations = 0;
 
     //Read the operators
     mutationOperator = operators_["mutation"];
@@ -68,16 +73,23 @@ SolutionSet *NSGAII_ST_MidDistRank::execute()
     selectionOperator = operators_["selection"];
     initializerOperator = operators_["initializer"];
 
+    vector<CReferencePoint> rps;
+    //GenerateReferencePoints(&rps, problem_->getNumberOfObjectives(), obj_division_p_);
+    //populationSize = rps.size();
+    GenerateReferencePointsRand(&rps, problem_->getNumberOfObjectives(), populationSize, 0.5, 0.004);
+    //while (populationSize%4) populationSize += 1;
+
     //ApplicationTools::displayTask("Initial Population", true);
     // Create the initial solutionSet
-    Solution *newSolution;
+    //Solution * newSolution;
 
     InferSpeciesTree *p = (InferSpeciesTree *)problem_;
     // Create the initial solutionSet
     population = (SolutionSet *)initializerOperator->execute(&populationSize); //p->createInitialPopulationGeneTrees(populationSize);
     p->evaluate(population);
     evaluations += populationSize;
-
+    Ranking *dummyRanking;
+    
     // Generations
     //ApplicationTools::displayTask("Generations", true);
     int gen = 0;
@@ -101,8 +113,8 @@ SolutionSet *NSGAII_ST_MidDistRank::execute()
             if (evaluations < maxEvaluations)
             {
                 //obtain parents
-                parents[0] = ((Solution **)(randSelection->execute(population)))[0];
-                parents[1] = (Solution *)(selectionOperator->execute(population));
+                parents = (Solution **)(selectionOperator->execute(population));
+                //parents[1] = (Solution *)(selectionOperator->execute(population));
                 //Apply Crossover
                 Solution *offSpring = (Solution *)(crossoverOperator->execute(parents));
                 //Apply Mutation
@@ -120,16 +132,18 @@ SolutionSet *NSGAII_ST_MidDistRank::execute()
         unionSolution = population->join(offspringPopulation);
         delete offspringPopulation;
 
-        //        p->evaluateFitness(unionSolution);
-        //        unionSolution->sortFitness();
-        //        for(int i = 0; i < population->getMaxSize()/2; i++)
-        //        {
-        //            delete unionSolution->get(unionSolution->size()-1-i);
-        //            unionSolution->remove(unionSolution->size()-1-i);
-        //        }
-
         // Ranking the union
-        Ranking *ranking = new Ranking(unionSolution);
+        dummyRanking = new Ranking(unionSolution, true);
+        vector<double> ideal_point = TranslateObjectives(dummyRanking, 0);
+        vector<Solution *> extreme_points;
+        FindExtremePoints(&extreme_points, dummyRanking);
+        vector<double> intercepts;
+        ConstructHyperplane(&intercepts, extreme_points, dummyRanking);
+        NormalizeObjectives(dummyRanking, 0, intercepts, ideal_point);
+        // ---------- Step 15 / Algorithm 3, Step 16 ----------
+        AssociateAll(&rps, dummyRanking, 0);
+        Comparator * dominanceDist = new DominanceDistComparator();
+        Ranking *ranking = new Ranking(dummyRanking->getSubfront(0), dominanceDist);
 
         int remain = populationSize;
         int index = 0;
@@ -140,37 +154,26 @@ SolutionSet *NSGAII_ST_MidDistRank::execute()
         }
         population->clear();
 
+        //SolutionSet fro
         // Obtain the next front
         front = ranking->getSubfront(index);
-        SolutionSet *reminent = new SolutionSet(2 * populationSize);
-        while ((remain > 0) && (remain >= front->size()) )
+
+        while ((remain > 0) && (remain >= front->size()))
         {
+            //Assign crowding distance to individuals
+            //distance->crowdingDistanceAssignment(front, problem_->getNumberOfObjectives());
 
             //Add the individuals of this front
             for (int k = 0; k < front->size(); k++)
             {
-                if (insideFocusAngle(front->get(k), p, minCosineSim))
-                {
-                    population->add(new Solution(front->get(k)));
-                    remain--;
-                }
-                else
-                {
-                    reminent->add(front->get(k));
-                }
-
+                population->add(new Solution(front->get(k)));
             } // for
 
             //Decrement remain
-            //remain = remain - front->size();
+            remain = remain - front->size();
 
             //Obtain the next front
             index++;
-            if (index == ranking->getNumberOfSubfronts())
-            {
-                break;
-            }
-            
             if (remain > 0)
             {
                 front = ranking->getSubfront(index);
@@ -178,26 +181,11 @@ SolutionSet *NSGAII_ST_MidDistRank::execute()
 
         } // while
 
-        // Remain is less than front(index).size, insert only the best one
-        if (remain > 0)
-        { 
-            for (size_t i = index; i < ranking->getNumberOfSubfronts(); i++)
-            {
-                for (size_t j = 0; j < ranking->getSubfront(i)->size(); j++)
-                {
-                    reminent->add(ranking->getSubfront(i)->get(j));
-                }
-            }
+        if (remain > 0) { // front contains individuals to insert
+            for (int k = 0; k < remain; k++) {
 
-            distance->crowdingDistanceAssignment(reminent, problem_->getNumberOfObjectives());
-            Comparator *c = new CrowdingComparator();
-            reminent->sort(c);
-            delete c;
-            for (int k = 0; k < remain; k++)
-            {
-                population->add(new Solution(reminent->get(k)));
+                population->add(new Solution(front->get(k)));
             } // for
-
             remain = 0;
         } // if
 
@@ -208,7 +196,7 @@ SolutionSet *NSGAII_ST_MidDistRank::execute()
 
     //ApplicationTools::displayTaskDone();
 
-    delete distance;
+    //delete distance;
 
     // Return as output parameter the required evaluations
     //  setOutputParameter("evaluations", &requiredEvaluations);
@@ -231,21 +219,57 @@ SolutionSet *NSGAII_ST_MidDistRank::execute()
 
 } // execute
 
-bool NSGAII_ST_MidDistRank::insideFocusAngle(Solution *sol, InferSpeciesTree *prob, double minCosineSim)
+void NSGAIII_ST_DIST_PARETO::Niching(SolutionSet *population, int populationSize, vector<CReferencePoint> rps, Ranking *ranking, int lastFrontRank, InferSpeciesTree *prob)
 {
-    sol->conv_objs().resize(prob->getNumberOfObjectives());
-
-    for (size_t i = 0; i < prob->getNumberOfObjectives(); i++)
+    // ---------- Step 14 / Algorithm 2 ----------
+    vector<double> ideal_point = TranslateObjectives(ranking, lastFrontRank);
+    vector<Solution *> extreme_points;
+    FindExtremePoints(&extreme_points, ranking);
+    vector<double> intercepts;
+    ConstructHyperplane(&intercepts, extreme_points, ranking);
+    NormalizeObjectives(ranking, lastFrontRank, intercepts, ideal_point);
+    // ---------- Step 15 / Algorithm 3, Step 16 ----------
+    AssociateAll(&rps, ranking, lastFrontRank);
+    for (size_t i = 0; i < rps.size(); i++)
     {
-        sol->conv_objs()[i] = (sol->getObjective(i) - prob->getMinObjective(i)) / (prob->getMaxObjective(i) - prob->getMinObjective(i));
+        rps[i].CalculateWeightForAllPotentialMember();
     }
     
-    if (MathAux::CosineSimilarityFromMid(sol->conv_objs()) >= PseudoRandom::randDouble(0, minCosineSim)) //MathAux::CosineSimilarityFromMid(sol->conv_objs()) > minCosineSim
+    while (population->size() < populationSize) 
     {
-        return true;
-    }
-    else
-    {
-        return false;
+        size_t min_rp = FindNicheReferencePoint(rps);
+
+        Solution *chosen = rps[min_rp].PickWeightedMemberProbabilisticWithoutReplace(); //SelectClusterMember(rps[min_rp]);
+        if (chosen == nullptr) // no potential member in Fl, disregard this reference point
+        {
+            rps.erase(rps.begin() + min_rp);
+        }
+        else
+        {
+            rps[min_rp].AddMember();
+            //rps[min_rp].RemovePotentialMember(chosen);
+            population->add(new Solution(chosen));
+        }
     }
 }
+
+// void NSGAIII_ST::Assignment(SolutionSet *population, int populationSize, vector<CReferencePoint> rps)
+// {
+//     while (population->size() < populationSize) //for (int k = 0; k < remain; k++) while (population->size() < populationSize)
+//     {
+//         size_t min_rp = FindNicheReferencePoint(rps);
+
+//         Solution *chosen = SelectClusterMember(rps[min_rp]);
+//         if (chosen == nullptr) // no potential member in Fl, disregard this reference point
+//         {
+//             rps.erase(rps.begin() + min_rp);
+//         }
+//         else
+//         {
+//             rps[min_rp].AddMember();
+//             rps[min_rp].RemovePotentialMember(chosen);
+//             //next.push_back(cur[chosen]);
+//             population->add(new Solution(chosen));
+//         }
+//     }
+// }

@@ -1,4 +1,4 @@
-//  Ranking.h
+//  DominanceComparator.h
 //
 //  Author:
 //       Antonio J. Nebro <antonio@lcc.uma.es>
@@ -20,40 +20,27 @@
 //  You should have received a copy of the GNU Lesser General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef __RANKING__
-#define __RANKING__
+#ifndef __DOMINANCE_DIST_COMPARATOR__
+#define __DOMINANCE_DIST_COMPARATOR__
 
-#include <SolutionSet.h>
 #include <Solution.h>
-#include <DominanceComparator.h>
+#include <Comparator.h>
 #include <OverallConstraintViolationComparator.h>
-#include <vector>
 
 /**
- * This class implements some facilities for ranking solutions.
- * Given a <code>SolutionSet</code> object, their solutions are ranked
- * according to scheme proposed in NSGA-II; as a result, a set of subsets
- * are obtained. The subsets are numbered starting from 0 (in NSGA-II, the
- * numbering starts from 1); thus, subset 0 contains the non-dominated
- * solutions, subset 1 contains the non-dominated solutions after removing those
- * belonging to subset 0, and so on.
+ * This class implements a <code>Comparator</code> (a method for comparing
+ * <code>Solution</code> objects) based on a constraint violation test +
+ * dominance checking, as in NSGA-II.
  */
-class Ranking {
+class DominanceDistComparator : public Comparator {
 
 private:
-  SolutionSet * solutionSet_;
-  SolutionSet ** ranking_;
-  int numberOfSubfronts_;
-  Comparator * dominance_;
-  OverallConstraintViolationComparator * constraint_;
+  Comparator * overallConstraintViolationComparator_;
 
 public:
-  Ranking (SolutionSet * solutionSet, Comparator * dominance=nullptr);
-  Ranking (SolutionSet * solutionSet, bool dummy);
-  ~Ranking();
-  SolutionSet * getSubfront(int rank);
-  int getNumberOfSubfronts();
-
+  DominanceDistComparator();
+  ~DominanceDistComparator();
+  int compare(void *one, void *two);
 };
 
 #endif

@@ -64,7 +64,7 @@ private:
   double distanceToSolutionSet_;
   int mutId = -1;
   std::vector<double> converted_objectives_;
-    
+  double dist_to_ref_[2]; //0 => projection, 1=>perpendicular w.r.t. ref direction
 public:
   Solution ();
   Solution (int numberOfObjectives);
@@ -110,6 +110,11 @@ public:
   void setMutId(int id){ mutId = id;}
   int getMutId(){return mutId;}
   vector<double> & conv_objs() { return converted_objectives_; }
+  void setPerpendicularDist(double rdist){ dist_to_ref_[1] = rdist;} 
+  double getPerpendicularDist(){ return dist_to_ref_[1];}
+  void setProjectedDist(double rdist){ dist_to_ref_[0] = rdist;} 
+  double getProjectedDist(){ return dist_to_ref_[0];}
+  double getDistToRef(int i){ return dist_to_ref_[i]; }
 };
 
 #endif

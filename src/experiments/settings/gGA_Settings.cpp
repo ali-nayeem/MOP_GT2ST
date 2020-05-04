@@ -24,6 +24,7 @@
 #include "DetTournament.h"
 #include "TreeInitializer.h"
 #include "NormalizedSumComparator.h"
+#include "NSGAII_ST_MidDistRank.h"
 
 /**
  * Default constructor
@@ -59,7 +60,7 @@ gGA_Settings::gGA_Settings(string problemName, Checkpoint * checkpoint)
 
     // Algorithm parameters
     populationSize_ = 100;
-    maxEvaluations_ = 10000;
+    maxEvaluations_ = 12000;
     //maxGen_ = 44;
     mutationProbability_ = 1.0;
     crossoverProbability_ = 0.3;
@@ -75,7 +76,7 @@ gGA_Settings::gGA_Settings(string problemName, Checkpoint * checkpoint)
 Algorithm * gGA_Settings::configure()
 {
 
-    algorithm = new gGA_ST(problem_);
+    algorithm = new NSGAII_ST_MidDistRank(problem_); //gGA_ST
     algorithm->setInputParameter("populationSize", &populationSize_);
     algorithm->setInputParameter("maxEvaluations", &maxEvaluations_);
     algorithm->setInputParameter("checkpoint", checkpoint_);
@@ -139,6 +140,8 @@ Algorithm * gGA_Settings::configure()
     parameters["mutation"] = NULL;
     parameters["method"] = &initMethod;
     //parameters["unique"] = &unique;
+    //string prevVAR = "/Users/ali_nayeem/PycharmProjects/GT2ST/data/Nayeem20OctGGA_37taxa/data/gGA/" + problemName_ + "/VAR." + to_string(checkpoint_->getRunNumber());
+    //parameters["prevVARPath"] = &prevVAR;
     initializer = new TreeInitializer(parameters);
 
     // Add the operators to the algorithm

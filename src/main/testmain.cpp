@@ -26,60 +26,110 @@ using namespace std;
 /*
  * 
  */
-string GetStdoutFromCommand(string cmd) {
+// string GetStdoutFromCommand(string cmd)
+// {
 
-    string data;
-    FILE * stream;
-    const int max_buffer = 256;
-    char buffer[max_buffer];
-    //cmd.append(" 2>&1");
+//     string data;
+//     FILE *stream;
+//     const int max_buffer = 256;
+//     char buffer[max_buffer];
+//     //cmd.append(" 2>&1");
 
-    stream = popen(cmd.c_str(), "r");
-    if (stream) {
-        while (!feof(stream))
-            if (fgets(buffer, max_buffer, stream) != NULL) data.append(buffer);
-        pclose(stream);
-    }
-    return data;
-}
+//     stream = popen(cmd.c_str(), "r");
+//     if (stream)
+//     {
+//         while (!feof(stream))
+//             if (fgets(buffer, max_buffer, stream) != NULL)
+//                 data.append(buffer);
+//         pclose(stream);
+//     }
+//     return data;
+// }
 
-int main(int argc, char** argv) {
-        string dataset = "10-taxon";
-        string tool = "astral";
-        string pre_path = "/Users/ali_nayeem/PycharmProjects/GT2ST/data/combined/data/Tools/" + dataset + "/R";
-	for(int i=1; i<=10; i++){
-		string data = "10-taxon.higher-ILS.estimated-genetrees.R" + to_string(i);  
-                //"10-taxon.higher-ILS.estimated-genetrees.R3"; "15-taxon.100gene-100bp.estimated-genetrees.R3" "37-taxon.noscale_200g_500b.estimated-genetrees.R5
-		std::replace( data.begin(), data.end(), '.', '/');
-		vector<int> obj{ InferSpeciesTree::MAX_ASTRAL, InferSpeciesTree::MAX_STELAR, InferSpeciesTree::MAX_MPEST}; 
-                cout<<"here now -1 "+data<<endl;
-		InferSpeciesTree * problem = new InferSpeciesTree(data, obj);
-                //cout<<"here now"<<endl;
-		SolutionSet * solSet = problem->getSolutionSetFromVarFile(pre_path + to_string(i) + "/" + tool+ "_SPR.txt");
-		//cout<<"here now 1"<<endl;
-                problem->evaluate(solSet);
-                //cout<<"here now 2"<<endl;
-		solSet->printObjectivesToFile(pre_path + to_string(i) + "/" + tool+ "_SPR_obj.txt");
-	}
-    return 0;
-}
+// int main(int argc, char **argv)
+// {
+//     string dataset = "15-taxon";
+//     string data = "15-taxon.100gene-100bp.estimated-genetrees.R1";
+//     string pre_path = "/Users/ali_nayeem/PycharmProjects/GT2ST/input/NSGAIII-4-Objectives/" + dataset + "/" + data + "/VAR.";
+//     string fun_pre_path = "/Users/ali_nayeem/PycharmProjects/GT2ST/input/NSGAIII-4-Objectives/" + dataset + "/" + data + "/FUN.";
+//     string pareto_path = "/Users/ali_nayeem/PycharmProjects/GT2ST/input/NSGAIII-4-Objectives/" + dataset + "/" + data ;
+
+//     //"10-taxon.higher-ILS.estimated-genetrees.R3"; "15-taxon.100gene-100bp.estimated-genetrees.R3" "37-taxon.noscale_200g_500b.estimated-genetrees.R5
+//     std::replace(data.begin(), data.end(), '.', '/');
+//     vector<int> obj{InferSpeciesTree::MAX_ASTRAL, InferSpeciesTree::MAX_STELAR, InferSpeciesTree::MAX_MPEST, InferSpeciesTree::MIN_PHYLONET};
+//     InferSpeciesTree *problem = new InferSpeciesTree(data, obj);
+//     SolutionSet *unionSolution = problem->getSolutionSetFromVarFile(pre_path + "0");
+//     problem->evaluate(unionSolution);
+//     //unionSolution->printObjectivesToFile(fun_pre_path + "0");
+//     //unionSolution->readObjectivesToFile(fun_pre_path + "0");
+//     for (int i = 1; i < 15; i++)
+//     {
+//         cout << "adding FUN." << i << endl;
+//         //cout<<"here now"<<endl;
+//         SolutionSet *solSet = problem->getSolutionSetFromVarFile(pre_path + to_string(i));
+//         problem->evaluate(solSet);
+//         //solSet->readObjectivesToFile(fun_pre_path + to_string(i));
+//         //unionSolution->printObjectivesToFile(fun_pre_path + to_string(i));
+//         unionSolution = unionSolution->join(solSet);
+//         //cout<<"here now 1"<<endl;
+//         //problem->evaluate(solSet);
+//         //cout<<"here now 2"<<endl;
+//         delete solSet;
+//     }
+//     unionSolution->printObjectivesToFile(pareto_path + "/VAR-ALL.txt");
+//     Ranking *ranking = new Ranking(unionSolution);
+//     cout << ranking->getSubfront(0)->size() << endl;
+//     ranking->getSubfront(0)->printObjectivesToFile(pareto_path + "/PF.txt");
+//     return 0;
+// }
 
 // int main(int argc, char** argv) {
+//         string dataset = "11-taxon";
+//         string tool = "astral";
+//         string pre_path = "/Users/ali_nayeem/PycharmProjects/GT2ST/data/combined/data/Tools/" + dataset + "/R";
 // 	for(int i=1; i<=10; i++){
-// 		string data = "11-taxon.estimated-strongILS.50genes.R"+to_string(i);  //"10-taxon.higher-ILS.estimated-genetrees.R3"; "15-taxon.100gene-100bp.estimated-genetrees.R3" "37-taxon.noscale_200g_500b.estimated-genetrees.R5"
+// 		string data = "10-taxon.higher-ILS.estimated-genetrees.R" + to_string(i);
+//                 //"10-taxon.higher-ILS.estimated-genetrees.R3"; "15-taxon.100gene-100bp.estimated-genetrees.R3" "37-taxon.noscale_200g_500b.estimated-genetrees.R5
 // 		std::replace( data.begin(), data.end(), '.', '/');
-// 		vector<int> obj{ InferSpeciesTree::MAX_ASTRAL, InferSpeciesTree::MAX_STELAR, InferSpeciesTree::MAX_MPEST}; 
+// 		vector<int> obj{ InferSpeciesTree::MAX_ASTRAL, InferSpeciesTree::MAX_STELAR, InferSpeciesTree::MAX_MPEST};
 //                 cout<<"here now -1 "+data<<endl;
 // 		InferSpeciesTree * problem = new InferSpeciesTree(data, obj);
 //                 //cout<<"here now"<<endl;
-// 		SolutionSet * solSet = problem->getSolutionSetFromVarFile("data/tool_output/11-taxon/R"+to_string(i)+".txt");
+// 		SolutionSet * solSet = problem->getSolutionSetFromVarFile(pre_path + to_string(i) + "/" + tool+ "_SPR.txt");
 // 		//cout<<"here now 1"<<endl;
 //                 problem->evaluate(solSet);
 //                 //cout<<"here now 2"<<endl;
-// 		solSet->printObjectivesToFile("data/tool_output/11-taxon/R"+to_string(i)+"_score.txt");
+// 		solSet->printObjectivesToFile(pre_path + to_string(i) + "/" + tool+ "_SPR_obj.txt");
 // 	}
 //     return 0;
 // }
+
+int main(int argc, char** argv) {
+    string dataRoot = "data/15-taxon/100gene-100bp/estimated-genetrees/";
+    string outRoot = "/Users/ali_nayeem/PycharmProjects/GT2ST/data/tool_output/15-taxon/";
+    string trees[] = {"species.tre_astral.x", "species.tre_mpest", "species.tre_stelar.x", "true_st.tre"};
+	for(int i=1; i<=10; i++){
+		string data = "15-taxon.100gene-100bp.estimated-genetrees.R"+to_string(i);  //"10-taxon.higher-ILS.estimated-genetrees.R3"; "15-taxon.100gene-100bp.estimated-genetrees.R3" "37-taxon.noscale_200g_500b.estimated-genetrees.R5"
+		std::replace( data.begin(), data.end(), '.', '/');
+		vector<int> obj{ InferSpeciesTree::MAX_ASTRAL, InferSpeciesTree::MAX_STELAR, InferSpeciesTree::MAX_MPEST};
+                cout<<"here now -1 "+data<<endl;
+		InferSpeciesTree * problem = new InferSpeciesTree(data, obj);
+                //cout<<"here now"<<endl;
+		SolutionSet * solSet = new SolutionSet(4);
+        for (size_t j = 0; j < solSet->getMaxSize(); j++)
+        {
+            SolutionSet * temp = problem->getSolutionSetFromVarFile(dataRoot + "R" + to_string(i) + "/" +  trees[j]);
+            solSet->add(temp->get(0));
+        }
+        
+		//cout<<"here now 1"<<endl;
+        problem->evaluate(solSet);
+                //cout<<"here now 2"<<endl;
+		solSet->printObjectivesToFile( outRoot + "/R"+to_string(i)+"_score.txt" );
+        solSet->printVariablesToFile( outRoot + "/R"+to_string(i)+".txt");
+	}
+    return 0;
+}
 /*int main(int argc, char** argv) {
     PseudoRandom::bppRand_->setSeed(01234567);
     string data = "10-taxon.higher-ILS.estimated-genetrees.R3";  //"10-taxon.higher-ILS.estimated-genetrees.R3"; "15-taxon.100gene-100bp.estimated-genetrees.R3" "37-taxon.noscale_200g_500b.estimated-genetrees.R5"
@@ -164,17 +214,17 @@ int main(int argc, char** argv) {
     return 0;
 }*/
 
-    //pop->printVariablesToFile(data+"/VAR");
-    //    map<string, void *> parameters;
-    //    parameters.clear();
-    //    double prob = 1.0; int numDes = 1;
-    //    parameters["probability"] = &prob;
-    //    parameters["numDescendientes"] = &numDes;
-    //    cout<<*(int*)parameters["numDescendientes"];
-    //    TreeCrossover crossover = TreeCrossover(parameters);
-    //    Solution ** parents = new Solution*[2];
-    //    int parent1, parent2;
-    //    //vector<Solution> children, parents;   
-    //    parents[0] = pop->get(4);
-    //    parents[1] = pop->get(5);
-    //    Solution * offSpring = (Solution *) (crossover.execute(parents));
+//pop->printVariablesToFile(data+"/VAR");
+//    map<string, void *> parameters;
+//    parameters.clear();
+//    double prob = 1.0; int numDes = 1;
+//    parameters["probability"] = &prob;
+//    parameters["numDescendientes"] = &numDes;
+//    cout<<*(int*)parameters["numDescendientes"];
+//    TreeCrossover crossover = TreeCrossover(parameters);
+//    Solution ** parents = new Solution*[2];
+//    int parent1, parent2;
+//    //vector<Solution> children, parents;
+//    parents[0] = pop->get(4);
+//    parents[1] = pop->get(5);
+//    Solution * offSpring = (Solution *) (crossover.execute(parents));

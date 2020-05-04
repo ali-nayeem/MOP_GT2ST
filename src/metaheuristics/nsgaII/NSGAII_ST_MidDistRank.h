@@ -18,9 +18,10 @@
 #include <Problem.h>
 #include <SolutionSet.h>
 #include <Distance.h>
-#include <MidDistanceRanking.h>
+#include <Ranking.h>
 #include <CrowdingComparator.h>
 #include "Checkpoint.h"
+#include "aux_math.h"
 
 class NSGAII_ST_MidDistRank : public Algorithm {
 
@@ -29,6 +30,8 @@ public:
   SolutionSet * execute();
 private:
   Checkpoint *checkpoint_;    
+  bool insideFocusAngle(Solution * sol, InferSpeciesTree * prob, double minCosineSim);
+
 
 };
 

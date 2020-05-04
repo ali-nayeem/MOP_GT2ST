@@ -73,9 +73,9 @@ SolutionSet *NSGAIII_ST::execute()
     initializerOperator = operators_["initializer"];
 
     vector<CReferencePoint> rps;
-    //GenerateReferencePoints(&rps, problem_->getNumberOfObjectives(), obj_division_p_);
-    //populationSize = rps.size();
-    GenerateReferencePointsRand(&rps, problem_->getNumberOfObjectives(), populationSize, 0.5, 0.005);
+    GenerateReferencePoints(&rps, problem_->getNumberOfObjectives(), obj_division_p_);
+    populationSize = rps.size();
+    //GenerateReferencePointsRand(&rps, problem_->getNumberOfObjectives(), populationSize, 0.5, 0.005);
     //while (populationSize%4) populationSize += 1;
 
     //ApplicationTools::displayTask("Initial Population", true);

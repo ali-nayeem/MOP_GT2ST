@@ -43,7 +43,7 @@ Solution *CReferencePoint::PickWeightedMemberProbabilisticWithoutReplace()
 	Solution *good_weight = nullptr;
 	if (potential_members_.size() > 0)
 	{
-		if (member_size_ == 0)
+		if (member_size_ >= 0)
 		{
 			double max = potential_members_weights_[0];
 			int maxId = 0;
@@ -61,10 +61,10 @@ Solution *CReferencePoint::PickWeightedMemberProbabilisticWithoutReplace()
 			potential_members_weights_[maxId] = potential_members_weights_.back();
 			potential_members_weights_.pop_back();		
 		}
-		else
-		{
-			good_weight = (RandomTools::pickOne(potential_members_, potential_members_weights_, false, *PseudoRandom::getRndFactory())).first;
-		}
+		// else
+		// {
+		// 	good_weight = (RandomTools::pickOne(potential_members_, potential_members_weights_, false, *PseudoRandom::getRndFactory())).first;
+		// }
 	}
 
 	return good_weight;
@@ -98,7 +98,7 @@ void CReferencePoint::CalculateWeightForAllPotentialMember()
 {
 	for (size_t i = 0; i < potential_members_.size(); i += 1)
 	{
-		double weight = 1.0 / (0.01 +  MathAux::ProjectedDistanceFromOrigin(position_, potential_members_[i].first->conv_objs()));
+		double weight = 1.0 / (0.01 +  MathAux::ProjectedDistanceFromOrigin(position_, potential_members_[i].first->conv_objs()) + potential_members_[i].second) ;
 		potential_members_weights_.push_back(weight);
 		//potential_members_weights_.push_back(1.78 - MathAux::ProjectedDistanceFromOrigin(position_, (potential_members_[i].first)->conv_objs()));
 		if (potential_members_weights_[potential_members_weights_.size() - 1] < 0)
@@ -187,11 +187,11 @@ void Associate(std::vector<CReferencePoint> *prps, Ranking *fronts, int lastFron
 	}	  // for - fronts
 }
 
-void AssociateAll(std::vector<CReferencePoint> *prps, Ranking *fronts)
+void AssociateAll(std::vector<CReferencePoint> *prps, Ranking *fronts, int lastFrontRank)
 {
 	std::vector<CReferencePoint> &rps = *prps;
 
-	for (size_t t = 0; t < fronts->getNumberOfSubfronts(); t += 1)
+	for (size_t t = 0; t < lastFrontRank + 1; t += 1)
 	{
 		for (size_t i = 0; i < fronts->getSubfront(t)->size(); i += 1)
 		{
@@ -213,7 +213,9 @@ void AssociateAll(std::vector<CReferencePoint> *prps, Ranking *fronts)
 			// }
 			// else
 			rps[min_rp].AddPotentialMember(fronts->getSubfront(t)->get(i), min_dist);
-
+			fronts->getSubfront(t)->get(i)->setPerpendicularDist(min_dist);
+			double projDist = MathAux::ProjectedDistanceFromOrigin(rps[min_rp].pos(), fronts->getSubfront(t)->get(i)->conv_objs());
+			fronts->getSubfront(t)->get(i)->setProjectedDist(projDist);
 		} // for - members in front
 	}	  // for - fronts
 }

@@ -11,10 +11,10 @@
  * Created on January 11, 2019, 11:38 AM
  */
 
-#ifndef NSGAIII_ST_NO_PARETO_H
-#define NSGAIII_ST_NO_PARETO_H
+#ifndef NSGAIII_ST_DIST_PARETO_H
+#define NSGAIII_ST_DIST_PARETO_H
 
-#include <NSGAIII_ST.h>
+#include <NSGAIII_ST_NO_PARETO.h>
 #include <Problem.h>
 #include <SolutionSet.h>
 #include <Distance.h>
@@ -24,10 +24,10 @@
 #include "alg_reference_point.h"
 #include "alg_environmental_selection.h"
 
-class NSGAIII_ST_NO_PARETO : public NSGAIII_ST
+class NSGAIII_ST_DIST_PARETO : public NSGAIII_ST_NO_PARETO
 {
 public:
-  NSGAIII_ST_NO_PARETO(Problem *problem);
+  NSGAIII_ST_DIST_PARETO(Problem *problem);
   SolutionSet *execute();
 
 protected:
@@ -37,4 +37,4 @@ protected:
   void Niching(SolutionSet *population, int populationSize, vector<CReferencePoint> rps, Ranking *ranking, int lastFrontRank, InferSpeciesTree *p);
 };
 
-#endif /* NSGAIII_ST_NO_PARETO_H */
+#endif /* NSGAIII_ST_DIST_PARETO_H */

@@ -64,6 +64,7 @@ public:
   Solution * worst(Comparator * comparator);
   int size();
   void printObjectivesToFile(string path);
+  void readObjectivesToFile(string path);
   void printObjectivesToFile(string path, bool append);
   void printVariablesToFile(string file);
   void printVariablesToFile(string file, bool append);
