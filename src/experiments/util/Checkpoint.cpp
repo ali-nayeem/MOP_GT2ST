@@ -57,10 +57,10 @@ void Checkpoint::execute(SolutionSet *pop, int gen)
     string to = dataStorePath_ + "/pop." + to_string(gen);
     string treePerfPath = dataStorePath_ + "/popTreePerf." + to_string(gen);
     string trueStPath =  ((InferSpeciesTree*)prob_)->getTrueTreePath();
-    string cmd = "python2  lib/PyTreePerf/getTreePerfFromVAR.py -t " + trueStPath + " -v " + to + " -o " + treePerfPath;
+    string cmd = "python  lib/PyTreePerf/getTreePerfFromVAR.py -t " + trueStPath + " -v " + to + " -o " + treePerfPath;
     InferSpeciesTree::GetStdoutFromCommand(cmd);
-    //cmd = "python3  lib/PyTreePerf/drawTreePerfDistrib.py -f " + treePerfPath;
-    //InferSpeciesTree::GetStdoutFromCommand(cmd);
+    cmd = "python3  lib/PyTreePerf/drawTreePerfDistrib.py -f " + treePerfPath;
+    InferSpeciesTree::GetStdoutFromCommand(cmd);
 }
 
 Checkpoint::~Checkpoint()

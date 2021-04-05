@@ -42,7 +42,7 @@
 MidDistanceRanking::MidDistanceRanking (SolutionSet * solutionSet) {
 
   solutionSet_ = solutionSet;
-  dominance_   = new MidDistanceComparator();
+  dominance_   = nullptr;//new MidDistanceComparator();
   //constraint_  = new OverallConstraintViolationComparator();
 
   // dominateMe[i] contains the number of solutions dominating i        

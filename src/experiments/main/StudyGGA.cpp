@@ -55,39 +55,39 @@ Algorithm * StudyGGA::algorithmSettings(string problemName,
 
 int main(int argc, char ** argv) {
 
-  //PseudoRandom::bppRand_->setSeed(01234567);
-  Checkpoint::interval_ = 5;
+  PseudoRandom::bppRand_->setSeed(01234567);
+  Checkpoint::interval_ = 3;
   StudyGGA * exp = new StudyGGA() ;
   
   // Name of the experiment:
-  exp->experimentName_ = "NSGAII_Focused_15taxa";
-  exp->keepCheckpoint_ = true;
+  exp->experimentName_ = "NayeemGGA_15taxa_1obj_tp";
+  exp->keepCheckpoint_ = false;
 
- exp->keepCheckpoint_ = true;
+ //exp->keepCheckpoint_ = true;
 
   // List of algorithm names to be used in the experiment
   // (please, refer to the README to check the possible values):
   vector<string> algorithmNameList_ {
-      "15-taxon"}; //, "SMPSO", "GDE3"
+      "gGA"}; //, "SMPSO", "GDE3"
 
   // List of problem names to be used in the experiment
   // (please, refer to the README to check the possible values):
   vector<string> problemList_ {
-//      "11-taxon.estimated-strongILS.50genes.R1", "11-taxon.estimated-strongILS.50genes.R2",
-//      "11-taxon.estimated-strongILS.50genes.R3", "11-taxon.estimated-strongILS.50genes.R4",
-//      "11-taxon.estimated-strongILS.50genes.R5", "11-taxon.estimated-strongILS.50genes.R6",
-//      "11-taxon.estimated-strongILS.50genes.R7", "11-taxon.estimated-strongILS.50genes.R8",
-//      "11-taxon.estimated-strongILS.50genes.R9", "11-taxon.estimated-strongILS.50genes.R10"
-     "15-taxon.100gene-100bp.estimated-genetrees.R1", "15-taxon.100gene-100bp.estimated-genetrees.R2",
-     "15-taxon.100gene-100bp.estimated-genetrees.R3", "15-taxon.100gene-100bp.estimated-genetrees.R4"
-//      "15-taxon.100gene-100bp.estimated-genetrees.R5" //, "15-taxon.100gene-100bp.estimated-genetrees.R6",
-//      "15-taxon.100gene-100bp.estimated-genetrees.R7", "15-taxon.100gene-100bp.estimated-genetrees.R8",
-//      "15-taxon.100gene-100bp.estimated-genetrees.R9", "15-taxon.100gene-100bp.estimated-genetrees.R10"      
-//      "10-taxon.higher-ILS.estimated-genetrees.R4", "10-taxon.higher-ILS.estimated-genetrees.R2",
-//      "10-taxon.higher-ILS.estimated-genetrees.R3", "10-taxon.higher-ILS.estimated-genetrees.R4",
-//      "10-taxon.higher-ILS.estimated-genetrees.R5", "10-taxon.higher-ILS.estimated-genetrees.R6",
-//      "10-taxon.higher-ILS.estimated-genetrees.R7", "10-taxon.higher-ILS.estimated-genetrees.R8",
-//      "10-taxon.higher-ILS.estimated-genetrees.R9", "10-taxon.higher-ILS.estimated-genetrees.R10"
+     //"11-taxon.estimated-strongILS.50genes.R1", "11-taxon.estimated-strongILS.50genes.R2"
+    //  "11-taxon.estimated-strongILS.50genes.R3", "11-taxon.estimated-strongILS.50genes.R4",
+    //  "11-taxon.estimated-strongILS.50genes.R5", "11-taxon.estimated-strongILS.50genes.R6"
+    //  "11-taxon.estimated-strongILS.50genes.R7", "11-taxon.estimated-strongILS.50genes.R8",
+    //"11-taxon.estimated-strongILS.50genes.R9", "11-taxon.estimated-strongILS.50genes.R10",
+    //  "15-taxon.100gene-100bp.estimated-genetrees.R1", "15-taxon.100gene-100bp.estimated-genetrees.R2",
+    //  "15-taxon.100gene-100bp.estimated-genetrees.R3", "15-taxon.100gene-100bp.estimated-genetrees.R4"
+        "15-taxon.100gene-100bp.estimated-genetrees.R5", "15-taxon.100gene-100bp.estimated-genetrees.R6",
+        "15-taxon.100gene-100bp.estimated-genetrees.R7", "15-taxon.100gene-100bp.estimated-genetrees.R8"
+        // "15-taxon.100gene-100bp.estimated-genetrees.R9", "15-taxon.100gene-100bp.estimated-genetrees.R10"      
+    //  "10-taxon.higher-ILS.estimated-genetrees.R1", "10-taxon.higher-ILS.estimated-genetrees.R2",
+    //  "10-taxon.higher-ILS.estimated-genetrees.R3", "10-taxon.higher-ILS.estimated-genetrees.R4",
+    //  "10-taxon.higher-ILS.estimated-genetrees.R5", "10-taxon.higher-ILS.estimated-genetrees.R6",
+    //  "10-taxon.higher-ILS.estimated-genetrees.R7", "10-taxon.higher-ILS.estimated-genetrees.R8",
+    //  "10-taxon.higher-ILS.estimated-genetrees.R9", "10-taxon.higher-ILS.estimated-genetrees.R10"
 //      "10-taxon.higher-ILS.estimated-genetrees.R11", "10-taxon.higher-ILS.estimated-genetrees.R12",
 //      "10-taxon.higher-ILS.estimated-genetrees.R13", "10-taxon.higher-ILS.estimated-genetrees.R14",
 //      "10-taxon.higher-ILS.estimated-genetrees.R15", "10-taxon.higher-ILS.estimated-genetrees.R16",
@@ -104,10 +104,10 @@ int main(int argc, char ** argv) {
                                  exp->experimentName_;
 
   // Number of independent runs of each algorithm for each problem:
-  exp->independentRuns_ = 15;
+  exp->independentRuns_ = 10;
 
   // Number of threads to be used to execute the experiment
-  int numberOfThreads = 6;
+  int numberOfThreads = 8;
   
   exp->algorithmNameList_ = algorithmNameList_;
   exp->problemList_ = problemList_;

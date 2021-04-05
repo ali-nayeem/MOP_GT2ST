@@ -130,6 +130,11 @@ double CosineSimilarityFromMid(const vector<double> &point)
         numerator += point[i];
         denominator += square(point[i]);
     }
+    if (denominator == 0)
+    {
+        return 1;
+    }
+    
     return numerator/ (sqrt(denominator) * sqrt(3));
 }
 
@@ -146,7 +151,23 @@ double ProjectedDistanceFromOrigin(const vector<double> &direction, const vector
 }
 // ---------------------------------------------------------------------
 
-
+double AggregationFunction(vector<double> objVector, vector<double> & weightVector, int functionType_) // = 0
+{
+    double score;
+    if (functionType_ == 0)
+    {
+        score = inner_product(objVector.begin(), objVector.end(), weightVector.begin(), 0.0); 
+    }
+    else
+    {
+        //printf("In TCHEB");
+        //std::transform(objVector.begin(), objVector.end(), objVector.begin(), [&](double x){return(x - 0);});
+        vector<double> result(objVector.size());
+        std::transform(objVector.begin(), objVector.end(), weightVector.begin(), result.begin(), std::multiplies<double>());
+        score = *max_element(result.begin(), result.end()); //bcoz Tchebycheff gives a minimization score
+    } // if
+    return score;
+}
 
 
 }// namespace MathAux

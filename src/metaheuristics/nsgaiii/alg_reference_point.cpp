@@ -63,7 +63,7 @@ Solution *CReferencePoint::PickWeightedMemberProbabilisticWithoutReplace()
 		}
 		// else
 		// {
-		// 	good_weight = (RandomTools::pickOne(potential_members_, potential_members_weights_, false, *PseudoRandom::getRndFactory())).first;
+			good_weight = (RandomTools::pickOne(potential_members_, potential_members_weights_, false, *PseudoRandom::getRndFactory())).first;
 		// }
 	}
 

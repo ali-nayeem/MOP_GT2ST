@@ -42,7 +42,7 @@ Algorithm * StudyNSGAIII::algorithmSettings(string problemName,
   switch (algorithmId) {
   case 0:
     algorithmSettingsList_[experimentIndividualId] =
-        new NSGAIII_Settings(problemName, checkpoint);
+        new Gen_MOEAD_Settings(problemName, checkpoint); //NSGAIII_Settings(problemName, checkpoint)
     alg = (algorithmSettingsList_[experimentIndividualId])->configure();
     break;
   }
@@ -54,15 +54,13 @@ Algorithm * StudyNSGAIII::algorithmSettings(string problemName,
 
 int main(int argc, char ** argv) {
 
-  //PseudoRandom::bppRand_->setSeed(01234567);
+  PseudoRandom::bppRand_->setSeed(01234567);
   Checkpoint::interval_ = 5;
   StudyNSGAIII * exp = new StudyNSGAIII() ;
   
   // Name of the experiment:
-  exp->experimentName_ = "Nayeem2020NSGAIII_10taxa";
-  //exp->keepCheckpoint_ = true;
-
- //exp->keepCheckpoint_ = true;
+  exp->experimentName_ = "Nayeem2020Gen_MOEAD_test";
+  exp->keepCheckpoint_ = true;
 
   // List of algorithm names to be used in the experiment
   // (please, refer to the README to check the possible values):
@@ -72,6 +70,7 @@ int main(int argc, char ** argv) {
   // List of problem names to be used in the experiment
   // (please, refer to the README to check the possible values):
   vector<string> problemList_ {
+//    "11-taxon.estimated-strongILS.50genes.R1"
 //        "11-taxon.estimated-strongILS.50genes.R1", "11-taxon.estimated-strongILS.50genes.R2",
 //        "11-taxon.estimated-strongILS.50genes.R3", "11-taxon.estimated-strongILS.50genes.R4",
 //        "11-taxon.estimated-strongILS.50genes.R5", "11-taxon.estimated-strongILS.50genes.R6",
@@ -79,19 +78,20 @@ int main(int argc, char ** argv) {
 //        "11-taxon.estimated-strongILS.50genes.R9", "11-taxon.estimated-strongILS.50genes.R10"
 //      "15-taxon.100gene-100bp.estimated-genetrees.R1", "15-taxon.100gene-100bp.estimated-genetrees.R2",
 //      "15-taxon.100gene-100bp.estimated-genetrees.R3", "15-taxon.100gene-100bp.estimated-genetrees.R4",
-//      "15-taxon.100gene-100bp.estimated-genetrees.R5", "15-taxon.100gene-100bp.estimated-genetrees.R6",
+      "15-taxon.100gene-100bp.estimated-genetrees.R5"//, "15-taxon.100gene-100bp.estimated-genetrees.R6",
 //      "15-taxon.100gene-100bp.estimated-genetrees.R7", "15-taxon.100gene-100bp.estimated-genetrees.R8",
 //      "15-taxon.100gene-100bp.estimated-genetrees.R9", "15-taxon.100gene-100bp.estimated-genetrees.R10"      
 //      "10-taxon.higher-ILS.estimated-genetrees.R1", "10-taxon.higher-ILS.estimated-genetrees.R2",
 //      "10-taxon.higher-ILS.estimated-genetrees.R3", "10-taxon.higher-ILS.estimated-genetrees.R4",
-      "10-taxon.higher-ILS.estimated-genetrees.R5"//, "10-taxon.higher-ILS.estimated-genetrees.R6"
+//      "10-taxon.higher-ILS.estimated-genetrees.R5"//, "10-taxon.higher-ILS.estimated-genetrees.R6"
 //      "10-taxon.higher-ILS.estimated-genetrees.R7", "10-taxon.higher-ILS.estimated-genetrees.R8",
 //      "10-taxon.higher-ILS.estimated-genetrees.R9", "10-taxon.higher-ILS.estimated-genetrees.R10"
 //      "10-taxon.higher-ILS.estimated-genetrees.R11", "10-taxon.higher-ILS.estimated-genetrees.R12",
 //      "10-taxon.higher-ILS.estimated-genetrees.R13", "10-taxon.higher-ILS.estimated-genetrees.R14",
 //      "10-taxon.higher-ILS.estimated-genetrees.R15", "10-taxon.higher-ILS.estimated-genetrees.R16",
 //      "10-taxon.higher-ILS.estimated-genetrees.R17", "10-taxon.higher-ILS.estimated-genetrees.R18",
-//      "10-taxon.higher-ILS.estimated-genetrees.R4", "10-taxon.higher-ILS.estimated-genetrees.R14"          
+//      "10-taxon.higher-ILS.estimated-genetrees.R4", "10-taxon.higher-ILS.estimated-genetrees.R14"
+        //"37-taxon.noscale_200g_500b.estimated-genetrees.R5"          
   };//, 
  //, "37-taxon.noscale_200g_500b.estimated-genetrees.R5", "10-taxon.higher-ILS.estimated-genetrees.R2"
 
@@ -100,10 +100,10 @@ int main(int argc, char ** argv) {
                                  exp->experimentName_;
 
   // Number of independent runs of each algorithm for each problem:
-  exp->independentRuns_ = 1;
+  exp->independentRuns_ = 3;
 
   // Number of threads to be used to execute the experiment
-  int numberOfThreads = 1;
+  int numberOfThreads = 3;
   
   exp->algorithmNameList_ = algorithmNameList_;
   exp->problemList_ = problemList_;

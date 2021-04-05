@@ -82,11 +82,11 @@ int main(int argc, char ** argv) {
 //      "15-taxon.100gene-100bp.estimated-genetrees.R5", "15-taxon.100gene-100bp.estimated-genetrees.R6",
 //      "15-taxon.100gene-100bp.estimated-genetrees.R7", "15-taxon.100gene-100bp.estimated-genetrees.R8",
 //      "15-taxon.100gene-100bp.estimated-genetrees.R9", "15-taxon.100gene-100bp.estimated-genetrees.R10"      
-      "10-taxon.higher-ILS.estimated-genetrees.R1", "10-taxon.higher-ILS.estimated-genetrees.R2",
-      "10-taxon.higher-ILS.estimated-genetrees.R3", "10-taxon.higher-ILS.estimated-genetrees.R4",
-      "10-taxon.higher-ILS.estimated-genetrees.R5", "10-taxon.higher-ILS.estimated-genetrees.R6",
-      "10-taxon.higher-ILS.estimated-genetrees.R7", "10-taxon.higher-ILS.estimated-genetrees.R8",
-      "10-taxon.higher-ILS.estimated-genetrees.R9", "10-taxon.higher-ILS.estimated-genetrees.R10"
+//      "10-taxon.higher-ILS.estimated-genetrees.R1", "10-taxon.higher-ILS.estimated-genetrees.R2",
+//      "10-taxon.higher-ILS.estimated-genetrees.R3", "10-taxon.higher-ILS.estimated-genetrees.R4",
+      "10-taxon.higher-ILS.estimated-genetrees.R5", "10-taxon.higher-ILS.estimated-genetrees.R6"
+//      "10-taxon.higher-ILS.estimated-genetrees.R7", "10-taxon.higher-ILS.estimated-genetrees.R8",
+//      "10-taxon.higher-ILS.estimated-genetrees.R9", "10-taxon.higher-ILS.estimated-genetrees.R10"
 //      "10-taxon.higher-ILS.estimated-genetrees.R11", "10-taxon.higher-ILS.estimated-genetrees.R12",
 //      "10-taxon.higher-ILS.estimated-genetrees.R13", "10-taxon.higher-ILS.estimated-genetrees.R14",
 //      "10-taxon.higher-ILS.estimated-genetrees.R15", "10-taxon.higher-ILS.estimated-genetrees.R16",
@@ -101,10 +101,10 @@ int main(int argc, char ** argv) {
                                  exp->experimentName_;
 
   // Number of independent runs of each algorithm for each problem:
-  exp->independentRuns_ = 5;
+  exp->independentRuns_ = 2;
 
   // Number of threads to be used to execute the experiment
-  int numberOfThreads = 10;
+  int numberOfThreads = 4;
   
   exp->algorithmNameList_ = algorithmNameList_;
   exp->problemList_ = problemList_;

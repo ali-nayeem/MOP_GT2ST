@@ -55,11 +55,11 @@ Algorithm * StudyMOEAD::algorithmSettings(string problemName,
 int main(int argc, char ** argv) {
 
   //PseudoRandom::bppRand_->setSeed(01234567);
-  Checkpoint::interval_ = 5;
+  Checkpoint::interval_ = 2;
   StudyMOEAD * exp = new StudyMOEAD() ;
   
   // Name of the experiment:
-  exp->experimentName_ = "Test";
+  exp->experimentName_ = "TestTCHE_NORM";
   exp->keepCheckpoint_ = true;
 
   // List of algorithm names to be used in the experiment
@@ -70,8 +70,8 @@ int main(int argc, char ** argv) {
   // List of problem names to be used in the experiment
   // (please, refer to the README to check the possible values):
   vector<string> problemList_ {
-       "10-taxon.higher-ILS.estimated-genetrees.R9", "10-taxon.higher-ILS.estimated-genetrees.R9", "10-taxon.higher-ILS.estimated-genetrees.R4",   
-      "15-taxon.100gene-100bp.estimated-genetrees.R6", "15-taxon.100gene-100bp.estimated-genetrees.R9"  
+       "10-taxon.higher-ILS.estimated-genetrees.R14"//, "10-taxon.higher-ILS.estimated-genetrees.R9", "10-taxon.higher-ILS.estimated-genetrees.R4",   
+      //"15-taxon.100gene-100bp.estimated-genetrees.R6", "15-taxon.100gene-100bp.estimated-genetrees.R9"  
   };//, "10-taxon.higher-ILS.estimated-genetrees.R2", 
  //, "37-taxon.noscale_200g_500b.estimated-genetrees.R5", "10-taxon.higher-ILS.estimated-genetrees.R2"
 
@@ -81,10 +81,10 @@ int main(int argc, char ** argv) {
                                  exp->experimentName_;
 
   // Number of independent runs of each algorithm for each problem:
-  exp->independentRuns_ = 2;
+  exp->independentRuns_ = 1;
 
   // Number of threads to be used to execute the experiment
-  int numberOfThreads = 6;
+  int numberOfThreads = 1;
   
   exp->algorithmNameList_ = algorithmNameList_;
   exp->problemList_ = problemList_;

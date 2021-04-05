@@ -115,8 +115,10 @@ SolutionSet * InferSpeciesTree::getSolutionSetFromVarFile(string varFileName)
 }
 
 
-
 boolean InferSpeciesTree::PLLisTreeValidate(TreeTemplate<Node> * tree){
+    return true;
+}
+/*boolean InferSpeciesTree::PLLisTreeValidate(TreeTemplate<Node> * tree){
   pllNewickTree * newick;
   boolean res=true;
   string treenewick = TreeTemplateTools::treeToParenthesis(*tree) ;
@@ -146,7 +148,7 @@ boolean InferSpeciesTree::PLLisTreeValidate(TreeTemplate<Node> * tree){
   }
   //pllNewickParseDestroy (&newick);
   return res;
-}
+}*/
 
 boolean InferSpeciesTree::PLLisTreeValidate(Solution * solution)
 {

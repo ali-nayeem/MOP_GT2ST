@@ -1,4 +1,4 @@
-//  NSGAII_Settings.cpp
+//  Gen_MOEAD_Settings.cpp
 //
 //  Author:
 //       Antonio J. Nebro <antonio@lcc.uma.es>
@@ -19,35 +19,34 @@
 //  You should have received a copy of the GNU Lesser General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#include <NSGAII_Settings.h>
+#include <Gen_MOEAD_Settings.h>
 
 #include "RandomSelection.h"
 #include "TreeInitializer.h"
-#include "NSGAII_ST_MidDistRank.h"
 #include "NormalizedSumComparator.h"
 
 /**
  * Default constructor
  */
-NSGAII_Settings::NSGAII_Settings() : Settings()
+Gen_MOEAD_Settings::Gen_MOEAD_Settings() : Settings()
 {
-} // NSGAII_Settings
+} // Gen_MOEAD_Settings
 
 /**
  * Destructor
  */
-NSGAII_Settings::~NSGAII_Settings()
+Gen_MOEAD_Settings::~Gen_MOEAD_Settings()
 {
     delete algorithm;
     delete crossover; // Crossover operator
     delete mutation; // Mutation operator
     delete selection; // Selection operator
-} // ~NSGAII_Settings
+} // ~Gen_MOEAD_Settings
 
 /**
  * Constructor
  */
-NSGAII_Settings::NSGAII_Settings(string problemName, Checkpoint * checkpoint)
+Gen_MOEAD_Settings::Gen_MOEAD_Settings(string problemName, Checkpoint * checkpoint)
 {
     problemName_ = problemName;
     string path(problemName_);
@@ -55,27 +54,31 @@ NSGAII_Settings::NSGAII_Settings(string problemName, Checkpoint * checkpoint)
     //cout<<path;
 
     //problem_ = ProblemFactory::getProblem((char *) problemName_.c_str());
-    vector<int> obj{ InferSpeciesTree::MAX_ASTRAL, InferSpeciesTree::MAX_STELAR, InferSpeciesTree::MAX_MPEST, InferSpeciesTree::MIN_PHYLONET}; //, InferSpeciesTree::MIN_PHYLONET}; 
+    vector<int> obj{ InferSpeciesTree::MAX_ASTRAL, InferSpeciesTree::MIN_PHYLONET}; //InferSpeciesTree::MAX_STELAR, InferSpeciesTree::MAX_MPEST} ;//, InferSpeciesTree::MIN_PHYLONET}; //, InferSpeciesTree::MIN_PHYLONET}; 
     problem_ = new InferSpeciesTree(path, obj);
 
     // Algorithm parameters
-    populationSize_ = 100;
-    maxEvaluations_ = 20000;
+    populationSize_ = 30;
+    p1 = 40;  // 12 for 3 obj, 7 for 4 obj
+    p2 = 0;
+    maxEvaluations_ = 3000;
     maxGen_ = 44;
     mutationProbability_ = 1.0;
     crossoverProbability_ = 0.3;
     checkpoint_ = checkpoint;
 
-} // NSGAII_Settings
+} // Gen_MOEAD_Settings
 
 /**
  * Configure method
  */
-Algorithm * NSGAII_Settings::configure()
+Algorithm * Gen_MOEAD_Settings::configure()
 {
 
-    algorithm = new NSGAII_ST(problem_);  //new NSGAII_ST_MidDistRank(problem_); 
+    algorithm = new Gen_MOEAD_ST(problem_);  //new Gen_MOEAD_ST_DIST_PARETO(problem_); Gen_MOEAD_ST_NO_PARETO Gen_MOEAD_ST
     algorithm->setInputParameter("populationSize", &populationSize_);
+    algorithm->setInputParameter("p1", &p1);
+    //algorithm->setInputParameter("p2", &p2);
     algorithm->setInputParameter("maxEvaluations", &maxEvaluations_);
     algorithm->setInputParameter("checkpoint", checkpoint_);
     //algorithm->setInputParameter("maxGenerations", &maxGen_);
@@ -113,7 +116,7 @@ Algorithm * NSGAII_Settings::configure()
     // Selection Operator
     parameters.clear();
     parameters["comparator"] = new NormalizedSumComparator();//MidDistanceComparator();
-    selection = new BinaryTournament2(parameters); //RandomSelection(parameters); 
+    selection = new RandomSelection(parameters); //  BinaryTournament2(parameters)
     
     //initializer
     parameters.clear();

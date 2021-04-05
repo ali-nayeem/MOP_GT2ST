@@ -37,6 +37,7 @@ private:
 
 public:
   CrowdingComparator();
+  CrowdingComparator(Comparator * comp){ comparator = comp;}
   ~CrowdingComparator();
   int compare(void * o1, void * o2);
 

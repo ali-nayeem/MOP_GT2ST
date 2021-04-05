@@ -36,8 +36,9 @@
 /**
  * Constructor
  */
-MidDistanceComparator::MidDistanceComparator() : Comparator() {
+MidDistanceComparator::MidDistanceComparator(int totalRank) : Comparator() {
   //overallConstraintViolationComparator_ = new OverallConstraintViolationComparator();
+  totalRank_ = totalRank;
 } // MidDistanceComparator
 
 
@@ -57,57 +58,68 @@ MidDistanceComparator::~MidDistanceComparator() {
  * respectively.
 **/
 int MidDistanceComparator::compare(void * o1, void * o2) {
-
-  if (o1==NULL)
-    return 1;
-  else if (o2 == NULL)
-    return -1;
-
   Solution * one = (Solution *) o1;
   Solution * two = (Solution *) o2;
-    InferSpeciesTree * inferST = (InferSpeciesTree *) one->getProblem();
-  int dominate1 ; // dominate1 indicates if some objective of solution1
-                  // dominates the same objective in solution2. dominate2
-  int dominate2 ; // is the complementary of dominate1.
+  double distance1 = one->getProjectedDist() - 1.0 * (one->getRank())/totalRank_; 
+  double distance2 = two->getProjectedDist() - 1.0 * (two->getRank())/totalRank_; 
+  if (distance1 >  distance2)
+    return -1;
 
-  dominate1 = 0 ;
-  dominate2 = 0 ;
+  if (distance1 < distance2)
+    return 1;
 
-  int flag; //stores the result of the comparison
+  return 0;
+
+  // if (o1==NULL)
+  //   return 1;
+  // else if (o2 == NULL)
+  //   return -1;
+
+  // Solution * one = (Solution *) o1;
+  // Solution * two = (Solution *) o2;
+  //   InferSpeciesTree * inferST = (InferSpeciesTree *) one->getProblem();
+  // int dominate1 ; // dominate1 indicates if some objective of solution1
+  //                 // dominates the same objective in solution2. dominate2
+  // int dominate2 ; // is the complementary of dominate1.
+
+  // dominate1 = 0 ;
+  // dominate2 = 0 ;
+
+  // int flag; //stores the result of the comparison
   
   
-  // Equal number of violated constraints. Applying a dominance Test then
-  double value1, value2, min, max;
-  for (int i = 0; i < one->getNumberOfObjectives(); i++) {
-    value1 = one->getObjective(i);
-    value2 = two->getObjective(i);
-    min = inferST->getMinObjective(i);
-    max = inferST->getMaxObjective(i);
-    value1 = fabs(0.5 - ( (value1-min) / (max-min) ));
-    value2 = fabs(0.5 - ( (value2-min) / (max-min) ));
-    if (value1 < value2) {
-      flag = -1;
-    } else if (value1 > value2) {
-      flag = 1;
-    } else {
-      flag = 0;
-    }
+  // // Equal number of violated constraints. Applying a dominance Test then
+  // double value1, value2, min, max;
+  // for (int i = 0; i < one->getNumberOfObjectives(); i++) {
+  //   value1 = one->getObjective(i);
+  //   value2 = two->getObjective(i);
+  //   min = inferST->getMinObjective(i);
+  //   max = inferST->getMaxObjective(i);
+  //   value1 = fabs(0.5 - ( (value1-min) / (max-min) ));
+  //   value2 = fabs(0.5 - ( (value2-min) / (max-min) ));
+  //   if (value1 < value2) {
+  //     flag = -1;
+  //   } else if (value1 > value2) {
+  //     flag = 1;
+  //   } else {
+  //     flag = 0;
+  //   }
 
-    if (flag == -1) {
-      dominate1 = 1;
-    }
+  //   if (flag == -1) {
+  //     dominate1 = 1;
+  //   }
 
-    if (flag == 1) {
-      dominate2 = 1;
-    }
-  }
+  //   if (flag == 1) {
+  //     dominate2 = 1;
+  //   }
+  // }
 
-  if (dominate1 == dominate2) {
-    return 0; //No one dominate the other
-  }
-  if (dominate1 == 1) {
-    return -1; // solution1 dominate
-  }
-  return 1;    // solution2 dominate
+  // if (dominate1 == dominate2) {
+  //   return 0; //No one dominate the other
+  // }
+  // if (dominate1 == 1) {
+  //   return -1; // solution1 dominate
+  // }
+  // return 1;    // solution2 dominate
 
 } // compare

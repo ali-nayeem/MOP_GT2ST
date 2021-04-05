@@ -24,7 +24,7 @@
 #include "DetTournament.h"
 #include "TreeInitializer.h"
 #include "NormalizedSumComparator.h"
-#include "NSGAII_ST_MidDistRank.h"
+#include "NSGAII_ST_Mid.h"
 
 /**
  * Default constructor
@@ -55,7 +55,7 @@ gGA_Settings::gGA_Settings(string problemName, Checkpoint * checkpoint)
     //cout<<path;
 
     //problem_ = ProblemFactory::getProblem((char *) problemName_.c_str());
-    vector<int> obj{ InferSpeciesTree::MAX_ASTRAL, InferSpeciesTree::MAX_STELAR, InferSpeciesTree::MAX_MPEST}; //, InferSpeciesTree::MIN_PHYLONET}; 
+    vector<int> obj{ InferSpeciesTree::MAX_STELAR }; //InferSpeciesTree::MAX_ASTRAL,InferSpeciesTree::MAX_STELAR, InferSpeciesTree::MAX_MPEST InferSpeciesTree::MIN_PHYLONET}; 
     problem_ = new InferSpeciesTree(path, obj);
 
     // Algorithm parameters
@@ -76,7 +76,7 @@ gGA_Settings::gGA_Settings(string problemName, Checkpoint * checkpoint)
 Algorithm * gGA_Settings::configure()
 {
 
-    algorithm = new NSGAII_ST_MidDistRank(problem_); //gGA_ST
+    algorithm = new gGA_ST(problem_); //gGA_ST NSGAII_ST_Mid
     algorithm->setInputParameter("populationSize", &populationSize_);
     algorithm->setInputParameter("maxEvaluations", &maxEvaluations_);
     algorithm->setInputParameter("checkpoint", checkpoint_);

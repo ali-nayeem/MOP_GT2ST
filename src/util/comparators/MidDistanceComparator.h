@@ -35,10 +35,11 @@
 class MidDistanceComparator : public Comparator {
 
 private:
-  Comparator * overallConstraintViolationComparator_;
+  //Comparator * overallConstraintViolationComparator_;
+  int totalRank_;
 
 public:
-  MidDistanceComparator();
+  MidDistanceComparator(int totalRank);
   ~MidDistanceComparator();
   int compare(void *one, void *two);
 };

@@ -152,8 +152,10 @@ Ranking::~Ranking() {
     delete ranking_[i];
   }
   delete [] ranking_;
-  delete dominance_;
-  delete constraint_;
+  if(dominance_ != NULL)
+    delete dominance_;
+  if(constraint_ != NULL)
+    delete constraint_;
 } // ~Ranking
 
 
@@ -180,6 +182,8 @@ Ranking::Ranking (SolutionSet * solutionSet, bool dummy) {
   ranking_ = new SolutionSet*[1];
   numberOfSubfronts_ = 1;
   ranking_[0] = solutionSet; 
+  dominance_ = NULL;
+  constraint_ = NULL;
   // for (size_t i = 0; i < solutionSet->size(); i++)
   // {
   //   ranking_[0]->add(new Solution(solutionSet->get(i)));

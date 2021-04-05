@@ -54,14 +54,14 @@ NSGAIII_Settings::NSGAIII_Settings(string problemName, Checkpoint * checkpoint)
     //cout<<path;
 
     //problem_ = ProblemFactory::getProblem((char *) problemName_.c_str());
-    vector<int> obj{ InferSpeciesTree::MAX_ASTRAL, InferSpeciesTree::MAX_STELAR, InferSpeciesTree::MAX_MPEST}; //, InferSpeciesTree::MIN_PHYLONET}; 
+    vector<int> obj{ InferSpeciesTree::MAX_ASTRAL, InferSpeciesTree::MAX_STELAR, InferSpeciesTree::MAX_MPEST} ;//, InferSpeciesTree::MIN_PHYLONET}; //, InferSpeciesTree::MIN_PHYLONET}; 
     problem_ = new InferSpeciesTree(path, obj);
 
     // Algorithm parameters
     populationSize_ = 100;
-    p1 = 12;
+    p1 = 12;  // 12 for 3 obj, 7 for 4 obj
     p2 = 0;
-    maxEvaluations_ = 10000;
+    maxEvaluations_ = 12000;
     maxGen_ = 44;
     mutationProbability_ = 1.0;
     crossoverProbability_ = 0.3;
@@ -75,7 +75,7 @@ NSGAIII_Settings::NSGAIII_Settings(string problemName, Checkpoint * checkpoint)
 Algorithm * NSGAIII_Settings::configure()
 {
 
-    algorithm = new NSGAIII_ST(problem_);  //new NSGAIII_ST_MidDistRank(problem_); 
+    algorithm = new NSGAIII_ST(problem_);  //new NSGAIII_ST_DIST_PARETO(problem_); NSGAIII_ST_NO_PARETO NSGAIII_ST
     algorithm->setInputParameter("populationSize", &populationSize_);
     algorithm->setInputParameter("p1", &p1);
     algorithm->setInputParameter("p2", &p2);

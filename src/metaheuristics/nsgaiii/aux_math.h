@@ -6,6 +6,7 @@
 #include <vector>
 #include <cmath>
 #include "PseudoRandom.h"
+#include <numeric>
 
 namespace MathAux
 {
@@ -24,6 +25,8 @@ void GuassianElimination(std::vector<double> *px, std::vector< std::vector<doubl
 double PerpendicularDistance(const std::vector<double> &direction, const std::vector<double> &point);
 double ProjectedDistanceFromOrigin(const std::vector<double> &direction, const std::vector<double> &point);
 double CosineSimilarityFromMid(const std::vector<double> &point);
+double AggregationFunction(std::vector<double> objVector, std::vector<double> & weightVector, int functionType_= 0);
+
 }
 
 #endif

@@ -5,27 +5,28 @@
  */
 
 /* 
- * File:   NSGAII_ST_MidDistRank.cpp
+ * File:   NSGAII_ST_Mid.cpp
  * Author: ali_nayeem
  * 
  * Created on January 11, 2019, 11:38 AM
  */
 
-#include "NSGAII_ST_MidDistRank.h"
+#include "NSGAII_ST_Mid.h"
 #include "Checkpoint.h"
 #include "RandomSelection.h"
 #include "BinaryTournament2.h"
 #include <InferSpeciesTree.h>
-#include "MidDistanceComparator.h"
+#include <DominanceDistComparator.h>
+
 
 using namespace bpp;
 
-NSGAII_ST_MidDistRank::NSGAII_ST_MidDistRank(Problem *problem) : Algorithm(problem)
+NSGAII_ST_Mid::NSGAII_ST_Mid(Problem *problem) : Algorithm(problem)
 {
     checkpoint_ = NULL;
 }
 
-SolutionSet *NSGAII_ST_MidDistRank::execute()
+SolutionSet *NSGAII_ST_Mid::execute()
 {
     int populationSize;
     int maxEvaluations;
@@ -79,6 +80,7 @@ SolutionSet *NSGAII_ST_MidDistRank::execute()
     p->evaluate(population);
     evaluations += populationSize;
     int maxGen = (maxEvaluations - populationSize)/populationSize;
+    vector<double> refDirection(p->getNumberOfObjectives(), 1.0);
     // Generations
     //ApplicationTools::displayTask("Generations", true);
     int gen = 0;
@@ -121,83 +123,59 @@ SolutionSet *NSGAII_ST_MidDistRank::execute()
         unionSolution = population->join(offspringPopulation);
         delete offspringPopulation;
 
-        //        p->evaluateFitness(unionSolution);
-        //        unionSolution->sortFitness();
-        //        for(int i = 0; i < population->getMaxSize()/2; i++)
-        //        {
-        //            delete unionSolution->get(unionSolution->size()-1-i);
-        //            unionSolution->remove(unionSolution->size()-1-i);
-        //        }
+        for (size_t i = 0; i < unionSolution->size(); i++)
+        {
+            normalizeObjectives(unionSolution->get(i), p);
+            unionSolution->get(i)->setPerpendicularDist(MathAux::PerpendicularDistance(refDirection, unionSolution->get(i)->conv_objs()));
+            unionSolution->get(i)->setProjectedDist(MathAux::ProjectedDistanceFromOrigin(refDirection, unionSolution->get(i)->conv_objs()));
+        }
+        
 
         // Ranking the union
-        Ranking *ranking = new Ranking(unionSolution);
+        Comparator * dominanceDist = new DominanceDistComparator();
+        Ranking *ranking = new Ranking(unionSolution, dominanceDist);
+        //Ranking * ranking = new Ranking(unionSolution);
+
 
         int remain = populationSize;
         int index = 0;
-        SolutionSet *front = NULL;
-        for (int i = 0; i < population->size(); i++)
-        {
+        SolutionSet * front = NULL;
+        for (int i = 0; i < population->size(); i++) {
             delete population->get(i);
         }
         population->clear();
 
         // Obtain the next front
         front = ranking->getSubfront(index);
-        SolutionSet *reminent = new SolutionSet(2 * populationSize);
-        while ((remain > 0) && (remain >= front->size()) )
-        {
+
+        while ((remain > 0) && (remain >= front->size())) {
+            //Assign crowding distance to individuals
+            distance->crowdingDistanceAssignment(front, problem_->getNumberOfObjectives());
 
             //Add the individuals of this front
-            for (int k = 0; k < front->size(); k++)
-            {
-                if (insideFocusAngle(front->get(k), p, minCosineSim, (1.0 * gen)/maxGen))
-                {
-                    population->add(new Solution(front->get(k)));
-                    remain--;
-                }
-                else
-                {
-                    reminent->add(front->get(k));
-                }
-
+            for (int k = 0; k < front->size(); k++) {
+                population->add(new Solution(front->get(k)));
             } // for
 
             //Decrement remain
-            //remain = remain - front->size();
+            remain = remain - front->size();
 
             //Obtain the next front
             index++;
-            if (index == ranking->getNumberOfSubfronts())
-            {
-                break;
-            }
-            
-            if (remain > 0)
-            {
+            if (remain > 0) {
                 front = ranking->getSubfront(index);
             } // if
 
         } // while
 
         // Remain is less than front(index).size, insert only the best one
-        if (remain > 0)
-        { 
-            for (size_t i = index; i < ranking->getNumberOfSubfronts(); i++)
-            {
-                for (size_t j = 0; j < ranking->getSubfront(i)->size(); j++)
-                {
-                    insideFocusAngle(ranking->getSubfront(i)->get(j), p, minCosineSim, (1.0 * gen)/maxGen);
-                    reminent->add(ranking->getSubfront(i)->get(j));
-                }
-            }
-
-            distance->crowdingDistanceAssignment(reminent, problem_->getNumberOfObjectives());
-            Comparator *c = new CrowdingComparator(new MidDistanceComparator(ranking->getNumberOfSubfronts()));
-            reminent->sort(c);
+        if (remain > 0) { // front contains individuals to insert
+            distance->crowdingDistanceAssignment(front, problem_->getNumberOfObjectives());
+            Comparator * c = new CrowdingComparator();
+            front->sort(c);
             delete c;
-            for (int k = 0; k < remain; k++)
-            {
-                population->add(new Solution(reminent->get(k)));
+            for (int k = 0; k < remain; k++) {
+                population->add(new Solution(front->get(k)));
             } // for
 
             remain = 0;
@@ -233,7 +211,7 @@ SolutionSet *NSGAII_ST_MidDistRank::execute()
 
 } // execute
 
-bool NSGAII_ST_MidDistRank::insideFocusAngle(Solution *sol, InferSpeciesTree *prob, double minCosineSim, double time)
+bool NSGAII_ST_Mid::insideFocusAngle(Solution *sol, InferSpeciesTree *prob, double minCosineSim, double time)
 {
     // sol->conv_objs().resize(prob->getNumberOfObjectives());
 
@@ -262,7 +240,7 @@ bool NSGAII_ST_MidDistRank::insideFocusAngle(Solution *sol, InferSpeciesTree *pr
     }
 }
 
-void NSGAII_ST_MidDistRank::normalizeObjectives(Solution *sol, InferSpeciesTree *prob)
+void NSGAII_ST_Mid::normalizeObjectives(Solution *sol, InferSpeciesTree *prob)
 {
     sol->conv_objs().resize(prob->getNumberOfObjectives());
     for (size_t i = 0; i < prob->getNumberOfObjectives(); i++)

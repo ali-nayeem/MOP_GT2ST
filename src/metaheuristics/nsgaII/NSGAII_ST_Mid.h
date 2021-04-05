@@ -11,8 +11,8 @@
  * Created on January 11, 2019, 11:38 AM
  */
 
-#ifndef NSGAII_ST_MID_DISTANCE_RANK_H
-#define NSGAII_ST_MID_DISTANCE_RANK_H
+#ifndef NSGAII_ST_MID_H
+#define NSGAII_ST_MID_H
 
 #include <Algorithm.h>
 #include <Problem.h>
@@ -23,10 +23,10 @@
 #include "Checkpoint.h"
 #include "aux_math.h"
 
-class NSGAII_ST_MidDistRank : public Algorithm {
+class NSGAII_ST_Mid : public Algorithm {
 
 public:
-  NSGAII_ST_MidDistRank(Problem * problem);
+  NSGAII_ST_Mid(Problem * problem);
   SolutionSet * execute();
 private:
   Checkpoint *checkpoint_;    

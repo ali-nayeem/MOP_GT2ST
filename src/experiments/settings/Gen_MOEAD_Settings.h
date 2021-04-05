@@ -1,4 +1,4 @@
-//  NSGAIII_Settings.h
+//  Gen_MOEAD_Settings.h
 //
 //  Author:
 //       Antonio J. Nebro <antonio@lcc.uma.es>
@@ -19,13 +19,11 @@
 //  You should have received a copy of the GNU Lesser General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef __NSGAIII_SETTINGS__
-#define __NSGAIII_SETTINGS__
+#ifndef __GEN_MOEAD_SETTINGS__
+#define __GEN_MOEAD_SETTINGS__
 
 #include <Settings.h>
-#include <NSGAIII_ST.h>
-#include <NSGAIII_ST_NO_PARETO.h>
-#include <NSGAIII_ST_DIST_PARETO.h>
+#include <Gen_MOEAD_ST.h>
 #include <SBXCrossover.h>
 #include <TreeCrossover.h>
 #include <PhylogeneticMutation.h>
@@ -35,7 +33,7 @@
 #include "MultipleRandomMutation.h"
 #include "Checkpoint.h"
 
-class NSGAIII_Settings : public Settings{
+class Gen_MOEAD_Settings : public Settings{
 private:
 	int populationSize_                 ;
 	int maxEvaluations_                 ;
@@ -52,11 +50,11 @@ private:
   Operator  * initializer ;
 
 public:
-	NSGAIII_Settings() ;
-	NSGAIII_Settings(string problemName, Checkpoint * checkpoint ) ;
-	~NSGAIII_Settings() ;
+	Gen_MOEAD_Settings() ;
+	Gen_MOEAD_Settings(string problemName, Checkpoint * checkpoint ) ;
+	~Gen_MOEAD_Settings() ;
 
   Algorithm * configure() ;
-}; // NSGAIII_Settings
+}; // Gen_MOEAD_Settings
 
-#endif // __NSGAIII_SETTINGS__
+#endif // __Gen_MOEAD_SETTINGS__

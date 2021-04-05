@@ -75,10 +75,10 @@ void ExperimentExecution::runExperiment(int numberOfThreads) {
 
   experimentIndividualListSize_ =
       problemList_.size() * algorithmNameList_.size() * independentRuns_;
-  for (int k=0; k<independentRuns_; k++) { 
+  for (int k=0; k<problemList_.size(); k++) { 
     for (int j=0; j<algorithmNameList_.size(); j++) {
-      for (int i=0; i<problemList_.size(); i++) {
-        ExperimentIndividual * expInd = new ExperimentIndividual(j, i, k);
+      for (int i=0; i<independentRuns_; i++) {
+        ExperimentIndividual * expInd = new ExperimentIndividual(j, k, i);
         experimentIndividualList_.push_back(expInd);
       }
     }
@@ -185,7 +185,7 @@ void ExperimentExecution::calculateTreePerf(){
                 string treePerfPath = varPath2 + "TreePerf." +to_string(k);
                 string trueStPath = path + "/true_st.tre";
                 //cmd = "python2  lib/PyTreePerf/getTreePerfFromVAR.py -t" + trueStPath + " -v " + varPath3Striped + " -o " + treePerfPath;
-                cmd = "python2  lib/PyTreePerf/getTreePerfFromVAR.py -t" + trueStPath + " -v " + varPath3 + " -o " + treePerfPath;                
+                cmd = "python  lib/PyTreePerf/getTreePerfFromVAR.py -t" + trueStPath + " -v " + varPath3 + " -o " + treePerfPath;                
                 r = GetStdoutFromCommand(cmd);
                 //cout << r << endl;
                 cmd = "python3  lib/PyTreePerf/drawTreePerfDistrib.py -f " + treePerfPath;
@@ -224,7 +224,7 @@ void ExperimentExecution::calculateCheckpointTreePerf(){
                    string cmd ; //= "perl  lib/PyTreePerf/strip_edge_support3.pl -i " + to + " -o " + toStriped;   
                    string r ; //= GetStdoutFromCommand(cmd);
                    //cmd = "python2  lib/PyTreePerf/getTreePerfFromVAR.py -t " + trueStPath + " -v " + toStriped + " -o " + treePerfPath;
-                   cmd = "python2  lib/PyTreePerf/getTreePerfFromVAR.py -t " + trueStPath + " -v " + to + " -o " + treePerfPath;
+                   cmd = "python  lib/PyTreePerf/getTreePerfFromVAR.py -t " + trueStPath + " -v " + to + " -o " + treePerfPath;
                    r = GetStdoutFromCommand(cmd);
                    cmd = "python3  lib/PyTreePerf/drawTreePerfDistrib.py -f " + treePerfPath;
                    r = GetStdoutFromCommand(cmd);
@@ -270,7 +270,7 @@ void ExperimentExecution::calculateMPEST(){
                 std::ofstream out(MPESTPath);
                 out << ls;
                 out.close();
-                cmd = "python2  lib/PyTreePerf/drawTreePerfDistrib.py -f " + MPESTPath;
+                cmd = "python  lib/PyTreePerf/drawTreePerfDistrib.py -f " + MPESTPath;
                 string r = GetStdoutFromCommand(cmd);
                 cout << r << endl;
             }
