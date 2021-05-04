@@ -56,10 +56,10 @@ SolutionSet *Gen_MOEAD_ST::execute()
 
     vector<CReferencePoint> rps;
     GenerateReferencePoints(&rps, problem_->getNumberOfObjectives(), obj_division_p_);
-
+    //giving bias to QT over DP, seems not useful
     // for (size_t i = 0; i < rps.size(); i++)
     // {
-    //     if (rps[i].pos()[1] > 1.6) //to be discard
+    //     if (rps[i].pos()[0] > 0.5) //to be discard
     //     {
     //        rps.erase(rps.begin() + i);
     //        i--;
@@ -130,14 +130,15 @@ SolutionSet *Gen_MOEAD_ST::execute()
         
         int index = 0, lastFrontRank = 0;
         SolutionSet *front = NULL;
-        front = ranking->getSubfront(index);    
-        while (population->size() + front->size() < 1.5*populationSize)
+        front = ranking->getSubfront(index);         
+        //to add non-dominated fronts: seems not useful
+        double frac = 0.0 ;//(evaluations < (maxEvaluations/2))?1:0;
+        while (population->size() + front->size() < frac*populationSize)
         {
             /* code */
             for (int k = 0; k < front->size(); k++)
             {
-                //if(population->size() < populationSize)
-                    population->add(new Solution(front->get(k)));
+                population->add(new Solution(front->get(k)));
             } // for
 
             index++;
@@ -169,7 +170,9 @@ SolutionSet *Gen_MOEAD_ST::execute()
         {
             for (size_t j = 0; j < remaining->size(); j++)
             {
-                aggr_score[r][j] = MathAux::AggregationFunction(remaining->get(j)->conv_objs(), rps[r].pos(), 1);   
+                //min. score: aggr of objectives + normalized rank; norm rank seems useful
+                aggr_score[r][j] = MathAux::AggregationFunction(remaining->get(j)->conv_objs(), rps[r].pos(), 0)
+                                    + remaining->get(j)->getRank()/ranking->getNumberOfSubfronts();   
             }    
             int min_sol_id = std::min_element(aggr_score[r], aggr_score[r] + remaining->size()) - aggr_score[r];
             min_index[r] = min_sol_id;
@@ -180,11 +183,11 @@ SolutionSet *Gen_MOEAD_ST::execute()
             int selected_ref = std::distance(min_score.begin(), std::min_element(min_score.begin(), min_score.end()));
             int selected_solution = min_index[selected_ref];
             population->add(new Solution(remaining->get(selected_solution)));
-
+            //allowing one ref multiple times seems useful    
             //min_score[selected_ref] = std::numeric_limits<double>::max(); //inf
             //min_index[selected_ref] = -1; //no longer consider the selected_ref
             
-            for (size_t j = 0; j < rps.size(); j++)
+            for (size_t j = 0; j < rps.size(); j++) //discard selected solution from future inclusion
             {
                 aggr_score[j][selected_solution] = std::numeric_limits<double>::max();
             }
@@ -192,10 +195,9 @@ SolutionSet *Gen_MOEAD_ST::execute()
             {
                 if (min_index[j] == selected_solution)
                 {
-                    min_index[j] = std::distance(aggr_score[j], std::min_element(aggr_score[j], aggr_score[j] + remaining->size()));
+                    min_index[j] = std::min_element(aggr_score[j], aggr_score[j] + remaining->size()) - aggr_score[j];//std::distance(aggr_score[j], std::min_element(aggr_score[j], aggr_score[j] + remaining->size()));
                     min_score[j] = aggr_score[j][min_index[j]];
-                }
-                
+                }   
             }
         }
         for(int i = 0; i < rps.size(); ++i)

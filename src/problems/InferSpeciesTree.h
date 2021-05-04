@@ -63,7 +63,7 @@ private:
     string varFile_;
     vector <int> selectedObjectives;
    //enum Objective { MAX_ASTRAL=0, MIN_PHYLONET, MAX_STELAR, MAX_MPEST };
-    int objNegIfMax[4] = {-1, 1, -1, -1};
+    int objNegIfMax[5] = {-1, 1, -1, -1, 1};
     string getAstralScoreList(string varFile, int popSize);
     string getPhylonetScoreList(string varFile, int popSize);
     string getMpestScoreList(string varFile, int popSize);
@@ -74,7 +74,7 @@ private:
                                                 &InferSpeciesTree::getMpestScoreList};
     string os;
 public:
-  enum Objective { MAX_ASTRAL=0, MIN_PHYLONET, MAX_STELAR, MAX_MPEST };
+  enum Objective { MAX_ASTRAL=0, MIN_PHYLONET, MAX_STELAR, MAX_MPEST, MIN_ASTRAL_STELER };
   //InferSpeciesTree(string & _datapath);
   InferSpeciesTree(string & _datapath, vector <int> & _selectedObjectives);
   ~InferSpeciesTree();

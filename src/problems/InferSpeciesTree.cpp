@@ -118,37 +118,7 @@ SolutionSet * InferSpeciesTree::getSolutionSetFromVarFile(string varFileName)
 boolean InferSpeciesTree::PLLisTreeValidate(TreeTemplate<Node> * tree){
     return true;
 }
-/*boolean InferSpeciesTree::PLLisTreeValidate(TreeTemplate<Node> * tree){
-  pllNewickTree * newick;
-  boolean res=true;
-  string treenewick = TreeTemplateTools::treeToParenthesis(*tree) ;
-//  pll_rtree_t * rtree;
-//  if(!(rtree=pll_rtree_parse_newick_string(treenewick.c_str())))
-//  {
-//      //cout<<"Failed to parse as rooted tree. ";
-//      return false;
-//  }
-//  else
-//  {
-//      //cout<<"Tip count: "<<rtree->tip_count<<endl;
-//      //pll_rtree_destroy(rtree, NULL)
-//      return true;
-//  }
-//  pll_utree_t * utree;
-//  if(!(utree=pll_utree_parse_newick_string(treenewick.c_str())))
-//  {
-//      cout<<"Failed to parse as unrooted tree."<<endl;
-//  }
-  newick = pllNewickParseString	(treenewick.c_str());
-  if (!newick){
-      res = false;
-  }else {
-      //if (!pllValidateNewick (newick))  res=false;  //if (!pllValidateNewick (newick))  !pllNewickUnroot(newick)
-      return true;
-  }
-  //pllNewickParseDestroy (&newick);
-  return res;
-}*/
+
 
 boolean InferSpeciesTree::PLLisTreeValidate(Solution * solution)
 {
@@ -224,7 +194,7 @@ string InferSpeciesTree::GetStdoutFromCommand(string cmd) {
 string InferSpeciesTree::getAstralScoreList(string varFile, int popSize)
 {
     //cout << "Getting Astral Score"<< endl;
-    string ls = GetStdoutFromCommand("java -jar lib/ASTRAL/astral.5.6.3.jar -q " + varFile 
+    string ls = GetStdoutFromCommand("java -jar lib/ASTRAL/astral.5.7.7.jar -q " + varFile 
                                     + " -i " + datapath +  "gene.tre -o tmp/out 2> tmp/log");
     //cout << ls << endl;
     return ls;
@@ -278,9 +248,28 @@ void InferSpeciesTree::evaluate(SolutionSet *pop, int gen)
           double value = atof(to.c_str());
           pop->get(solId)->setObjective(i, value * objNegIfMax[objId]);
           //cout << pop->get(solId)->getObjective(i) << endl;
-          updateReference(pop->get(solId), i);
+          //if (objId != InferSpeciesTree::MAX_ASTRAL)
+            updateReference(pop->get(solId), i);
           solId++;
         }
+        /*if (objId == InferSpeciesTree::MAX_ASTRAL)
+        {
+            int objId = InferSpeciesTree::MAX_STELAR;
+            string scoreList = (this->*(getScoreFunctions[objId]))(varFile_, pop->size());
+            stringstream ss(scoreList);
+            string to;
+            int solId=0;
+            while(std::getline(ss,to,'\n')){
+            double value = atof(to.c_str());
+            double qt = pop->get(solId)->getObjective(i);
+            qt = (qt + value * objNegIfMax[objId])/2;
+            pop->get(solId)->setObjective(i, qt);
+            //cout << pop->get(solId)->getObjective(i) << endl;
+            updateReference(pop->get(solId), i);
+            solId++;
+            }
+        }*/
+        
     }
     //cout << ls << endl;     
 }
@@ -351,7 +340,37 @@ InferSpeciesTree::~InferSpeciesTree() {
 
 } // ~InferSpeciesTree
 
-
+/*boolean InferSpeciesTree::PLLisTreeValidate(TreeTemplate<Node> * tree){
+  pllNewickTree * newick;
+  boolean res=true;
+  string treenewick = TreeTemplateTools::treeToParenthesis(*tree) ;
+//  pll_rtree_t * rtree;
+//  if(!(rtree=pll_rtree_parse_newick_string(treenewick.c_str())))
+//  {
+//      //cout<<"Failed to parse as rooted tree. ";
+//      return false;
+//  }
+//  else
+//  {
+//      //cout<<"Tip count: "<<rtree->tip_count<<endl;
+//      //pll_rtree_destroy(rtree, NULL)
+//      return true;
+//  }
+//  pll_utree_t * utree;
+//  if(!(utree=pll_utree_parse_newick_string(treenewick.c_str())))
+//  {
+//      cout<<"Failed to parse as unrooted tree."<<endl;
+//  }
+  newick = pllNewickParseString	(treenewick.c_str());
+  if (!newick){
+      res = false;
+  }else {
+      //if (!pllValidateNewick (newick))  res=false;  //if (!pllValidateNewick (newick))  !pllNewickUnroot(newick)
+      return true;
+  }
+  //pllNewickParseDestroy (&newick);
+  return res;
+}*/
 //void  InferSpeciesTree::fillupNewPopulationUsingOld(SolutionSet * newPop, SolutionSet * oldPop)
 //{
 //    //newPop = new SolutionSet(size);

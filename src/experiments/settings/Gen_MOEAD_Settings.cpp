@@ -54,14 +54,14 @@ Gen_MOEAD_Settings::Gen_MOEAD_Settings(string problemName, Checkpoint * checkpoi
     //cout<<path;
 
     //problem_ = ProblemFactory::getProblem((char *) problemName_.c_str());
-    vector<int> obj{ InferSpeciesTree::MAX_ASTRAL, InferSpeciesTree::MIN_PHYLONET}; //InferSpeciesTree::MAX_STELAR, InferSpeciesTree::MAX_MPEST} ;//, InferSpeciesTree::MIN_PHYLONET}; //, InferSpeciesTree::MIN_PHYLONET}; 
+    vector<int> obj{ InferSpeciesTree::MAX_ASTRAL, InferSpeciesTree::MIN_PHYLONET }; //InferSpeciesTree::MAX_STELAR, InferSpeciesTree::MAX_MPEST} ;//, InferSpeciesTree::MIN_PHYLONET}; //, InferSpeciesTree::MIN_PHYLONET}; 
     problem_ = new InferSpeciesTree(path, obj);
 
     // Algorithm parameters
-    populationSize_ = 30;
-    p1 = 40;  // 12 for 3 obj, 7 for 4 obj
+    populationSize_ = 50;
+    p1 = 70;  // 12 for 3 obj, 7 for 4 obj
     p2 = 0;
-    maxEvaluations_ = 3000;
+    maxEvaluations_ = 5000;
     maxGen_ = 44;
     mutationProbability_ = 1.0;
     crossoverProbability_ = 0.3;
@@ -137,7 +137,7 @@ Algorithm * Gen_MOEAD_Settings::configure()
     string initMethod = "from_gene_trees";
     parameters["problem"] = problem_;
     parameters["crossover"] = initCross;
-    parameters["mutation"] = NULL;
+    parameters["mutation"] = mutation; //NULL;
     parameters["method"] = &initMethod;
     //parameters["unique"] = &unique;
     initializer = new TreeInitializer(parameters);
