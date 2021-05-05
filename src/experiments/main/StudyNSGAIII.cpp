@@ -59,7 +59,7 @@ int main(int argc, char ** argv) {
   StudyNSGAIII * exp = new StudyNSGAIII() ;
   
   // Name of the experiment:
-  exp->experimentName_ = "Nayeem2020Gen_MOEAD_test";
+  exp->experimentName_ = "Nayeem2020Gen_MOEAD_test2";
   exp->keepCheckpoint_ = true;
 
   // List of algorithm names to be used in the experiment
@@ -78,7 +78,7 @@ int main(int argc, char ** argv) {
 //        "11-taxon.estimated-strongILS.50genes.R9", "11-taxon.estimated-strongILS.50genes.R10"
 //      "15-taxon.100gene-100bp.estimated-genetrees.R1", "15-taxon.100gene-100bp.estimated-genetrees.R2",
 //      "15-taxon.100gene-100bp.estimated-genetrees.R3", "15-taxon.100gene-100bp.estimated-genetrees.R4",
-      "15-taxon.100gene-100bp.estimated-genetrees.R5"//, "15-taxon.100gene-100bp.estimated-genetrees.R6",
+      "15-taxon.100gene-100bp.estimated-genetrees.R8"//, "15-taxon.100gene-100bp.estimated-genetrees.R6",
 //      "15-taxon.100gene-100bp.estimated-genetrees.R7", "15-taxon.100gene-100bp.estimated-genetrees.R8",
 //      "15-taxon.100gene-100bp.estimated-genetrees.R9", "15-taxon.100gene-100bp.estimated-genetrees.R10"      
 //      "10-taxon.higher-ILS.estimated-genetrees.R1", "10-taxon.higher-ILS.estimated-genetrees.R2",
@@ -91,7 +91,7 @@ int main(int argc, char ** argv) {
 //      "10-taxon.higher-ILS.estimated-genetrees.R15", "10-taxon.higher-ILS.estimated-genetrees.R16",
 //      "10-taxon.higher-ILS.estimated-genetrees.R17", "10-taxon.higher-ILS.estimated-genetrees.R18",
 //      "10-taxon.higher-ILS.estimated-genetrees.R4", "10-taxon.higher-ILS.estimated-genetrees.R14"
-        //"37-taxon.noscale_200g_500b.estimated-genetrees.R5"          
+//        "37-taxon.noscale_200g_500b.estimated-genetrees.R5"          
   };//, 
  //, "37-taxon.noscale_200g_500b.estimated-genetrees.R5", "10-taxon.higher-ILS.estimated-genetrees.R2"
 

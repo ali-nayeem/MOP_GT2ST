@@ -34,9 +34,9 @@ InferSpeciesTree::InferSpeciesTree(string & _datapath, vector <int> & _selectedO
     problemName_ = "Infer Species Tree: " + _datapath;
     solutionType_ = new PhyloTreeSolutionType(this);
     treeFiles.push_back(datapath + speciesTreeFileName + "_astral");
-    treeFiles.push_back(datapath + speciesTreeFileName + "_mpest");
+    //treeFiles.push_back(datapath + speciesTreeFileName + "_mpest");
     //treeFiles.push_back(datapath + speciesTreeFileName + "_phylonet");
-    treeFiles.push_back(datapath + speciesTreeFileName + "_stelar");
+    //treeFiles.push_back(datapath + speciesTreeFileName + "_stelar");
     //newick = new Newick;
     timestamp_ = time(0);//*100 + instanceCount++;//time(0);
     threadId_ = -1;
@@ -75,7 +75,7 @@ vector< PhyloTree* > InferSpeciesTree::readPrecomputedSpeciesTree() {
         }        
     }
     if(precomputedTrees.size() < 2){
-        throw Exception("More than one PreComputedSpeciesTree is needed");
+        cout << "More than one PreComputedSpeciesTree may be needed, one provided";
     }
     return precomputedTrees;
 }

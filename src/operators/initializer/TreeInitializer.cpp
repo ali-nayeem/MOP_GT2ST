@@ -33,6 +33,8 @@ TreeInitializer::TreeInitializer(map<string, void *> parameters) : Operator(para
         cross = (Operator *) parameters["crossover"];
     if (parameters["prevVARPath"] != NULL)
         prevVARPath = *(string *) parameters["prevVARPath"];
+    if (parameters["discardTool"] != NULL)
+        discardTool = *(bool *) parameters["discardTool"];    
 }
 
 void TreeInitializer::addOperator(string name, Operator* op)
@@ -178,8 +180,20 @@ SolutionSet * TreeInitializer::fromTools(int size)
     {
         problem->evaluate(pop);
     }
-    fillupNewPopulationUsingOld(pop, pop);
-    return pop;
+    if (discardTool == false)
+    {
+        fillupNewPopulationUsingOld(pop, pop);
+        return pop;
+    }
+    else
+    {
+       SolutionSet * newPop = new SolutionSet(size);
+       fillupNewPopulationUsingOld(newPop, pop);
+       return newPop;
+    }
+    
+    
+    
 }
 
 SolutionSet * TreeInitializer::fromTrueTree(int size)

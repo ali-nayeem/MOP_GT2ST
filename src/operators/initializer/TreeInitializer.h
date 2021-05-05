@@ -27,6 +27,7 @@ private:
     int popSize;
     InferSpeciesTree *problem;
     bool unique;
+    bool discardTool;
     Operator * mut = NULL;
     Operator * cross = NULL;
     void  fillupNewPopulationUsingOld(SolutionSet * newPop, SolutionSet * oldPop);

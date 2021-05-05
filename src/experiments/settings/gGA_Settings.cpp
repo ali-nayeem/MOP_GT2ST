@@ -55,7 +55,7 @@ gGA_Settings::gGA_Settings(string problemName, Checkpoint * checkpoint)
     //cout<<path;
 
     //problem_ = ProblemFactory::getProblem((char *) problemName_.c_str());
-    vector<int> obj{ InferSpeciesTree::MAX_STELAR }; //InferSpeciesTree::MAX_ASTRAL,InferSpeciesTree::MAX_STELAR, InferSpeciesTree::MAX_MPEST InferSpeciesTree::MIN_PHYLONET}; 
+    vector<int> obj{ InferSpeciesTree::MAX_ASTRAL }; //InferSpeciesTree::MAX_ASTRAL,InferSpeciesTree::MAX_STELAR, InferSpeciesTree::MAX_MPEST InferSpeciesTree::MIN_PHYLONET}; 
     problem_ = new InferSpeciesTree(path, obj);
 
     // Algorithm parameters
@@ -129,16 +129,18 @@ Algorithm * gGA_Settings::configure()
     parameters.clear();
     mutationProbability = 0.3;
     parameters["probability"] = &mutationProbability;
-    parameters["metodo"] = &method[0]; //NNI
+    parameters["metodo"] = &method[1]; //0=>NNI, 1=>SPR
     Operator * initNNI = new PhylogeneticMutation(parameters);
     
     parameters.clear();
     bool unique = true;
-    string initMethod = "from_gene_trees";
+    bool discardTool = true;
+    string initMethod = "from_tools";//"from_gene_trees";
     parameters["problem"] = problem_;
-    parameters["crossover"] = initCross;
-    parameters["mutation"] = NULL;
+    parameters["crossover"] = NULL;//initCross;
+    parameters["mutation"] = initNNI;
     parameters["method"] = &initMethod;
+    parameters["discardTool"] = &discardTool;
     //parameters["unique"] = &unique;
     //string prevVAR = "/Users/ali_nayeem/PycharmProjects/GT2ST/data/Nayeem20OctGGA_37taxa/data/gGA/" + problemName_ + "/VAR." + to_string(checkpoint_->getRunNumber());
     //parameters["prevVARPath"] = &prevVAR;
