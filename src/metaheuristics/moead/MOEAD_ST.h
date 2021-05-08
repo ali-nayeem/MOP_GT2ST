@@ -20,7 +20,7 @@
 
 class MOEAD_ST : public MOEAD{
 public:
-    MOEAD_ST(Problem * problem, Checkpoint *checkpoint);
+    MOEAD_ST(Problem * problem);
     SolutionSet * execute();
     
     //MOEAD_ST(const MOEAD_ST& orig);

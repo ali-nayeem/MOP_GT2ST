@@ -60,11 +60,17 @@ MOEAD_Settings::MOEAD_Settings(string problemName, Checkpoint * checkpoint)
 
     // Algorithm parameters
     populationSize_ = 100;
-    maxEvaluations_ = 5000;
+    maxEvaluations_ = 10000;
     maxGen_ = 44;
-    mutationProbability_ = 0.8;
-    crossoverProbability_ = 0.6;
+    T_ = 10;
+    nr_ = 2;
+    delta_ = 0.7;
+    mutationProbability_ = 1.0;
+    crossoverProbability_ = 0.3;
     checkpoint_ = checkpoint;
+    functionType_ = "_WS_ADJUSTED";
+    dataDirectory_ = "data/Weight";
+
 
 } // MOEAD_Settings
 
@@ -74,11 +80,16 @@ MOEAD_Settings::MOEAD_Settings(string problemName, Checkpoint * checkpoint)
 Algorithm * MOEAD_Settings::configure()
 {
 
-    algorithm = new MOEAD_ST(problem_, checkpoint_);//new MOEAD_ST(problem_, checkpoint_);
+    algorithm = new MOEAD_ST(problem_);//new MOEAD_ST(problem_, checkpoint_);
+    algorithm->setInputParameter("checkpoint", checkpoint_);
     algorithm->setInputParameter("populationSize", &populationSize_);
     algorithm->setInputParameter("maxEvaluations", &maxEvaluations_);
-    string dataDirectory = "data/Weight";
-    algorithm->setInputParameter("dataDirectory",&dataDirectory);
+    algorithm->setInputParameter("T", &T_);
+    algorithm->setInputParameter("nr", &nr_);
+    algorithm->setInputParameter("delta", &delta_);
+    algorithm->setInputParameter("dataDirectory", &dataDirectory_);
+    
+    algorithm->setInputParameter("functionType", &functionType_);
     //algorithm->setInputParameter("maxGenerations", &maxGen_);
 
     // Mutation and Crossover for Real codification
@@ -122,13 +133,13 @@ Algorithm * MOEAD_Settings::configure()
     parameters["probability"] = &pb;
     parameters["numDescendientes"] = &numDes;
     Operator * initCross = new TreeCrossover(parameters);
-    //bool unique = true;
+    bool unique = true;
     string initMethod = "from_gene_trees";
     parameters["problem"] = problem_;
     parameters["crossover"] = initCross;
     parameters["mutation"] = NULL;
     parameters["method"] = &initMethod;
-    //parameters["unique"] = &unique;
+    parameters["unique"] = &unique;
     initializer = new TreeInitializer(parameters);
 
     // Add the operators to the algorithm

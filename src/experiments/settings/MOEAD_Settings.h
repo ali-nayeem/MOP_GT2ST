@@ -39,7 +39,10 @@ private:
 	int maxEvaluations_                 ;
 	double mutationProbability_         ;
 	double crossoverProbability_        ;
-        int maxGen_;
+  int maxGen_;
+  int T_, nr_;
+  double delta_;
+  string functionType_, dataDirectory_;
 
   Algorithm * algorithm ;
   Operator  * crossover ; // Crossover operator

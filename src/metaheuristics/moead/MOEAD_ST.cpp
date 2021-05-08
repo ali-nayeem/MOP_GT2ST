@@ -15,27 +15,28 @@
 #include "InferSpeciesTree.h"
 #include "Selection.h"
 
-MOEAD_ST::MOEAD_ST(Problem *problem, Checkpoint *checkpoint) : MOEAD(problem)
+MOEAD_ST::MOEAD_ST(Problem *problem) : MOEAD(problem)
 {
-  checkpoint_ = checkpoint;
+  //checkpoint_ = checkpoint;
 }
 
 SolutionSet *MOEAD_ST::execute()
 {
   int maxEvaluations;
-  functionType_ = "_TCHE_NORM";
+  checkpoint_ = (Checkpoint *)getInputParameter("checkpoint");
+  functionType_ = *(string *) getInputParameter("functionType");//"_WS_ADJUSTED";
   evaluations_ = 0;
   maxEvaluations = *(int *)getInputParameter("maxEvaluations");
   populationSize_ = *(int *)getInputParameter("populationSize");
-  dataDirectory_ = "data/Weight"; //* (string *) getInputParameter("dataDirectory");
+  dataDirectory_ = *(string *) getInputParameter("dataDirectory");
   //IntervalOptSubsModel = *(int *) getInputParameter("intervalupdateparameters");
 
   population_ = new SolutionSet(populationSize_);
   //indArray_ = new Solution*[problem_->getNumberOfObjectives()];
 
-  T_ = 10;
-  delta_ = 0.9;
-  nr_ = 2;
+  T_ = *(int *)getInputParameter("T");//10;
+  delta_ = *(double *)getInputParameter("delta");//0.9;
+  nr_ = *(int *)getInputParameter("T");//2;
   /*
   T_ = * (int *) (0.1 * populationSize_);
   delta_ = 0.9;
@@ -50,12 +51,13 @@ SolutionSet *MOEAD_ST::execute()
   crossover_ = operators_["crossover"]; // default: DE crossover
   mutation_ = operators_["mutation"];   // default: polynomial mutation
   initializer_ = operators_["initializer"];
+  
   map<string, void *> parameters;
   //Selection * randSel = new RandomSelection(parameters);
   // STEP 1. Initialization
   // STEP 1.1. Compute euclidean distances between weight vectors and find T
-  //initUniformWeight();
-  initRandomWeight(0.5, 0.1);
+  initUniformWeight();
+  //initRandomWeight(0.5, 0.1);
 
   initNeighborhood();
 
@@ -69,7 +71,10 @@ SolutionSet *MOEAD_ST::execute()
   int gen = 0;
   do
   {
-    checkpoint_->logVAR(population_, gen);
+    if (checkpoint_ != NULL)
+    {
+        checkpoint_->logVAR(population_, gen);
+    }
     cout << "Thread[" << checkpoint_->getThreadId() << "]: "
          << "Generation: " << gen++ << endl;
     int *permutation = new int[populationSize_];
@@ -108,13 +113,7 @@ SolutionSet *MOEAD_ST::execute()
 
       // Apply mutation
       mutation_->execute(child);
-      //      InferSpeciesTree * p_ = (InferSpeciesTree *) problem_;
-      //      Solution * copy;
-      //      do {
-      //            copy = new Solution(child);
-      //            mutation_->execute(copy);
-      //      } while ( (p_->getNumberOfLeaves(copy) != p_->getNumberOfTaxa()) );
-
+      
       //((Phylogeny *)problem_)->Optimization(child);
 
       // Evaluation
@@ -132,26 +131,11 @@ SolutionSet *MOEAD_ST::execute()
 
     delete[] permutation;
 
-    //Update Interval
-    //     if(evaluations_%IntervalOptSubsModel==0 and IntervalOptSubsModel > 0){
-    //        Solution * sol;  double Lk;
-    //        Phylogeny * p = (Phylogeny*) problem_;
-    //        cout << "Updating and Optimizing Parameters.." << endl;
-    //        for(int i=0; i < populationSize_; i++){
-    //            sol =  population_->get(i);
-    //            Lk=  p->BranchLengthOptimization(sol,p->OptimizationMetodoOptRamas,p->OptimizationNumIterOptRamas,p->OptimizationTolerenciaOptRamas);
-    //            sol->setObjective(1,Lk*-1);
-    //        }
-    //
-    //        for (int i = 0; i < populationSize_; i++) {
-    //                updateReference(population_->get(i));
-    //        } // for
-    //
-    //        cout << "Update Interval Done!!" << endl;
-    //    }
-
   } while (evaluations_ < maxEvaluations);
-  checkpoint_->logVAR(population_, gen);
+  if (checkpoint_ != NULL)
+  {
+      checkpoint_->logVARforce(population_, gen);
+  }
   // Free memory
   deleteParams();
 
